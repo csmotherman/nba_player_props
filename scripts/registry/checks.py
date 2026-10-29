@@ -4,33 +4,12 @@ run(features, discovery_dir) -> dict(errors=[...], warnings=[...], info={...})
 Build refuses to write artifacts if errors is non-empty.
 """
 import json, re, os, glob
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 SRC_RE = re.compile(r'^(?P<ep>[A-Za-z0-9]+)(?:\[(?P<var>[^\]]+)\])?\.(?P<col>.+)$')
 REQUIRED = ['id', 'name', 'domain', 'description', 'classification', 'temporal_status', 'formula', 'aggregation_level',
             'historical_availability', 'pregame_availability', 'leakage_risk', 'leakage_notes', 'missing_data_handling',
             'validation_method', 'priority', 'validation_status']
-
-# formula_verified claims must be backed by these qc_results.json entries: id -> [(key, field, min_corr_or_max_mae, 'corr'|'mae')]
-QC_BACKING = {
-    'BOX_USG_PCT': [('usg_formula_vs_api_USG_PCT_fraction_scale', 'corr', 0.98, 'min')],
-    'USG_USG_FORMULA': [('usg_formula_vs_api_USG_PCT_fraction_scale', 'corr', 0.98, 'min'), ('usg_formula_vs_api_USG_PCT_fraction_scale', 'mae', 0.02, 'max')],
-    'BOX_TS_PCT': [('ts_pct_formula_vs_api', 'corr', 0.999, 'min')],
-    'SHT_TS_ROLL': [('ts_pct_formula_vs_api', 'corr', 0.999, 'min')],
-    'SHT_PTS_PER_SHOT': [('ts_pct_formula_vs_api', 'corr', 0.999, 'min')],
-    'BOX_AST_PCT': [('ast_pct_formula_vs_api', 'corr', 0.95, 'min')],
-    'BOX_REB_PCT': [('reb_pct_formula_vs_api', 'corr', 0.95, 'min')],
-    'BOX_OREB_PCT': [('oreb_pct_formula_vs_api', 'corr', 0.95, 'min')],
-    'BOX_DREB_PCT': [('dreb_pct_formula_vs_api', 'corr', 0.95, 'min')],
-    'BOX_TM_TOV_PCT': [('tm_tov_pct_vs_TOV_over_FGA_FTA_AST_TOV_x100', 'corr', 0.99, 'min')],
-    'TOV_RATE': [('tm_tov_pct_vs_TOV_over_FGA_FTA_AST_TOV_x100', 'corr', 0.99, 'min')],
-    'BOX_POSS': [('player_poss_vs_onCourtPace_x_MIN_over_48', 'corr', 0.99, 'min')],
-    'POS_ONCOURT_FACTOR': [('player_poss_vs_onCourtPace_x_MIN_over_48', 'corr', 0.99, 'min')],
-    'POS_TEAM_POSS_OBSERVED': [('team_poss_oliver_vs_api', 'corr', 0.95, 'min')],
-    'POS_TEAM_PACE_ROLL': [('team_pace_48poss_over_min_vs_api_pace_using_api_poss', None, 1.0, 'scalar_max')],
-    'REB_AVAILABLE_MISSES_TEAM': [('rebound_identity', 'corr_reb_vs_fgmiss', 0.85, 'min')],
-}
-
 
 ALIASES = {'PregameBoxSummaryV3': 'BoxScoreSummaryV3', 'PregameBoxTraditionalV3': 'BoxScoreTraditionalV3',
            'PregamePlayByPlayV3': 'PlayByPlayV3', 'Live': 'BoxScore', 'LeagueHustle': 'LeagueHustleStatsPlayer',
@@ -80,6 +59,29 @@ def find_cols(testcols, ep, var):
             continue
         hit = True; cols |= cs
     return hit, cols
+
+
+def label_leaks(byid, start):
+    """Return a path start -> ... -> label that does NOT pass through a lagged_observed node, or None.
+
+    Path-state-aware: a node reached through a lagged node is a LEGITIMATE use of past outcomes, so traversal never expands
+    lagged_observed nodes. A label reachable by ANY remaining path is a leak, even when the same label is also reachable
+    legitimately (the old shared-visited-set implementation missed that case). Optional dependencies count. Cycles terminate.
+    """
+    seen, stack = set(), [(start, [start])]
+    while stack:
+        n, path = stack.pop()
+        for d in byid[n]['dependencies'] + byid[n].get('optional_dependencies', []):
+            if d not in byid:
+                continue
+            t = byid[d]['temporal_status']
+            if t == 'label':
+                return path + [d]
+            if t == 'lagged_observed' or d in seen:
+                continue            # past outcomes are fine here; do not expand
+            seen.add(d)
+            stack.append((d, path + [d]))
+    return None
 
 
 def run(features, discovery_dir, qc_path=None):
@@ -143,18 +145,6 @@ def run(features, discovery_dir, qc_path=None):
     info['unconfirmed_source_columns'] = unmapped
 
     # 4. temporal / leakage consistency
-    def reaches_label(n, seen=None, through_lag=False):
-        seen = seen or set()
-        for d in byid[n]['dependencies'] + byid[n].get('optional_dependencies', []):
-            if d in seen or d not in byid:
-                continue
-            seen.add(d)
-            t = byid[d]['temporal_status']
-            if t == 'label' and not through_lag:
-                return True
-            if reaches_label(d, seen, through_lag or t == 'lagged_observed'):
-                return True
-        return False
     for f in features:
         t = f['temporal_status']; pre = f['pregame_availability']
         if t == 'label' and not pre.startswith('No'):
@@ -163,8 +153,14 @@ def run(features, discovery_dir, qc_path=None):
             errors.append(f'{f["id"]}: pregame "No" but temporal_status {t}')
         if pre.startswith('No') and f['leakage_risk'] == 'Low':
             errors.append(f'{f["id"]}: postgame quantity with Low leakage rating')
-        if t in ('projected', 'pregame_known') and reaches_label(f['id']):
-            errors.append(f'{f["id"]}: {t} feature reaches a label without passing through a lagged_observed feature')
+        if t in ('projected', 'pregame_known', 'external_pregame', 'unverified'):
+            leak = label_leaks(byid, f['id'])
+            if leak:
+                errors.append(f'{f["id"]}: {t} feature reaches a label without passing through a lagged_observed feature: ' + ' -> '.join(leak))
+        if t == 'lagged_observed':
+            bad = [d for d in f['dependencies'] if d in byid and byid[d]['temporal_status'] in ('projected', 'external_pregame')]
+            if bad:
+                errors.append(f'{f["id"]}: lagged_observed feature depends on projected/external inputs {bad} (observation would embed a forecast)')
         if t == 'projected' and not f['dependencies']:
             errors.append(f'{f["id"]}: projected feature with no dependencies')
         if t == 'external_pregame' and f['classification'] != 'EXTERNAL':
@@ -178,21 +174,36 @@ def run(features, discovery_dir, qc_path=None):
         if f['validation_status'] == 'external_unobtained' and f['classification'] != 'EXTERNAL':
             errors.append(f'{f["id"]}: external_unobtained but classification {f["classification"]}')
 
-    # 5. formula_verified claims must be backed by qc results
-    if qc_path and os.path.exists(qc_path):
-        qc = json.load(open(qc_path))
-        for f in features:
-            if f['validation_status'] == 'formula_verified':
-                if f['id'] not in QC_BACKING:
-                    errors.append(f'{f["id"]}: marked formula_verified but has no QC backing entry')
-                    continue
-                for key, fld, thr, mode in QC_BACKING[f['id']]:
-                    v = qc[key] if fld is None else qc[key][fld]
-                    if (mode == 'min' and v < thr) or (mode in ('max', 'scalar_max') and v > thr):
-                        errors.append(f'{f["id"]}: QC {key}.{fld}={v} fails {mode} {thr}')
-        info['qc_backed_features'] = sorted(k for k in QC_BACKING)
-    else:
-        warnings.append('qc_results.json missing - formula_verified claims not checked')
+    # 5. verification claims must match the recorded evidence (no correlation-based or mismatched claims)
+    ev = {}
+    evp = os.path.join(discovery_dir, 'formula_checks.json')
+    if os.path.exists(evp):
+        ev = json.load(open(evp)).get('identities', {})
+    from . import verification as V
+    for fid, chk in V.IDENTITY.items():
+        if fid in byid and chk not in ev:
+            errors.append(f'{fid}: identity evidence "{chk}" missing from formula_checks.json')
+    for f in features:
+        vs = f['validation_status']
+        if vs == 'identity_verified' and not str(f.get('verification', {}).get('identity', '')).startswith(('exact_within_rounding', 'exact_with_exceptions')):
+            errors.append(f'{f["id"]}: identity_verified without exact evidence')
+        if vs == 'identity_approximate' and f['id'] not in V.IDENTITY:
+            errors.append(f'{f["id"]}: identity_approximate without an evidence check')
+        if f['id'] in V.RELATED_ONLY and vs in ('identity_verified', 'identity_approximate'):
+            errors.append(f'{f["id"]}: claims identity status but only has evidence for a different quantity')
+        if vs == 'implemented_pit_verified' and f.get('implementation_status') == 'specified_only':
+            errors.append(f'{f["id"]}: implemented_pit_verified but no implementation')
+    info['identity_evidence'] = {k: v['verdict'] for k, v in ev.items()}
+
+    # 5b. readiness / fallback integrity (priority, readiness and implementation are separate dimensions)
+    for f in features:
+        if f.get('optional_unavailable_without_fallback'):
+            errors.append(f'{f["id"]}: optional dependency unavailable with no declared fallback: {f["optional_unavailable_without_fallback"]}')
+        if f.get('fallback_for') and not f.get('fallback'):
+            errors.append(f'{f["id"]}: fallback_for without fallback text')
+        if f['priority'] == 'P0' and f.get('readiness', '').startswith('BLOCKED') and f['classification'] not in ('EXTERNAL',):
+            errors.append(f'{f["id"]}: P0 feature blocked by {f["blocking_inputs"]} but is not itself an external source')
+    info['readiness_counts'] = dict(Counter(f.get('readiness') for f in features))
 
     # 6. duplicated / highly collinear candidates (declared clusters)
     cl = defaultdict(list)

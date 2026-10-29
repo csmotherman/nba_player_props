@@ -1,0 +1,49 @@
+{
+ "by_file": {
+  "tests/unit/test_asof_features.py": {
+   "ERROR": 0,
+   "FAILED": 0,
+   "PASSED": 24,
+   "SKIPPED": 0
+  },
+  "tests/unit/test_client.py": {
+   "ERROR": 0,
+   "FAILED": 0,
+   "PASSED": 18,
+   "SKIPPED": 0
+  },
+  "tests/unit/test_ingest_pipeline.py": {
+   "ERROR": 0,
+   "FAILED": 0,
+   "PASSED": 9,
+   "SKIPPED": 0
+  },
+  "tests/unit/test_registry.py": {
+   "ERROR": 0,
+   "FAILED": 0,
+   "PASSED": 33,
+   "SKIPPED": 0
+  },
+  "tests/unit/test_synthetic_scenarios.py": {
+   "ERROR": 0,
+   "FAILED": 0,
+   "PASSED": 10,
+   "SKIPPED": 0
+  },
+  "tests/unit/test_tracking_pilot.py": {
+   "ERROR": 0,
+   "FAILED": 0,
+   "PASSED": 8,
+   "SKIPPED": 0
+  },
+  "tests/unit/test_warehouse_integrity.py": {
+   "ERROR": 0,
+   "FAILED": 0,
+   "PASSED": 21,
+   "SKIPPED": 0
+  }
+ },
+ "command": "pytest ",
+ "returncode": 0,
+ "summary": "WARNING  nba_props.api:client.py:119 ScheduleLeagueV2 {'season': '2025-26'} attempt 2/2 failed: TimeoutError: schedule down"
+}

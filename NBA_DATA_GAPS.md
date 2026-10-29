@@ -19,6 +19,17 @@ Companion to `NBA_DATA_BLUEPRINT.md`. Evidence for every statement is in `data/d
 | 11 | Fine-grained position / role labels | DvP, archetypes | Medium | Data-driven clusters (`ARC_CLUSTER_ID`) | No |
 | 12 | Tracking history before 2013-14 and hustle before 2016-17 | Long training histories for opportunity features | Medium | Rate-based baseline features | No |
 
+## 1b. Added by the Phase 1 warehouse build (2026-10-29)
+
+| # | Gap | Evidence | Consequence |
+|---|---|---|---|
+| 13 | `BoxScoreSummaryV3.InactivePlayers` is **not a complete historical record**: for 2026-27 it returned inactives for 26 of 68 games, 12 of 12 on the latest day but 0 of 3 on opening night | `NBA_DATA_QUALITY_REPORT.md` section 6 | `historical_inactives` must not be used to label past absences until a 2023-24 → 2025-26 coverage test is run; game logs + `CONFIRMED_DNP` comments are the only complete signals |
+| 14 | Training rows are players who **actually played**. A strictly pregame roster (appearances available at the cutoff) has recall ≈ 0.97 but precision ≈ 0.70 in completed seasons: ~30% of pregame-eligible players did not play | `leakage_audit.json` | Conditioning on participation leaks the outcome of availability; models need an availability/minutes-mixture component and an injury feed to be honest |
+| 15 | Stats-API throttling: ~900 requests at ~1.5 req/s led to hung connections for 40+ minutes (the host's homepage still answered) | collection log, `source_requests` | Full per-game backfills (≈1 request/game, ≈2,460 per season for starters + summaries) need hours at ≥1.5 s pacing and a resumable collector; this phase loaded starters for **471 of 1,230** 2025-26 games and **68 of 68** 2026-27 games only |
+| 16 | 2026-27 schedule listing is incomplete (1,206 of 1,230 ids; every team lists 80 determined games; 6 Cup-knockout games have unresolved teams) | quality report section 4 | not inferred; rest-day features there are provisional |
+| 17 | Neutral-site games (10 in 2024-26) have no true home team; `MATCHUP` marks both teams away | warehouse | use `is_neutral` with `is_home` |
+| 18 | Completion timestamps of games are not exposed | endpoint inventory | availability is modelled as `tip + 4 h` (named assumption, tested for conservatism) |
+
 ## 2. Missing data in detail
 
 ### 2.1 Injury and availability (gap 1)

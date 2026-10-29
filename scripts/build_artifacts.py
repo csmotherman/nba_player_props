@@ -15,6 +15,8 @@ from registry import checks, common
 from registry.pipelines import PIPELINES
 
 DISC = os.path.join(ROOT, 'data', 'discovery')
+OUT = os.environ.get('NBA_PROPS_BUILD_OUT', ROOT)
+os.makedirs(OUT, exist_ok=True)
 NBA_API_VERSION = '1.12.0'; DISCOVERY_DATE = '2026-10-29'
 
 
@@ -35,14 +37,11 @@ for m, p in PIPELINES.items():
 
 # ------------------------------------------------------------------ registry JSON + catalog CSV
 def blocked(f):
-    return f['classification'] in ('EXTERNAL', 'UNVERIFIED')
-
-for f in features:
-    f['blocked_by_external_or_unverified'] = blocked(f)
+    return f['readiness'].startswith('BLOCKED')
 
 registry_doc = dict(
-    meta=dict(generated_at=datetime.date.today().isoformat(), discovery_date=DISCOVERY_DATE, nba_api_version=NBA_API_VERSION,
-              feature_count=len(features), schema_version='1.0',
+    meta=dict(discovery_date=DISCOVERY_DATE, nba_api_version=NBA_API_VERSION,
+              feature_count=len(features), schema_version='2.0',
               note='Rankings (hyp_*) and market_relevance are domain-informed HYPOTHESES, not validated findings. '
                    'Regenerate with scripts/build_artifacts.py; edit definitions under scripts/registry/.'),
     vocabularies=dict(markets=common.MARKETS, classifications=common.CLASSES, temporal_status=common.TEMPORAL,
@@ -52,19 +51,29 @@ registry_doc = dict(
     pipelines={m: dict(root=p['root'], target=p['target'], mvp_fallback=p['mvp_fallback'],
                        stages=[dict(title=s[0], features=s[1], note=s[2]) for s in p['stages']]) for m, p in PIPELINES.items()},
     features=features)
-json.dump(registry_doc, open(os.path.join(ROOT, 'nba_feature_registry.json'), 'w'), indent=1, ensure_ascii=False)
+json.dump(registry_doc, open(os.path.join(OUT, 'nba_feature_registry.json'), 'w'), indent=1, ensure_ascii=False)
 
 cat_cols = ['id', 'name', 'domain', 'classification', 'temporal_status', 'priority', 'validation_status', 'description',
             'source_endpoints', 'source_columns', 'formula', 'dependencies', 'optional_dependencies', 'aggregation_level',
             'historical_availability', 'pregame_availability', 'leakage_risk', 'leakage_notes', 'missing_data_handling',
             'validation_method', 'hyp_predictive_value', 'hyp_reliability', 'hyp_collection_cost', 'hyp_stability',
-            'hyp_overfit_risk', 'correlation_cluster', 'ablation_group', 'blocked_by_external_or_unverified', 'notes']
-with open(os.path.join(ROOT, 'NBA_FEATURE_CATALOG.csv'), 'w', newline='') as fh:
+            'hyp_overfit_risk', 'correlation_cluster', 'ablation_group', 'notes']
+cat_cols[cat_cols.index('validation_status') + 1:cat_cols.index('validation_status') + 1] = ['declared_validation_status', 'readiness', 'implementation_status', 'implementation_note',
+                                                                                              'blocking_inputs', 'fallbacks_used', 'fallback', 'fallback_for', 'optional_unavailable', 'implemented_columns']
+VERIF = ['source_schema', 'identity', 'aggregation_impl', 'historical_coverage', 'point_in_time_impl', 'forecast_accuracy']
+with open(os.path.join(OUT, 'NBA_FEATURE_CATALOG.csv'), 'w', newline='') as fh:
     w = csv.writer(fh)
-    w.writerow(cat_cols + [f'rel_{m}' for m in common.MARKETS])
+    w.writerow(cat_cols + [f'verif_{v}' for v in VERIF] + [f'rel_{m}' for m in common.MARKETS])
     for f in features:
         row = [('; '.join(f[c]) if isinstance(f[c], list) else f[c]) for c in cat_cols]
-        w.writerow(row + [f['market_relevance'][m] for m in common.MARKETS])
+        w.writerow(row + [f['verification'][v] for v in VERIF] + [f['market_relevance'][m] for m in common.MARKETS])
+with open(os.path.join(OUT, 'NBA_FEATURE_READINESS.csv'), 'w', newline='') as fh:     # priority, executability and implementation are separate columns on purpose
+    w = csv.writer(fh)
+    w.writerow(['id', 'name', 'domain', 'priority', 'classification', 'readiness', 'implementation_status', 'validation_status', 'blocking_inputs', 'fallbacks_used',
+                'optional_unavailable', 'fallback_description', 'source_endpoints'])
+    for f in features:
+        w.writerow([f['id'], f['name'], f['domain'], f['priority'], f['classification'], f['readiness'], f['implementation_status'], f['validation_status'],
+                    '; '.join(f['blocking_inputs']), '; '.join(f['fallbacks_used']), '; '.join(f['optional_unavailable']), f['fallback'], '; '.join(f['source_endpoints'])])
 
 
 # ------------------------------------------------------------------ endpoint inventory
@@ -277,14 +286,14 @@ for cls in sorted(lib_eps - tested_classes):
                     params_used='', library_parameters='; '.join(sig['params'].keys()), result_sets_rows='', response_fields='(not observed) library result sets: ' + ', '.join(sig.get('expected') or []),
                     rank_columns_omitted='', historical_coverage_tested='', historical_coverage_conclusion='UNVERIFIED', pregame_usability='UNVERIFIED',
                     as_of_filter_support='', notes=f'Not exercised in discovery. Candidate value for props: {cand}.', used_by_feature_count=0, used_by_features=''))
-with open(os.path.join(ROOT, 'NBA_API_ENDPOINT_INVENTORY.csv'), 'w', newline='') as fh:
+with open(os.path.join(OUT, 'NBA_API_ENDPOINT_INVENTORY.csv'), 'w', newline='') as fh:
     w = csv.DictWriter(fh, fieldnames=inv_cols); w.writeheader(); w.writerows(inv)
 
 
 # ------------------------------------------------------------------ explorer
 data = json.dumps(dict(meta=registry_doc['meta'], markets=common.MARKETS, features=features), ensure_ascii=False).replace('<', '\\u003c')
 tpl = open(os.path.join(HERE, 'explorer_template.html')).read()
-open(os.path.join(ROOT, 'nba_feature_explorer.html'), 'w').write(tpl.replace('/*DATA*/', data))
+open(os.path.join(OUT, 'nba_feature_explorer.html'), 'w').write(tpl.replace('/*DATA*/', data))
 
 
 # ------------------------------------------------------------------ dependency document
@@ -350,7 +359,7 @@ md += ['', '## Full dependency table', '', '| Feature | Class | Temporal | Prior
 for f in features:
     if f['dependencies'] or f['optional_dependencies']:
         md.append(f'| `{f["id"]}` | {f["classification"]} | {f["temporal_status"]} | {f["priority"]} | {", ".join(f["dependencies"])} | {", ".join(f["optional_dependencies"])} |')
-open(os.path.join(ROOT, 'NBA_FEATURE_DEPENDENCIES.md'), 'w').write('\n'.join(md) + '\n')
+open(os.path.join(OUT, 'NBA_FEATURE_DEPENDENCIES.md'), 'w').write('\n'.join(md) + '\n')
 
 
 # ------------------------------------------------------------------ inject generated tables into the hand-written Blueprint
@@ -378,8 +387,8 @@ def rankings_block():
     for m in common.MARKETS:
         c = [f for f in features if f['market_relevance'][m] in ('H', 'M') and not f['id'].startswith('LBL_')]
         c.sort(key=lambda f: (-(f['market_relevance'][m] == 'H'), -score(f), f['id']))
-        rows = [(i + 1, f'`{f["id"]}`' + (' ‡' if blocked(f) or f['classification'] == 'EXTERNAL' else ''), f['classification'], f['priority'], f['market_relevance'][m], score(f), f['temporal_status']) for i, f in enumerate(c[:10])]
-        out += [f'**{m}**  (top 10 of {len(c)} candidates with High/Medium relevance; ‡ = external or unverified source)', '', table(['#', 'Feature', 'Class', 'Pri', 'Relevance', 'Score', 'Temporal'], rows), '']
+        rows = [(i + 1, f'`{f["id"]}`' + (' ‡' if blocked(f) else (' †' if f['readiness'] == 'EXECUTABLE_DEGRADED' else '')), f['classification'], f['priority'], f['market_relevance'][m], score(f), f['temporal_status']) for i, f in enumerate(c[:10])]
+        out += [f'**{m}**  (top 10 of {len(c)} candidates with High/Medium relevance; † = degraded without injury feed, ‡ = blocked)', '', table(['#', 'Feature', 'Class', 'Pri', 'Relevance', 'Score', 'Temporal'], rows), '']
     return '\n'.join(out)
 
 def clusters_block():
@@ -395,16 +404,44 @@ def ablation_block():
         rows.append((k, len(v), Counter(f['priority'] for f in v).most_common(1)[0][0], ', '.join(f'`{f["id"]}`' for f in v)))
     return table(['Group', 'Size', 'Typical priority', 'Members'], rows)
 
+def readiness_block():
+    order = ['EXECUTABLE_NBA_ONLY', 'EXECUTABLE_DEGRADED', 'BLOCKED_UNVERIFIED', 'BLOCKED_EXTERNAL']
+    t = ['Priority = importance. Readiness = can it be computed today from available data, honouring only declared NBA-only fallbacks (transitive over REQUIRED dependencies; optional dependencies never block but must declare a fallback). Implementation = code exists in `nba_props` and is tested. The three are independent.', '']
+    t.append(table(['Priority'] + order + ['Total'], [[p] + [sum(1 for f in features if f['priority'] == p and f['readiness'] == r) for r in order] + [sum(1 for f in features if f['priority'] == p)] for p in sorted(common.PRIORITY)]
+                   + [['All'] + [sum(1 for f in features if f['readiness'] == r) for r in order] + [len(features)]]))
+    t += ['', table(['Implementation status', 'Features'], [(k, c) for k, c in sorted(Counter(f['implementation_status'] for f in features).items())]), '']
+    deg = [f for f in features if f['readiness'] == 'EXECUTABLE_DEGRADED' and f['priority'] == 'P0']
+    t.append(f'**P0 features that run only in degraded mode ({len(deg)}):** ' + ', '.join(f'`{f["id"]}`' for f in deg) + '. All inherit the missing injury feed through `AVL_TEAMMATE_OUT_USAGE` (declared fallback: no injury information, lagged availability only).')
+    blk = [f for f in features if f['readiness'].startswith('BLOCKED')]
+    t += ['', '**Blocked (' + str(len(blk)) + '):** ' + ', '.join(f'`{f["id"]}` ({f["priority"]})' for f in blk) + '.']
+    return '\n'.join(t)
+
+def identities_block():
+    ev = json.load(open(os.path.join(DISC, 'formula_checks.json')))
+    rows = []
+    for k, v in ev['identities'].items():
+        rows.append((f'`{k}`', v['verdict'], v['n'], f"{v['mae']:.4g}", f"{v['bias']:+.3g}", f"{v['max_abs']:.3g}", v['n_exceptions'], v['note']))
+    t = [f"Real warehouse data, completed seasons {', '.join(ev['identities']['ts_pct']['seasons'])}. Verdict rules: `exact_within_rounding` = every row within the API's rounding bound; `exact_with_exceptions` = >= 99.95% of rows, exceptions listed in `data/discovery/formula_checks.json`; `approximate` = same quantity but NOT an identity; `not_equal`. Correlation is never used.", '',
+         table(['Check', 'Verdict', 'n', 'MAE', 'Bias', 'Max abs', 'Exceptions', 'Note'], rows)]
+    rc = ev['player_vs_team']
+    t += ['', f"Player-to-team reconciliation ({rc['team_games']} team-games): points, FGM/FGA, 3PM/3PA, FTM/FTA, OREB/DREB/REB, AST, STL, BLK and PF sums equal the team totals in "
+          f"{min(rc[c]['exact_share'] for c in ('pts','fga','ast','reb','stl','blk')):.1%} or more of team-games; turnovers equal in {rc['tov']['exact_share']:.1%} (player sum never exceeds the team total: team turnovers are credited to the team)."]
+    return '\n'.join(t)
+
 def mvp_block():
     p0 = [f for f in features if f['priority'] == 'P0']
     core = [f for f in p0 if not f['id'].startswith(('LBL_', 'BOX_'))]
-    api_only = [f for f in core if not blocked(f)]
-    out = [f'P0 = {len(p0)} features: {len([f for f in p0 if f["id"].startswith("LBL_")])} labels, {len([f for f in p0 if f["id"].startswith("BOX_")])} raw-ingest columns, '
-           f'**{len(api_only)} modelled features using nba_api data only**, and {len(core) - len(api_only)} blocked by external data.', '']
+    nba = [f for f in core if f['readiness'] == 'EXECUTABLE_NBA_ONLY']
+    deg = [f for f in core if f['readiness'] == 'EXECUTABLE_DEGRADED']
+    blk = [f for f in core if blocked(f)]
+    out = [f'P0 = {len(p0)} features: {len([f for f in p0 if f["id"].startswith("LBL_")])} labels, {len([f for f in p0 if f["id"].startswith("BOX_")])} raw-ingest columns, and {len(core)} modelled/context features, of which '
+           f'**{len(nba)} are fully executable from nba_api alone**, **{len(deg)} execute only in a declared degraded mode** (no injury information) and **{len(blk)} are blocked by external data**. '
+           f'Features implemented and tested in `nba_props` so far: {sum(1 for f in features if f["implementation_status"].startswith("implemented"))}.', '']
     dom = defaultdict(list)
     for f in core: dom[f['domain']].append(f)
-    rows = [(d, ', '.join(f'`{f["id"]}`' + (' ‡' if blocked(f) else '') for f in fs)) for d, fs in sorted(dom.items())]
-    out.append(table(['Domain', 'P0 features (‡ = needs external data)'], rows))
+    tag = lambda f: '' if f['readiness'] == 'EXECUTABLE_NBA_ONLY' else (' ‡' if blocked(f) else ' †')
+    rows = [(d, ', '.join(f'`{f["id"]}`' + tag(f) for f in fs)) for d, fs in sorted(dom.items())]
+    out.append(table(['Domain', 'P0 features († = degraded without injury feed, ‡ = blocked by external data)'], rows))
     return '\n'.join(out)
 
 def inject(path, name, text):
@@ -413,9 +450,12 @@ def inject(path, name, text):
     i, j = s.index(a) + len(a), s.index(b)
     open(path, 'w').write(s[:i] + '\n\n' + text + '\n\n' + s[j:])
 
-BP = os.path.join(ROOT, 'NBA_DATA_BLUEPRINT.md')
-if os.path.exists(BP):
-    for nm, fn in [('counts', counts_block), ('rankings', rankings_block), ('clusters', clusters_block), ('ablation', ablation_block), ('mvp', mvp_block)]:
+BP_SRC = os.path.join(ROOT, 'NBA_DATA_BLUEPRINT.md')
+BP = os.path.join(OUT, 'NBA_DATA_BLUEPRINT.md')
+if os.path.exists(BP_SRC):
+    if BP != BP_SRC:
+        open(BP, 'w').write(open(BP_SRC).read())
+    for nm, fn in [('counts', counts_block), ('readiness', readiness_block), ('rankings', rankings_block), ('clusters', clusters_block), ('ablation', ablation_block), ('mvp', mvp_block), ('identities', identities_block)]:
         inject(BP, nm, fn())
 
 
@@ -423,6 +463,7 @@ if os.path.exists(BP):
 S = dict(features=len(features), by_class=Counter(f['classification'] for f in features), by_priority=Counter(f['priority'] for f in features),
          by_temporal=Counter(f['temporal_status'] for f in features), by_validation=Counter(f['validation_status'] for f in features),
          inventory_rows=len(inv), harness_errors_excluded=harness_errors, inventory_status=Counter(r['status'] for r in inv), library_endpoints=len(lib_eps), tested_classes=len(tested_classes),
-         clusters={k: len(v) for k, v in res['info']['correlation_clusters'].items()}, p0_blocked=res['info']['p0_blocked_by_external'])
+         clusters={k: len(v) for k, v in res['info']['correlation_clusters'].items()}, readiness=Counter(f['readiness'] for f in features),
+         implementation=Counter(f['implementation_status'] for f in features))
 json.dump(S, open(os.path.join(DISC, 'build_summary.json'), 'w'), indent=1, default=dict)
 print(json.dumps(S, indent=1, default=dict))

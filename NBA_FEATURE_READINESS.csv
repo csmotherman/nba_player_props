@@ -1,0 +1,240 @@
+id,name,domain,priority,classification,readiness,implementation_status,validation_status,blocking_inputs,fallbacks_used,optional_unavailable,fallback_description,source_endpoints
+LBL_PTS,PTS (target),Targets,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+LBL_REB,REB (target),Targets,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+LBL_AST,AST (target),Targets,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+LBL_FG3M,FG3M (target),Targets,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+LBL_STL,STL (target),Targets,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+LBL_BLK,BLK (target),Targets,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+LBL_TOV,TOV (target),Targets,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+LBL_PRA,Points+Rebounds+Assists (target),Targets,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+LBL_PR,Points+Rebounds (target),Targets,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+LBL_PA,Points+Assists (target),Targets,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+LBL_RA,Rebounds+Assists (target),Targets,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+LBL_STOCKS,Steals+Blocks (target),Targets,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+LBL_FGA,FGA (auxiliary target),Targets,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+LBL_FG3A,FG3A (auxiliary target),Targets,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+LBL_MIN,Minutes (auxiliary target),Targets,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,identity_verified,,,,,LeagueGameLog; PlayerGameLogs
+BOX_FGM,Field goals made,Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+BOX_FGA,Field goal attempts,Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+BOX_FG3M,3-pointers made,Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+BOX_FG3A,3-pointer attempts,Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+BOX_FTM,Free throws made,Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+BOX_FTA,Free throw attempts,Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+BOX_OREB,Offensive rebounds,Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+BOX_DREB,Defensive rebounds,Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+BOX_PF,Personal fouls,Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+BOX_PFD,Personal fouls drawn (PlayerGameLogs only),Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_BLKA,Shots blocked (against the player; PlayerGameLogs only),Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PLUS_MINUS,Plus/minus,Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog; PlayerGameLogs
+BOX_WL,Game result (W/L),Player box scores,P3,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+BOX_GAME_TYPE,Game type from GAME_ID prefix,Player box scores,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs; ScheduleLeagueV2
+BOX_USG_PCT,Usage rate (game),Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,identity_approximate,,,,,PlayerGameLogs
+BOX_TS_PCT,True shooting % (game),Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,identity_verified,,,,,PlayerGameLogs
+BOX_EFG_PCT,Effective FG % (game),Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_AST_PCT,Assist % (game),Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,identity_approximate,,,,,PlayerGameLogs
+BOX_REB_PCT,Rebound % (game),Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,identity_approximate,,,,,PlayerGameLogs
+BOX_OREB_PCT,Offensive rebound % (game),Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,identity_approximate,,,,,PlayerGameLogs
+BOX_DREB_PCT,Defensive rebound % (game),Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,identity_approximate,,,,,PlayerGameLogs
+BOX_TM_TOV_PCT,Turnover ratio (game),Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,identity_approximate,,,,,PlayerGameLogs
+BOX_PACE,On-court pace (game),Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_POSS,On-court possessions (game),Player box scores,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,identity_approximate,,,,,PlayerGameLogs
+BOX_PIE,Player impact estimate (game),Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_OFF_RATING,Offensive rating (game),Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_DEF_RATING,Defensive rating (game),Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_FGA,Share of team FGA while on court (game),Player box scores,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_FG3A,Share of team 3PA while on court (game),Player box scores,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_AST,Share of team assists while on court (game),Player box scores,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_REB,Share of team rebounds while on court (game),Player box scores,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_TOV,Share of team turnovers while on court (game),Player box scores,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_STL,Share of team steals while on court (game),Player box scores,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_BLK,Share of team blocks while on court (game),Player box scores,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_PTS,Share of team points while on court (game),Player box scores,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_FGA_3PT,Share of own FGA that are 3s (game),Player box scores,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_AST_FGM,Share of own FGM that were assisted (game),Player box scores,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_PTS_PAINT,Share of own points in the paint (game),Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_PTS_FB,Share of own points on the fast break (game),Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BOX_PCT_UAST_3PM,Share of own 3PM unassisted (game),Player box scores,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+MIN_ROLL,Rolling minutes (mean/median/std),Minutes and rotation,P0,CALCULATED,EXECUTABLE_NBA_ONLY,implemented,implemented_pit_verified,,,,,LeagueGameLog
+MIN_EWMA,Exponentially weighted minutes,Minutes and rotation,P0,CALCULATED,EXECUTABLE_NBA_ONLY,implemented,implemented_pit_verified,,,,,LeagueGameLog
+MIN_START_FLAG_HIST,Starter flag in completed games,Minutes and rotation,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScoreTraditionalV3
+MIN_START_RATE,Starter rate over last N games,Minutes and rotation,P0,CALCULATED,EXECUTABLE_NBA_ONLY,implemented_partial,implemented_pit_verified,,,,,BoxScoreTraditionalV3
+MIN_START_PROB_TODAY,Probability of starting today,Minutes and rotation,P1,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,source_verified_untested_logic,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF; MIN_START_PROB_TODAY:EXT_CONFIRMED_STARTERS,,History-only start probability from MIN_START_RATE and teammate-availability history; no confirmed lineup.,BoxScoreTraditionalV3
+MIN_EXP,Projected minutes (distribution),Minutes and rotation,P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,Use MIN_START_RATE instead of the start probability; injury information enters only through the degraded AVL_TEAMMATE_OUT_USAGE.,LeagueGameLog
+MIN_FOUL_TROUBLE_RATE,Foul-trouble minutes risk,Minutes and rotation,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+MIN_BACK_TO_BACK_DELTA,Minutes change on back-to-backs,Minutes and rotation,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog
+MIN_RETURN_RAMP,Return-from-absence ramp,Minutes and rotation,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog; ScheduleLeagueV2
+MIN_Q4_SHARE,Share of minutes in the 4th quarter,Minutes and rotation,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPlayerStats
+MIN_ROTATION_RECON,Reconstructed rotation from play-by-play,Minutes and rotation,P3,UNVERIFIED,BLOCKED_UNVERIFIED,specified_only,unverified_source,MIN_ROTATION_RECON,,,,PlayByPlayV3
+USG_ROLL,Rolling usage,Usage and offensive opportunities,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+USG_USG_FORMULA,Usage from box columns,Usage and offensive opportunities,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,identity_approximate,,,,,PlayerGameLogs; TeamGameLogs
+USG_FGA_PER_MIN,FGA per minute,Usage and offensive opportunities,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+USG_FGA_PER_100POSS,FGA per 100 on-court possessions,Usage and offensive opportunities,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+USG_FTA_RATE,Free-throw attempt rate,Usage and offensive opportunities,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+USG_TOUCHES_PER_MIN,Touches per minute,Usage and offensive opportunities,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScorePlayerTrackV3; LeagueDashPtStats
+USG_TIME_OF_POSS,Time of possession per minute,Usage and offensive opportunities,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats
+USG_ASSISTED_SHARE,Self-creation vs assisted share,Usage and offensive opportunities,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+USG_COMPETITION_ONCOURT,Usage competition from expected teammates,Usage and offensive opportunities,P2,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,PlayerGameLogs
+SHT_TS_ROLL,Rolling true shooting,Shooting volume and efficiency,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,identity_verified,,,,,LeagueGameLog
+SHT_FG_PCT_SHRUNK,Shrunk FG% (2-point and overall),Shooting volume and efficiency,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog
+SHT_FT_PCT_SHRUNK,Shrunk FT%,Shooting volume and efficiency,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog
+SHT_ZONE_FREQ,Shot-zone frequency profile,Shooting volume and efficiency,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPlayerShotLocations
+SHT_XFG,Expected FG% from shot quality,Shooting volume and efficiency,P3,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,ShotChartDetail
+SHT_CATCH_SHOOT_SHARE,Catch-and-shoot share of attempts,Shooting volume and efficiency,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats
+SHT_OPEN_SHOT_RATE,Open/wide-open shot rate,Shooting volume and efficiency,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerDashPtShots
+SHT_DRIVE_RATE,Drives per minute,Shooting volume and efficiency,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats
+SHT_PTS_PER_SHOT,Points per shooting possession,Shooting volume and efficiency,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,identity_verified,,,,,LeagueGameLog
+TPT_3PA_PER_MIN,Three-point attempts per minute,Three-point shooting,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+TPT_3PA_RATE,Three-point attempt rate,Three-point shooting,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+TPT_3P_PCT_SHRUNK,Shrunk 3P%,Three-point shooting,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog
+TPT_CS_3PA_SHARE,Catch-and-shoot share of threes,Three-point shooting,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats
+TPT_CORNER_SHARE,Corner share of threes,Three-point shooting,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPlayerShotLocations
+TPT_OPP_3PA_ALLOWED,Opponent 3PA allowed per 100 possessions,Three-point shooting,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs
+TPT_OPP_3P_PCT_ALLOWED,Opponent 3P% allowed (shrunk),Three-point shooting,P2,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,TeamGameLogs; LeagueDashPtTeamDefend
+TPT_WIDE_OPEN_RATE,Open three rate,Three-point shooting,P3,UNVERIFIED,BLOCKED_UNVERIFIED,specified_only,unverified_source,TPT_WIDE_OPEN_RATE,,,,PlayerDashPtShots
+AST_POT_PER_MIN,Potential assists per minute,Potential assists and playmaking,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats
+AST_POT_PER_100POSS,Potential assists per 100 on-court possessions,Potential assists and playmaking,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats; PlayerGameLogs
+AST_CONVERSION,Assist conversion of potential assists,Potential assists and playmaking,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats
+AST_CONVERSION_SHRUNK,Shrunk assist conversion,Potential assists and playmaking,P1,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueDashPtStats
+AST_TEAMMATE_CONVERSION_PROB,Expected teammate conversion probability,Potential assists and playmaking,P2,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,source_verified_untested_logic,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,PlayerDashPtPass; LeagueDashPtStats
+AST_TEAM_ASSISTED_RATE,Team assisted-FG rate,Potential assists and playmaking,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs
+AST_PASSES_PER_MIN,Passes per minute,Potential assists and playmaking,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScorePlayerTrackV3; LeagueDashPtStats
+AST_PCT_ROLL,Rolling assist percentage,Potential assists and playmaking,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+AST_PER_100POSS,Assists per 100 on-court possessions,Potential assists and playmaking,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+AST_SECONDARY_FT_AST,Secondary and free-throw assists,Potential assists and playmaking,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats; BoxScorePlayerTrackV3
+AST_BALLHANDLER_COMPETITION,Ball-handler competition,Potential assists and playmaking,P2,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,LeagueDashPtStats
+AST_OPP_ASSISTS_ALLOWED,Opponent assists allowed per 100 possessions,Potential assists and playmaking,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs
+REB_CHANCES_PER_MIN,Rebound chances per minute,Rebound opportunities and conversion,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScorePlayerTrackV3; LeagueDashPtStats
+REB_CONVERSION,Rebound conversion of chances,Rebound opportunities and conversion,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats; BoxScorePlayerTrackV3
+REB_CONVERSION_SHRUNK,Shrunk rebound conversion,Rebound opportunities and conversion,P1,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueDashPtStats
+REB_PCT_ROLL,Rolling rebound percentage,Rebound opportunities and conversion,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,Use total REB% only.,PlayerGameLogs
+REB_AVAILABLE_MISSES_TEAM,Available missed shots in a game (observed),Rebound opportunities and conversion,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,identity_approximate,,,,,TeamGameLogs
+REB_OPP_SHARE_PER_MISS,Rebound opportunity share of available misses,Rebound opportunities and conversion,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,BoxScorePlayerTrackV3; TeamGameLogs
+REB_OPP_OREB_ALLOWED,Opponent offensive-rebound % allowed,Rebound opportunities and conversion,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs
+REB_BOXOUTS_PER_MIN,Box-outs per minute,Rebound opportunities and conversion,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScoreHustleV2; LeagueHustleStatsPlayer
+REB_DISTANCE_PROFILE,Rebound distance / contest profile,Rebound opportunities and conversion,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats; PlayerDashPtReb
+REB_OPP_3PA_LONG_REBOUND_ENV,Long-rebound environment,Rebound opportunities and conversion,P3,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,TeamGameLogs
+REB_FRONTCOURT_COMPETITION,Frontcourt rebound competition,Rebound opportunities and conversion,P2,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,LeagueDashPtStats
+STL_RATE,Steal rate,"Steals, blocks and turnovers",P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+STL_DEFLECTIONS_PER_MIN,Deflections per minute,"Steals, blocks and turnovers",P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScoreHustleV2; LeagueHustleStatsPlayer
+STL_OPP_TOV_RATE,Opponent turnover propensity,"Steals, blocks and turnovers",P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs
+BLK_RATE,Block rate,"Steals, blocks and turnovers",P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+BLK_RIM_DEFENDED_PER_MIN,Rim shots defended per minute,"Steals, blocks and turnovers",P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScorePlayerTrackV3; LeagueDashPtStats
+BLK_OPP_RIM_ATTEMPT_RATE,Opponent rim/paint attempt rate,"Steals, blocks and turnovers",P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashTeamShotLocations
+BLK_OPP_2PA_ALLOWED,Opponent 2PA per 100 possessions,"Steals, blocks and turnovers",P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs
+TOV_RATE,Turnover rate,"Steals, blocks and turnovers",P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+TOV_PER_USAGE,Turnovers per usage opportunity,"Steals, blocks and turnovers",P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+TOV_OPP_PRESSURE,Opponent pressure (turnovers forced),"Steals, blocks and turnovers",P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs
+TOV_DRIVE_TOV_RATE,Turnover rate on drives,"Steals, blocks and turnovers",P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats
+POS_TEAM_POSS_OBSERVED,Team possessions (box formula),"Team efficiency, possessions and pace",P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,identity_approximate,,,,,TeamGameLogs
+POS_TEAM_POSS_ROLL,Rolling team possessions (API POSS),"Team efficiency, possessions and pace",P1,CALCULATED,EXECUTABLE_NBA_ONLY,implemented,implemented_pit_verified,,,,,TeamGameLogs
+POS_TEAM_PACE_ROLL,Rolling team pace,"Team efficiency, possessions and pace",P0,CALCULATED,EXECUTABLE_NBA_ONLY,implemented,implemented_pit_verified,,,,,TeamGameLogs[Advanced]; LeagueDashTeamStats
+POS_MATCHUP_PACE_EXP,Expected game pace,"Team efficiency, possessions and pace",P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,TeamGameLogs
+POS_ONCOURT_FACTOR,Player on-court pace factor,"Team efficiency, possessions and pace",P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs; TeamGameLogs
+POS_TEAM_OFF_RTG_ROLL,Rolling team offensive rating,"Team efficiency, possessions and pace",P0,CALCULATED,EXECUTABLE_NBA_ONLY,implemented,implemented_pit_verified,,,,,TeamGameLogs
+POS_TEAM_DEF_RTG_ROLL,Rolling team defensive rating,"Team efficiency, possessions and pace",P0,CALCULATED,EXECUTABLE_NBA_ONLY,implemented,implemented_pit_verified,,,,,TeamGameLogs
+POS_TEAM_FOUR_FACTORS,Rolling four factors (offence and defence),"Team efficiency, possessions and pace",P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs
+POS_TEAM_STYLE_PROFILE,Team style profile,"Team efficiency, possessions and pace",P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs
+POS_OPP_SHOT_PROFILE_ALLOWED,Opponent shot profile allowed,"Team efficiency, possessions and pace",P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashOppPtShot; LeagueDashPtTeamDefend; LeagueDashTeamShotLocations
+POS_PLAYTYPE_TRANSITION_FREQ,Transition frequency,"Team efficiency, possessions and pace",P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,SynergyPlayTypes
+ADJ_OPP_ALLOWED_RATE,"Opponent rate allowed (shrunk, pace-normalised)",Opponent-adjusted statistics,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs
+ADJ_PLAYER_ADJ_RATE,Opponent-adjusted player rate (ridge),Opponent-adjusted statistics,P1,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+ADJ_SCHEDULE_STRENGTH_L10,Strength of recent opposition,Opponent-adjusted statistics,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs; PlayerGameLogs
+ADJ_OPPORTUNITY_VS_RESULT_GAP,Opportunity-vs-result decomposition of form,Opponent-adjusted statistics,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs; LeagueDashPtStats
+DVP_ALLOWED_RAW,Opponent production allowed by position bucket,Defense versus position,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueDashPlayerStats
+DVP_RATE_PACE_ADJ,Pace- and opportunity-normalised DvP factor,Defense versus position,P1,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,LeagueDashPlayerStats
+DVP_ARCHETYPE_ALLOWED,Opponent allowed rate by archetype cluster,Defense versus position,P2,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+DVP_PRIMARY_DEFENDER_HIST,Historical matchup vs opposing defenders,Defense versus position,P3,UNVERIFIED,BLOCKED_UNVERIFIED,specified_only,unverified_source,DVP_PRIMARY_DEFENDER_HIST,,,,LeagueSeasonMatchups; BoxScoreMatchupsV3
+DVP_OPP_RIM_PROTECTION,Opponent rim protection (roster-aware),Defense versus position,P3,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_OPP_KEY_PLAYER_OUT:EXT_INJURY_REPORT; AVL_OPP_KEY_PLAYER_OUT:SELF; AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,Use the opponent full-season rim-protection average without availability weighting.,LeagueDashPtDefend
+ARC_POSITION,Listed position,Player archetype matchups,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerIndex; CommonPlayerInfo; CommonTeamRoster; LeagueDashPtDefend
+ARC_SIZE,Height and weight,Player archetype matchups,P2,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPlayerBioStats; PlayerIndex
+ARC_CLUSTER_ID,Role archetype cluster,Player archetype matchups,P1,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs; LeagueDashPtStats; LeagueDashPlayerShotLocations
+ARC_PLAYTYPE_PROFILE,Offensive play-type profile,Player archetype matchups,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,SynergyPlayTypes
+ARC_MATCHUP_PLAYTYPE_FIT,Play-type matchup fit,Player archetype matchups,P3,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,SynergyPlayTypes
+ARC_SIZE_MISMATCH,Size mismatch vs expected defender,Player archetype matchups,P3,UNVERIFIED,BLOCKED_UNVERIFIED,specified_only,unverified_source,ARC_SIZE_MISMATCH; DVP_PRIMARY_DEFENDER_HIST,,,,PlayerIndex
+TRK_SPEED_DISTANCE,Speed and distance per minute,Player tracking,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueDashPtStats; BoxScorePlayerTrackV3
+TRK_CONTESTED_FG_SHARE,Contested shot share,Player tracking,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScorePlayerTrackV3
+TRK_GRAVITY,Gravity score,Player tracking,P3,UNVERIFIED,BLOCKED_UNVERIFIED,specified_only,unverified_source,TRK_GRAVITY,,,,GravityLeaders
+ENV_EXP_GAME_POSS,Expected possessions in the game,Game environment,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,TeamGameLogs
+ENV_EXP_TEAM_POINTS,Expected team points and game total,Game environment,P1,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,TeamGameLogs
+ENV_EXP_MISSED_SHOTS,Expected missed shots in the game,Game environment,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,TeamGameLogs
+EXP_ONCOURT_POSS,Expected on-court possessions,Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,PlayerGameLogs; TeamGameLogs
+EXP_FGA,Expected shot attempts,Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,No redistribution term; attempts per possession from USG_FGA_PER_100POSS with opponent factor only.,PlayerGameLogs
+EXP_FTA,Expected free-throw attempts,Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,TeamGameLogs; LeagueGameLog
+EXP_3PA,Expected three-point attempts,Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,LeagueGameLog; TeamGameLogs
+EXP_3P_PCT,Expected three-point make probability,Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,p = TPT_3P_PCT_SHRUNK with no shot-type or opponent adjustment.,LeagueGameLog
+EXP_3PM_DIST,Expected three-pointers made (distribution),Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,LeagueGameLog
+EXP_PTS_DIST,Expected points (distribution),Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,LeagueGameLog
+EXP_POT_AST,Expected potential assists,Expected opportunities (projected),P1,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,LeagueDashPtStats
+EXP_AST_DIST,Expected assists (distribution),Expected opportunities (projected),P1,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,LeagueDashPtStats
+EXP_REB_CHANCES,Expected rebound chances,Expected opportunities (projected),P1,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,BoxScorePlayerTrackV3; TeamGameLogs
+EXP_REB_DIST,Expected rebounds (distribution),Expected opportunities (projected),P1,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,BoxScorePlayerTrackV3
+EXP_STL_DIST,Expected steals (distribution),Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,STL_RATE x on-court possessions only.,PlayerGameLogs
+EXP_BLK_DIST,Expected blocks (distribution),Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,BLK_RATE x on-court possessions only.,PlayerGameLogs; BoxScorePlayerTrackV3
+EXP_TOV_DIST,Expected turnovers (distribution),Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,"Player TOV rate x on-court possessions, no opponent-pressure or usage term.",PlayerGameLogs
+EXP_TOP_DOWN_TEAM_SHARE,Top-down team total x player share,Expected opportunities (projected),P2,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,TeamGameLogs; PlayerGameLogs
+USGR_WITH_WITHOUT,With/without teammate effect (empirical),Usage redistribution,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog; PlayerGameLogs
+USGR_POOLED_ELASTICITY,Pooled redistribution model,Usage redistribution,P1,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,LeagueGameLog; PlayerGameLogs
+USGR_MINUTES_VACANCY,Minutes vacancy and who absorbs it,Usage redistribution,P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,LeagueGameLog
+LIN_ONOFF_RATING,Player on/off ratings,Lineup and on/off impact,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamPlayerOnOffSummary
+LIN_ONOFF_TEAM_RATES,Team stat rates with player on/off,Lineup and on/off impact,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamPlayerOnOffDetails
+LIN_LINEUP_NET_PACE,Lineup net rating and pace,Lineup and on/off impact,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueDashLineups; TeamDashLineups
+LIN_EXPECTED_ROTATION_QUALITY,Expected lineup context,Lineup and on/off impact,P3,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,PlayerGameLogs
+AVL_PLAYED_FLAG_HIST,"Who played / did not play, by team-game",Teammate injuries and availability,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog; ScheduleLeagueV2
+AVL_INACTIVE_LIST_HIST,Official inactive list (historical),Teammate injuries and availability,P0,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScoreSummaryV3
+AVL_DNP_REASON_HIST,DNP reason in box score,Teammate injuries and availability,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScoreTraditionalV3
+AVL_GAMES_MISSED_STREAK,Consecutive team games missed before target,Teammate injuries and availability,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog; ScheduleLeagueV2
+AVL_TEAMMATE_OUT_USAGE,Absent teammates' usage/minutes mass,Teammate injuries and availability,P0,EXTERNAL,EXECUTABLE_DEGRADED,specified_only,external_unobtained,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,"No injury feed: emit NaN plus an `injury_info_missing` indicator; downstream models condition only on lagged availability (AVL_PLAYED_FLAG_HIST, AVL_GAMES_MISSED_STREAK) and cannot react to todays absences. Degraded, executable from nba_api only.",LeagueGameLog; PlayerGameLogs
+AVL_OPP_KEY_PLAYER_OUT,Opponent key players out,Teammate injuries and availability,P3,EXTERNAL,EXECUTABLE_DEGRADED,specified_only,external_unobtained,,AVL_OPP_KEY_PLAYER_OUT:EXT_INJURY_REPORT; AVL_OPP_KEY_PLAYER_OUT:SELF,,Omit (NaN + indicator): opponent availability unknown.,LeagueDashPtDefend
+AVL_LOAD_MANAGEMENT_RISK,Rest/load-management risk,Teammate injuries and availability,P2,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,LeagueGameLog; ScheduleLeagueV2
+CTX_HOME,Home indicator,Home/away and rest,P0,CALCULATED,EXECUTABLE_NBA_ONLY,implemented,implemented_pit_verified,,,,,PlayerGameLogs; ScheduleLeagueV2
+CTX_DAYS_REST,Days of rest,Home/away and rest,P0,CALCULATED,EXECUTABLE_NBA_ONLY,implemented,implemented_pit_verified,,,,,ScheduleLeagueV2; LeagueGameLog
+CTX_B2B,Back-to-back / dense-schedule flags,Home/away and rest,P1,CALCULATED,EXECUTABLE_NBA_ONLY,implemented,implemented_pit_verified,,,,,ScheduleLeagueV2
+CTX_REST_DIFF,Rest advantage vs opponent,Home/away and rest,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,ScheduleLeagueV2
+CTX_HOME_AWAY_SPLIT,Player home/away split (shrunk),Home/away and rest,P3,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,LeagueGameLog
+CTX_TRAVEL_GEO,Travel distance and time-zone change,Home/away and rest,P3,EXTERNAL,EXECUTABLE_DEGRADED,specified_only,external_unobtained,,CTX_TRAVEL_GEO:SELF,,Omit; use rest days and back-to-back flags only.,ScheduleLeagueV2
+CTX_STANDINGS_MOTIVATION,Standings pressure,Home/away and rest,P3,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueStandingsV3
+CTX_GAME_META,"Tip time, TV window, arena",Home/away and rest,P3,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,ScheduleLeagueV2
+BLO_SPREAD_LIVE,Market spread and moneyline (live snapshot),Blowout risk and game competitiveness,P1,RAW,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,Odds (nba_api.live)
+BLO_SPREAD_HISTORICAL,Historical closing/opening spreads and totals,Blowout risk and game competitiveness,P1,EXTERNAL,BLOCKED_EXTERNAL,specified_only,external_unobtained,BLO_SPREAD_HISTORICAL,,,,n/a
+BLO_RATING_SPREAD_PROXY,Spread proxy from team ratings,Blowout risk and game competitiveness,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,TeamGameLogs
+BLO_PROB_BLOWOUT,Blowout probability,Blowout risk and game competitiveness,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,BLO_SPREAD_HISTORICAL,Use BLO_RATING_SPREAD_PROXY (team-rating spread) as the only spread input.,TeamGameLogs
+BLO_HIST_BLOWOUT_MIN_LOSS,Player minutes lost in blowouts,Blowout risk and game competitiveness,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog; TeamGameLogs
+BLO_TEAM_CLOSE_RATE,Team close-game rate,Blowout risk and game competitiveness,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,TeamGameLogs
+BLO_GARBAGE_TIME_FLAG,Garbage-time possessions,Blowout risk and game competitiveness,P3,UNVERIFIED,BLOCKED_UNVERIFIED,specified_only,unverified_source,BLO_GARBAGE_TIME_FLAG; MIN_ROTATION_RECON,,,,PlayByPlayV3
+FRM_ROLL_RATE,Rolling per-minute and per-possession rates,Recent performance and role changes,P0,CALCULATED,EXECUTABLE_NBA_ONLY,implemented_partial,implemented_pit_verified,,,,,PlayerGameLogs
+FRM_EWMA_RATE,Exponentially weighted rates,Recent performance and role changes,P0,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+FRM_SHRUNK_RATE,Shrunk stat rates,Recent performance and role changes,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,Prior = league mean by listed position (ARC_POSITION) instead of cluster mean.,PlayerGameLogs
+FRM_PRIOR_SEASON_RATE,Prior-season rates (prior),Recent performance and role changes,P0,CALCULATED,EXECUTABLE_NBA_ONLY,implemented,implemented_pit_verified,,,,,PlayerGameLogs
+FRM_TREND_SLOPE,Short-term trend,Recent performance and role changes,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+ROLE_CUSUM_MINUTES,Minutes change-point detector,Recent performance and role changes,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog
+ROLE_USAGE_SHIFT,Usage / touches shift,Recent performance and role changes,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,PlayerGameLogs; BoxScorePlayerTrackV3
+ROLE_START_STATUS_CHANGE,Starter/bench transition,Recent performance and role changes,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScoreTraditionalV3
+ROLE_TEAM_CHANGE,Trade / team change,Recent performance and role changes,P1,CALCULATED,EXECUTABLE_NBA_ONLY,implemented,implemented_pit_verified,,,,,LeagueGameLog
+ROLE_TEAMMATE_CHURN,Teammate churn,Recent performance and role changes,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog
+ROLE_CHANGE_FLAG,Composite role-change flag,Recent performance and role changes,P1,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,LeagueGameLog
+ROLE_COACH_CHANGE,Coaching change,Recent performance and role changes,P3,UNVERIFIED,BLOCKED_UNVERIFIED,specified_only,unverified_source,ROLE_COACH_CHANGE,,,,CommonTeamRoster
+HOP_PLAYER_VS_OPP_RATE,Player rate vs this opponent (shrunk),Historical opponent performance,P3,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs; LeagueDashPlayerStats
+HOP_LAST5_MEETINGS_ENV,Recent head-to-head environment,Historical opponent performance,P3,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,BoxScoreSummaryV3
+HOP_REF_CREW_FOUL_RATE,Referee crew foul tendency,Historical opponent performance,P3,UNVERIFIED,BLOCKED_UNVERIFIED,specified_only,unverified_source,HOP_REF_CREW_FOUL_RATE,,,,BoxScoreSummaryV3
+VAR_DISP_PTS,Negative-binomial dispersion: points,Game-level statistical variance,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+VAR_DISP_REB,Negative-binomial dispersion: rebounds,Game-level statistical variance,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+VAR_DISP_AST,Negative-binomial dispersion: assists,Game-level statistical variance,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+VAR_DISP_3PM,Negative-binomial dispersion: three-pointers made,Game-level statistical variance,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+VAR_DISP_STL,Negative-binomial dispersion: steals,Game-level statistical variance,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+VAR_DISP_BLK,Negative-binomial dispersion: blocks,Game-level statistical variance,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+VAR_DISP_TOV,Negative-binomial dispersion: turnovers,Game-level statistical variance,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+VAR_DISP_FGA,Negative-binomial dispersion: field-goal attempts (compound scoring pipeline),Game-level statistical variance,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+VAR_DISP_FG3A,Negative-binomial dispersion: three-point attempts (compound 3PM pipeline),Game-level statistical variance,P0,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+VAR_ROLL_STD,Rolling standard deviation and CV,Game-level statistical variance,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+VAR_QUANTILES_EMP,Empirical quantiles of recent outcomes,Game-level statistical variance,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+VAR_ZERO_INFLATION,Zero-count probability,Game-level statistical variance,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,PlayerGameLogs
+VAR_STAT_CORR,Cross-stat correlation (combo markets),Game-level statistical variance,P1,ENGINEERED,EXECUTABLE_NBA_ONLY,specified_only,hypothesis,,,,,PlayerGameLogs
+VAR_MIN_VOLATILITY,Minutes volatility,Game-level statistical variance,P1,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified,,,,,LeagueGameLog
+VAR_STREAK_AUTOCORR,Hot/cold-streak autocorrelation,Game-level statistical variance,P2,CALCULATED,EXECUTABLE_NBA_ONLY,specified_only,source_verified_untested_logic,,,,,LeagueGameLog
+EXT_INJURY_REPORT,Pregame injury report and game-day status,External data,P0,EXTERNAL,BLOCKED_EXTERNAL,specified_only,external_unobtained,EXT_INJURY_REPORT,,,,n/a
+EXT_CONFIRMED_STARTERS,Confirmed or expected starting lineups,External data,P1,EXTERNAL,BLOCKED_EXTERNAL,specified_only,external_unobtained,EXT_CONFIRMED_STARTERS,,,,n/a
+EXT_PROP_LINES,Prop lines and odds (current and historical),External data,P0,EXTERNAL,BLOCKED_EXTERNAL,specified_only,external_unobtained,EXT_PROP_LINES,,,,n/a
+EXT_NEWS_TRANSACTIONS,"News, trades, minute restrictions",External data,P3,EXTERNAL,BLOCKED_EXTERNAL,specified_only,external_unobtained,EXT_NEWS_TRANSACTIONS,,,,n/a
+EXP_REB_BASELINE,"Expected rebounds (MVP baseline, rate-based)",Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,source_verified_untested_logic,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,TeamGameLogs; PlayerGameLogs
+EXP_AST_BASELINE,"Expected assists (MVP baseline, rate-based)",Expected opportunities (projected),P0,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,source_verified_untested_logic,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,TeamGameLogs; PlayerGameLogs
+EXP_COMBO_JOINT,Joint PTS/REB/AST simulation for combo markets,Expected opportunities (projected),P1,ENGINEERED,EXECUTABLE_DEGRADED,specified_only,hypothesis,,AVL_TEAMMATE_OUT_USAGE:EXT_INJURY_REPORT; AVL_TEAMMATE_OUT_USAGE:SELF,,,PlayerGameLogs

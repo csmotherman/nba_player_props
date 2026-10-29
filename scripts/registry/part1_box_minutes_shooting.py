@@ -74,9 +74,9 @@ adv = [('USG_PCT', 'Usage rate (game)', 'Share of team possessions used while on
        ('REB_PCT', 'Rebound % (game)', 'Share of available rebounds grabbed while on court.', 'REB_RATE', 'REB:H'),
        ('OREB_PCT', 'Offensive rebound % (game)', 'Share of available offensive rebounds grabbed while on court.', 'REB_RATE', 'REB:M'),
        ('DREB_PCT', 'Defensive rebound % (game)', 'Share of available defensive rebounds grabbed while on court.', 'REB_RATE', 'REB:M'),
-       ('TM_TOV_PCT', 'Turnover ratio (game)', 'API name is misleading: verified to equal 100*TOV/(FGA+0.44*FTA+AST+TOV) (r=0.9994), scale 0-100.', 'TOV_RATE', 'TOV:H'),
+       ('TM_TOV_PCT', 'Turnover ratio (game)', 'API name is misleading: it approximates 100*TOV/(FGA+0.44*FTA+AST+TOV), an approximation and NOT an exact identity (data/discovery/formula_checks.json, tm_tov_pct_api_definition); scale 0-100.', 'TOV_RATE', 'TOV:H'),
        ('PACE', 'On-court pace (game)', 'Team possessions per 48 min while this player was on the floor.', 'PACE', 'PTS:M,REB:M,AST:M,3PM:M,COMBO:M'),
-       ('POSS', 'On-court possessions (game)', 'Integer possessions while on court. Verified POSS ~= PACE*MIN/48 (MAE 0.55, r=0.999).', 'PACE', 'PTS:M,REB:M,AST:M,STL:M,BLK:M,TOV:M,COMBO:M'),
+       ('POSS', 'On-court possessions (game)', 'Integer possessions while on court. POSS ~ PACE*MIN/48 holds only approximately, outside the integer-rounding bound (formula_checks.json, player_poss_vs_oncourt_pace).', 'PACE', 'PTS:M,REB:M,AST:M,STL:M,BLK:M,TOV:M,COMBO:M'),
        ('PIE', 'Player impact estimate (game)', 'Share of game events contributed; noisy single-game number.', 'impact', ''),
        ('OFF_RATING', 'Offensive rating (game)', 'Team points per 100 possessions while on court.', 'rating', ''),
        ('DEF_RATING', 'Defensive rating (game)', 'Opponent points per 100 possessions while on court.', 'rating', '')]
@@ -84,7 +84,7 @@ for col, nm, d, cl, rel in adv:
     feat(f'BOX_{col}', nm, D, 'RAW', 'lagged_observed', d + ' API-computed; one row per player-game.', 'PlayerGameLogs',
          f'PlayerGameLogs[Advanced].{col}', f'{col} as reported', '', G, HIST['advgl'], PRE_LAG, 'lag', MISS['roll'], rel,
          'Re-derive from box columns where a formula exists (qc_checks.py) and compare.', 'P0' if col in ('USG_PCT', 'AST_PCT', 'REB_PCT', 'TM_TOV_PCT', 'POSS', 'PACE', 'TS_PCT') else 'P2',
-         'M/H/L/M/L', cl, 'api_advanced', 'formula_verified' if col in ('USG_PCT', 'TS_PCT', 'AST_PCT', 'REB_PCT', 'OREB_PCT', 'DREB_PCT', 'TM_TOV_PCT', 'POSS') else 'source_verified')
+         'M/H/L/M/L', cl, 'api_advanced', 'source_verified' if col in ('USG_PCT', 'TS_PCT', 'AST_PCT', 'REB_PCT', 'OREB_PCT', 'DREB_PCT', 'TM_TOV_PCT', 'POSS') else 'source_verified')
 for col, nm, rel in [('PCT_FGA', 'Share of team FGA while on court', 'PTS:H,3PM:M'), ('PCT_FG3A', 'Share of team 3PA while on court', '3PM:H'),
                      ('PCT_AST', 'Share of team assists while on court', 'AST:H'), ('PCT_REB', 'Share of team rebounds while on court', 'REB:H'),
                      ('PCT_TOV', 'Share of team turnovers while on court', 'TOV:H'), ('PCT_STL', 'Share of team steals while on court', 'STL:H'),
@@ -175,7 +175,7 @@ feat('USG_USG_FORMULA', 'Usage from box columns', D, 'CALCULATED', 'lagged_obser
      'Own usage computation so history can extend beyond the seasons where PlayerGameLogs[Advanced] was verified.', 'PlayerGameLogs; TeamGameLogs',
      'PlayerGameLogs[Base].FGA; PlayerGameLogs[Base].FTA; PlayerGameLogs[Base].TOV; PlayerGameLogs[Base].MIN; TeamGameLogs[Base].FGA; TeamGameLogs[Base].FTA; TeamGameLogs[Base].TOV; TeamGameLogs[Base].MIN',
      'USG = ((FGA + 0.44*FTA + TOV) * TeamMIN_per_player_slot) / (MIN * (TmFGA + 0.44*TmFTA + TmTOV)); TeamMIN_per_player_slot = TeamGameLogs.MIN (48 in regulation; verified that the team MIN column is 48, NOT 240).',
-     '', G, HIST['derived_box'], PRE_LAG, 'lag', MISS['none'], 'PTS:M,TOV:M', 'Verified against API USG_PCT: MAE 0.0089, r=0.9906 on 22,630 player-games (MIN>=10).', 'P1', 'M/H/L/H/L', 'usage', 'usage_core', 'formula_verified',
+     '', G, HIST['derived_box'], PRE_LAG, 'lag', MISS['none'], 'PTS:M,TOV:M', 'Compared with API USG_PCT on real data: approximate agreement, NOT an identity (formula_checks.json, usg_pct: error and bias recorded).', 'P1', 'M/H/L/H/L', 'usage', 'usage_core', 'source_verified',
      'Residual vs API probably from rounding/tracked minutes; do not mix API and own values within one model.')
 feat('USG_FGA_PER_MIN', 'FGA per minute', D, 'CALCULATED', 'lagged_observed', 'Shot-attempt rate per minute on court; pace-agnostic shooting appetite.', 'LeagueGameLog',
      'LeagueGameLog.FGA; LeagueGameLog.MIN', 'rate_N = sum(FGA_{t-k}) / sum(MIN_{t-k}) over last N games; shrunk: (n_min*rate + k*prior)/(n_min+k) with prior = archetype mean.', 'LBL_FGA; LBL_MIN', G,
@@ -207,8 +207,8 @@ feat('USG_COMPETITION_ONCOURT', 'Usage competition from expected teammates', D, 
 D = 'Shooting volume and efficiency'
 feat('SHT_TS_ROLL', 'Rolling true shooting', D, 'CALCULATED', 'lagged_observed', 'Attempt-weighted rolling true-shooting %.', 'LeagueGameLog',
      'LeagueGameLog.PTS; LeagueGameLog.FGA; LeagueGameLog.FTA', 'TS_N = sum(PTS) / (2 * (sum(FGA) + 0.44*sum(FTA))) over last N games (N>=20 recommended; short windows are mostly noise).', 'LBL_PTS; BOX_FGA; BOX_FTA',
-     G, HIST['derived_box'], PRE_LAG, 'lag', MISS['roll'], 'PTS:M,COMBO:L', 'Split-half reliability; compare with shrunk estimator.', 'P0', 'M/M/L/M/M', 'efficiency', 'efficiency', 'formula_verified',
-     'TS reproduces API TS_PCT (MAE 0.0002).')
+     G, HIST['derived_box'], PRE_LAG, 'lag', MISS['roll'], 'PTS:M,COMBO:L', 'Split-half reliability; compare with shrunk estimator.', 'P0', 'M/M/L/M/M', 'efficiency', 'efficiency', 'source_verified',
+     'TS reproduces API TS_PCT within the API 3-decimal rounding for all but a handful of rows (formula_checks.json, ts_pct lists the exceptions).')
 feat('SHT_FG_PCT_SHRUNK', 'Shrunk FG% (2-point and overall)', D, 'ENGINEERED', 'lagged_observed',
      'Empirical-Bayes estimate of true shooting skill that does not over-react to a hot/cold few games.', 'LeagueGameLog', 'LeagueGameLog.FGM; LeagueGameLog.FGA; LeagueGameLog.FG3M; LeagueGameLog.FG3A',
      'p_hat = (FGM_cum + k*p_prior)/(FGA_cum + k); p_prior = archetype / league mean for the player\'s shot mix; k estimated by beta-binomial MLE (not assumed). Compute separately for 2PT: (FGM-FG3M)/(FGA-FG3A).',
@@ -234,7 +234,7 @@ feat('SHT_DRIVE_RATE', 'Drives per minute', D, 'CALCULATED', 'lagged_observed', 
      'LeagueDashPtStats[Drives].DRIVES; LeagueDashPtStats[Drives].MIN; LeagueDashPtStats[Drives].GP; LeagueDashPtStats[Drives].DRIVE_FGA; LeagueDashPtStats[Drives].DRIVE_PASSES; LeagueDashPtStats[Drives].DRIVE_AST',
      'drives_per_min = DRIVES / (MIN*GP) as-of; drive_fga_share = DRIVE_FGA / DRIVES.', '', 'player-season (as-of)', HIST['trk'], PRE_LAG, 'asof_dash', MISS['tracking'], 'PTS:M,AST:M,TOV:L', 'Incremental lift over USG + FTA rate.', 'P2', 'M/H/M/H/M', 'tracking_touch', 'tracking_touch', 'source_verified')
 feat('SHT_PTS_PER_SHOT', 'Points per shooting possession', D, 'CALCULATED', 'lagged_observed', 'PTS/(FGA+0.44*FTA) = 2*TS.', 'LeagueGameLog', 'LeagueGameLog.PTS; LeagueGameLog.FGA; LeagueGameLog.FTA',
-     'PTS / (FGA + 0.44*FTA)', 'SHT_TS_ROLL', G, HIST['derived_box'], PRE_LAG, 'lag', MISS['roll'], 'PTS:M', 'Perfectly collinear with SHT_TS_ROLL (2x) - keep one.', 'P3', 'L/H/L/H/L', 'efficiency', 'efficiency', 'formula_verified', 'Listed to document the duplicate.')
+     'PTS / (FGA + 0.44*FTA)', 'SHT_TS_ROLL', G, HIST['derived_box'], PRE_LAG, 'lag', MISS['roll'], 'PTS:M', 'Perfectly collinear with SHT_TS_ROLL (2x) - keep one.', 'P3', 'L/H/L/H/L', 'efficiency', 'efficiency', 'source_verified', 'Listed to document the duplicate.')
 
 # ---------------------------------------------------------------- THREE-POINT
 D = 'Three-point shooting'

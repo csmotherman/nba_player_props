@@ -22,8 +22,10 @@ PRIORITY = {
     'P3': 'Deferred - needs missing data or unproven reliability',
 }
 VSTATUS = {
-    'formula_verified': 'Formula reproduced against API-provided columns on real data (data/discovery/qc_results.json)',
-    'source_verified': 'Source columns observed in a live response; derivation logic is standard but not independently tested',
+    'implemented_pit_verified': 'Implemented in nba_props, covered by offline tests AND point-in-time/time-travel tests (aggregation + point-in-time verified; forecast accuracy still untested)',
+    'identity_verified': 'Mathematical identity reproduced against API columns within rounding (on real warehouse data; exceptions listed). Aggregation, point-in-time and forecast accuracy NOT verified',
+    'identity_approximate': 'Same quantity as an API column but NOT an identity: errors quantified (MAE/bias/max) in data/discovery/formula_checks.json',
+    'source_verified': 'Source columns observed in a live response; no identity or implementation claim',
     'source_verified_untested_logic': 'Source observed live; the derivation/estimation logic is a hypothesis',
     'hypothesis': 'Definition is a modelling proposal; nothing about its value has been tested',
     'unverified_source': 'Source availability, depth or timing is not established',

@@ -5,7 +5,10 @@ Technical source of truth for the NBA player-prop prediction system. **No predic
 | File | Purpose |
 |---|---|
 | `NBA_DATA_BLUEPRINT.md` | This document: architecture, availability, methodology, modelling considerations, QC |
-| `NBA_FEATURE_CATALOG.csv` | One row per feature: all metadata, formulas, sources, priority, validation status |
+| `NBA_FEATURE_CATALOG.csv` | One row per feature: all metadata, formulas, sources, priority, readiness, implementation status, six-level verification matrix |
+| `NBA_FEATURE_READINESS.csv` | Execution-readiness matrix: priority vs executability vs implementation, blocking inputs, declared fallbacks |
+| `NBA_DATA_QUALITY_REPORT.md` | Quantitative data-quality report generated from the warehouse |
+| `nba_props/`, `tests/` | Python package (client, DuckDB warehouse, ingestion, as-of features, validation) and its offline test-suite |
 | `NBA_API_ENDPOINT_INVENTORY.csv` | One row per endpoint test (+ untested library endpoints): parameters, response fields, coverage, results |
 | `NBA_FEATURE_DEPENDENCIES.md` | Per-market dependency pipelines and auto-generated graphs |
 | `NBA_DATA_GAPS.md` | Missing data, external sources, substitutes, limitations, open tests |
@@ -16,6 +19,20 @@ Technical source of truth for the NBA player-prop prediction system. **No predic
 **Status labels used throughout.** Every statement about data is one of: *verified* (observed in a live response during discovery, with the evidence in `data/discovery/`), *derived* (follows from verified data by a stated formula), or *hypothesis/unverified* (not tested). Rankings of usefulness are hypotheses; none has been validated against outcomes.
 
 ---
+
+## 0. Phase 1 audit corrections (read this first)
+
+An independent review of the first version of this repository found problems. Each was reproduced against the code before being fixed:
+
+| # | Finding | Status | Fix |
+|---|---|---|---|
+| A | `blocked_by_external_or_unverified` looked at direct classification only. 14 P0 features depended transitively on unavailable external data yet were reported as available (and the "3 blocked P0" count was wrong in both directions) | **Confirmed defect** | Transitive readiness analysis over required vs optional dependencies with explicitly declared NBA-only fallbacks (`scripts/registry/readiness.py`, `fallbacks.py`); `NBA_FEATURE_READINESS.csv`; priority, readiness and implementation are separate dimensions |
+| B | `reaches_label()` used one shared visited set, so a label reached first through a legitimate lagged path hid an invalid direct path (a **false negative** in a validator that had been mutation-tested) | **Confirmed defect** | Path-state-aware traversal (`checks.label_leaks`), adversarial unit tests, plus a new rule that lagged features may not embed projections. Metadata validation is now complemented by execution-time prevention (section 8.1) |
+| C | "16 formula_verified" relied on correlation and, for several features, on tests of a *different* quantity (`TOV_RATE`, `POS_ONCOURT_FACTOR`, rolling `%` features); pace and usage are not identities | **Confirmed** | `formula_verified` retired. Six-level verification matrix; identities re-tested on 3 real seasons with explicit rounding bounds, bias, exceptions and a negative control. Only TS%, minutes rounding are identities; the rest are `identity_approximate` or untested |
+| D | `VAR_NB_DISPERSION` depended on `EXP_PTS_DIST` and was used by rebound/assist baselines (output-to-parameter coupling); `VAR_STAT_CORR` depended on projected distributions; `EXP_AST_BASELINE` depended on the points pipeline | **Confirmed** | Nine market-specific `VAR_DISP_*` features fitted on out-of-fold training residuals; `VAR_STAT_CORR` refit on baseline residuals; new `EXP_COMBO_JOINT`; baselines independent of other markets |
+| E | Numerical QC depended on uncommitted CSV frames; regeneration was not tested for determinism | **Confirmed** | Real-data parquet/JSON fixtures (<1 MB) and offline tests; `formula_checks.json` and `leakage_audit.json` generated from the real warehouse; byte-for-byte determinism test |
+
+Additional defects found while building the warehouse (not in the review): `LeagueGameLog` player minutes are integer-rounded (exact minutes need `MIN_SEC`); `MATCHUP` marks both teams away at neutral-site games (home flag now comes from the schedule, plus `is_neutral`); an 800-day lookback cap silently changed "last N games played" windows (caught by the real-data independent recomputation, removed); `INSERT OR REPLACE` would have wiped columns owned by other endpoints (now column-wise upsert); the collector was throttled by the API after ~900 requests (pacing/circuit breaker); `InactivePlayers` is largely empty for older games.
 
 ## 1. How this audit was done
 
@@ -30,27 +47,27 @@ The request referred to earlier "endpoint discovery results". The repository was
 
 <!-- BEGIN:counts -->
 
-**Registry: 229 features.**
+**Registry: 239 features.**
 
 | Classification | Features |
 |---|---|
-| CALCULATED | 104 |
+| CALCULATED | 105 |
+| ENGINEERED | 63 |
 | RAW | 55 |
-| ENGINEERED | 54 |
 | UNVERIFIED | 8 |
 | EXTERNAL | 8 |
 
 | Priority | Meaning | Features |
 |---|---|---|
-| P0 | Minimum viable set - build first | 91 |
-| P1 | High value - build after the MVP baseline works | 62 |
+| P0 | Minimum viable set - build first | 99 |
+| P1 | High value - build after the MVP baseline works | 64 |
 | P2 | Experimental - include only if ablation shows lift | 39 |
 | P3 | Deferred - needs missing data or unproven reliability | 37 |
 
 | Temporal status | Features |
 |---|---|
-| lagged_observed | 153 |
-| projected | 36 |
+| lagged_observed | 162 |
+| projected | 37 |
 | label | 15 |
 | pregame_known | 9 |
 | unverified | 8 |
@@ -58,10 +75,12 @@ The request referred to earlier "endpoint discovery results". The repository was
 
 | Validation status | Meaning | Features |
 |---|---|---|
-| formula_verified | Formula reproduced against API-provided columns on real data (data/discovery/qc_results.json) | 16 |
-| source_verified | Source columns observed in a live response; derivation logic is standard but not independently tested | 129 |
+| implemented_pit_verified | Implemented in nba_props, covered by offline tests AND point-in-time/time-travel tests (aggregation + point-in-time verified; forecast accuracy still untested) | 13 |
+| identity_verified | Mathematical identity reproduced against API columns within rounding (on real warehouse data; exceptions listed). Aggregation, point-in-time and forecast accuracy NOT verified | 4 |
+| identity_approximate | Same quantity as an API column but NOT an identity: errors quantified (MAE/bias/max) in data/discovery/formula_checks.json | 10 |
+| source_verified | Source columns observed in a live response; no identity or implementation claim | 119 |
 | source_verified_untested_logic | Source observed live; the derivation/estimation logic is a hypothesis | 25 |
-| hypothesis | Definition is a modelling proposal; nothing about its value has been tested | 43 |
+| hypothesis | Definition is a modelling proposal; nothing about its value has been tested | 52 |
 | unverified_source | Source availability, depth or timing is not established | 8 |
 | external_unobtained | Requires a source we do not have | 8 |
 
@@ -76,6 +95,32 @@ The request referred to earlier "endpoint discovery results". The repository was
 | OK_EMPTY | 5 |
 
 <!-- END:counts -->
+
+### 1.1 Priority, readiness and implementation are different things
+
+<!-- BEGIN:readiness -->
+
+Priority = importance. Readiness = can it be computed today from available data, honouring only declared NBA-only fallbacks (transitive over REQUIRED dependencies; optional dependencies never block but must declare a fallback). Implementation = code exists in `nba_props` and is tested. The three are independent.
+
+| Priority | EXECUTABLE_NBA_ONLY | EXECUTABLE_DEGRADED | BLOCKED_UNVERIFIED | BLOCKED_EXTERNAL | Total |
+|---|---|---|---|---|---|
+| P0 | 83 | 14 | 0 | 2 | 99 |
+| P1 | 55 | 7 | 0 | 2 | 64 |
+| P2 | 34 | 5 | 0 | 0 | 39 |
+| P3 | 24 | 4 | 8 | 1 | 37 |
+| All | 196 | 30 | 8 | 5 | 239 |
+
+| Implementation status | Features |
+|---|---|
+| implemented | 11 |
+| implemented_partial | 2 |
+| specified_only | 226 |
+
+**P0 features that run only in degraded mode (14):** `MIN_EXP`, `EXP_ONCOURT_POSS`, `EXP_FGA`, `EXP_FTA`, `EXP_3PA`, `EXP_3PM_DIST`, `EXP_PTS_DIST`, `EXP_STL_DIST`, `EXP_BLK_DIST`, `EXP_TOV_DIST`, `USGR_MINUTES_VACANCY`, `AVL_TEAMMATE_OUT_USAGE`, `EXP_REB_BASELINE`, `EXP_AST_BASELINE`. All inherit the missing injury feed through `AVL_TEAMMATE_OUT_USAGE` (declared fallback: no injury information, lagged availability only).
+
+**Blocked (13):** `MIN_ROTATION_RECON` (P3), `TPT_WIDE_OPEN_RATE` (P3), `DVP_PRIMARY_DEFENDER_HIST` (P3), `ARC_SIZE_MISMATCH` (P3), `TRK_GRAVITY` (P3), `BLO_SPREAD_HISTORICAL` (P1), `BLO_GARBAGE_TIME_FLAG` (P3), `ROLE_COACH_CHANGE` (P3), `HOP_REF_CREW_FOUL_RATE` (P3), `EXT_INJURY_REPORT` (P0), `EXT_CONFIRMED_STARTERS` (P1), `EXT_PROP_LINES` (P0), `EXT_NEWS_TRANSACTIONS` (P3).
+
+<!-- END:readiness -->
 
 ---
 
@@ -194,10 +239,13 @@ Details per endpoint are in `NBA_API_ENDPOINT_INVENTORY.csv`. Coverage statement
 |---|---|
 | `GAME_ID` loses leading zeros if read as int, breaking joins | Happened during discovery |
 | `PlayerGameLogs` without `season_type` mixes prefixes 001/002/003/004/005/006 (26,651 regular + 4,149 other rows in 2025-26) | `qc_results.json` |
-| `TeamGameLogs.MIN` is 48 (regulation), not 240 | `qc_results.json` |
+| Team `MIN` is 240 in `LeagueGameLog` but 48 in `TeamGameLogs`; player `MIN` in `LeagueGameLog` is rounded to whole minutes (use `MIN_SEC`) | warehouse: 100% integer minutes, team MIN 240/265/290 vs 48/53/58 |
+| `MATCHUP` reads `@` for BOTH teams at neutral sites (NBA Cup semifinals, global games); the schedule's designated home team is authoritative and `is_neutral` must accompany `is_home` | 10 games in 2024-26 |
+| `BoxScoreSummaryV3.InactivePlayers` is empty for most older 2026-27 games but populated for the latest day (12 of 12 on 2026-10-28) | warehouse, see data-quality report |
+| Request bursts get the client throttled: ~900 requests at ~1.5 req/s led to hung connections and an unresponsive host | default pacing is now 1.5 s, 1 worker, with a circuit breaker |
 | `LeagueDashPlayerStats` Advanced reports `MIN` per game even when `per_mode=Totals` | Observed |
 | `pace_adjust="Y"` had no effect (FGA identical) | Observed. Normalise pace yourself. `per_mode=Per100Possessions` works |
-| API `TM_TOV_PCT` is `100*TOV/(FGA+0.44*FTA+AST+TOV)`, 0-100 scale, not a plain turnover % | r = 0.9994 |
+| API `TM_TOV_PCT` is approximately `100*TOV/(FGA+0.44*FTA+AST+TOV)` (0-100 scale), not a plain turnover %; the match is approximate, not exact | `formula_checks.json` (the plain variant fails the negative control) |
 | Usage and shares are fractions (0-1) in game logs | Observed |
 | `POSS` is integer-rounded | 100% integer |
 | Two-level column headers in `LeagueDash*ShotLocations` | Flatten as `Zone:Column` |
@@ -220,23 +268,36 @@ Details per endpoint are in `NBA_API_ENDPOINT_INVENTORY.csv`. Coverage statement
 6. **Separate observation from projection** in the feature store; never train on projected values computed with future data.
 7. **No invented constants.** Where a coefficient is needed (shrinkage `k`, redistribution `lambda`/`gamma`, home-court term, EWMA half-life, blowout threshold) the registry says it is *estimated or tuned*, not known.
 
-### 5.2 Verified building blocks (QC results)
+### 5.2 Formula identities: what was and was not verified
 
-| Quantity | Formula | Check against API (2025-26, regular season) |
-|---|---|---|
-| Usage | `((FGA + 0.44 FTA + TOV) * TeamMIN) / (MIN * (TmFGA + 0.44 TmFTA + TmTOV))`, TeamMIN = `TeamGameLogs.MIN` | MAE 0.0089, r = 0.9906 (n = 22,630) |
-| True shooting | `PTS / (2 (FGA + 0.44 FTA))` | MAE 0.0002, r = 0.999999 |
-| Assist % | `AST / ((MIN/TeamMIN) TmFGM - FGM)` | MAE 0.019, r = 0.966 |
-| Rebound % | `REB TeamMIN / (MIN (TmREB + OppREB))` | MAE 0.014, r = 0.982 |
-| OREB% / DREB% | analogues with opponent DREB / OREB | r = 0.979 / 0.965 |
-| API turnover ratio | `100 TOV / (FGA + 0.44 FTA + AST + TOV)` | MAE 0.13, r = 0.9994 (plain TOV% variant: r = 0.956) |
-| Team possessions (two-sided Oliver) | `0.5 [ (FGA + 0.4 FTA - 1.07 (OREB/(OREB+oppDREB))(FGA-FGM) + TOV) + (opp analogue) ]` | MAE 1.38, r = 0.965 |
-| Team possessions (simple) | `FGA + 0.44 FTA - OREB + TOV` | MAE 2.27, r = 0.920 |
-| Team pace | `48 POSS / TeamMIN` | MAE 0.40 (API POSS is integer) |
-| Player on-court possessions | `POSS ~= on-court PACE x MIN / 48` | MAE 0.55, r = 0.999 |
-| Rebound supply | total REB ~ `0.873 x FG misses + 0.075 x FTA + 1.70` | r = 0.90; mean REB 87.5 vs mean misses 94.3. **A proxy, not an identity** |
+An earlier version of this document called several formulas "verified" on the basis of correlation. **Those claims are withdrawn.** Correlation does not establish equality. The table below is regenerated from real warehouse data (`scripts/run_formula_checks.py`) with explicit rounding bounds, bias and exception lists. Only true shooting and the minutes-rounding relation are identities (with listed exceptions); usage, assist%, rebound%, the API turnover ratio, pace and possession estimates are **approximations** with quantified error.
 
-Own box-score formulas approximate but do not equal API values (the API uses tracking/PBP possessions). Do not mix API and own values within one model.
+<!-- BEGIN:identities -->
+
+Real warehouse data, completed seasons 2023-24, 2024-25, 2025-26. Verdict rules: `exact_within_rounding` = every row within the API's rounding bound; `exact_with_exceptions` = >= 99.95% of rows, exceptions listed in `data/discovery/formula_checks.json`; `approximate` = same quantity but NOT an identity; `not_equal`. Correlation is never used.
+
+| Check | Verdict | n | MAE | Bias | Max abs | Exceptions | Note |
+|---|---|---|---|---|---|---|---|
+| `ast_pct` | approximate | 66736 | 0.01802 | +0.0011 | 0.783 | 54308 | fraction |
+| `dreb_pct` | approximate | 66736 | 0.02196 | +0.0174 | 0.419 | 60233 | fraction |
+| `min_vs_min_sec` | exact_with_exceptions | 79358 | 0.2497 | +0.00579 | 0.733 | 17 | LeagueGameLog MIN is rounded to the nearest whole minute |
+| `oreb_pct` | approximate | 66736 | 0.008091 | +0.00669 | 0.354 | 37836 | fraction |
+| `player_poss_vs_oncourt_pace` | approximate | 72473 | 0.5206 | +0.00456 | 3.49 | 20819 | possessions; integer-rounded POSS |
+| `reb_pct` | approximate | 66736 | 0.01312 | +0.0121 | 0.196 | 61964 | fraction |
+| `rebound_supply_fit` | approximate | 7516 | 3.096 | -0.261 | 14.2 | 7514 | STATISTICAL RELATION, not an identity: coefficients were fitted on 2025-26 only, so other seasons are out-of-sample |
+| `team_pace_from_api_poss` | approximate | 7380 | 0.393 | +0.00107 | 1.66 | 1110 | per-row bound 0.5*48/MIN: POSS is integer-rounded (overtime shrinks the bound) |
+| `team_poss_oliver_vs_api` | approximate | 7380 | 1.288 | -0.773 | 6.94 | 4037 | possessions; API uses tracking/PBP possessions so the box formula is an ESTIMATE |
+| `team_poss_simple_vs_api` | approximate | 7380 | 2.228 | +1.82 | 11.4 | 5207 | possessions |
+| `tm_tov_pct_api_definition` | approximate | 67213 | 0.1215 | -0.018 | 16.7 | 25863 | percent 0-100. This is the API TM_TOV_PCT definition; it is NOT the registry TOV_RATE (turnovers per 100 possessions) |
+| `tov_pct_plain_vs_api` | not_equal | 67129 | 2.349 | +2.32 | 84.6 | 43796 | NEGATIVE CONTROL: the same ratio without assists must not match |
+| `ts_pct` | exact_with_exceptions | 75536 | 0.000197 | +3e-06 | 0.0946 | 3 | fraction; API rounds to 3 decimals |
+| `usg_pct` | approximate | 66736 | 0.008591 | +0.00509 | 0.0985 | 62924 | fraction; (team MIN)/5 = 48 in regulation |
+
+Player-to-team reconciliation (7380 team-games): points, FGM/FGA, 3PM/3PA, FTM/FTA, OREB/DREB/REB, AST, STL, BLK and PF sums equal the team totals in 100.0% or more of team-games; turnovers equal in 47.6% (player sum never exceeds the team total: team turnovers are credited to the team).
+
+<!-- END:identities -->
+
+Consequences recorded in the registry: `BOX_TS_PCT`, `SHT_TS_ROLL`, `SHT_PTS_PER_SHOT` and `LBL_MIN` are `identity_verified` (aggregation of the rolling features is separate); the usage/AST/REB/pace/possession features are `identity_approximate`; `TOV_RATE`, `POS_ONCOURT_FACTOR` and the rolling % features have **no** identity evidence (the existing checks test different quantities). Own box-score formulas approximate API values; do not mix them within one model.
 
 ### 5.3 The "hidden" features requested
 
@@ -271,7 +332,7 @@ Team possessions are a game quantity; on-court possessions are a player quantity
 * `REB_OPP_SHARE_PER_MISS`: rebound chances per available miss.
 * `USG_ASSISTED_SHARE` (`PCT_AST_FGM`): dependence on teammate creation, which interacts with absences.
 * `MIN_Q4_SHARE`, `BLO_HIST_BLOWOUT_MIN_LOSS`: player-specific blowout sensitivity.
-* `VAR_STAT_CORR`, `VAR_NB_DISPERSION`, `VAR_ZERO_INFLATION`: distribution shape, essential for over/under probabilities and combo markets.
+* `VAR_STAT_CORR`, `VAR_DISP_*` (one per market), `VAR_ZERO_INFLATION`: distribution shape, essential for over/under probabilities and combo markets.
 * `POS_ONCOURT_FACTOR`, `MIN_RETURN_RAMP`, `AVL_LOAD_MANAGEMENT_RISK`, `HOP_LAST5_MEETINGS_ENV`.
 * `SHT_XFG` (shot quality), `ARC_PLAYTYPE_PROFILE`/`ARC_MATCHUP_PLAYTYPE_FIT`, `TRK_GRAVITY`: plausible but expensive or season-aggregate only; low priority.
 
@@ -283,7 +344,7 @@ Scores below are **domain-informed hypotheses, not findings**. Score = `2 x pred
 
 <!-- BEGIN:rankings -->
 
-**PTS**  (top 10 of 95 candidates with High/Medium relevance; ‡ = external or unverified source)
+**PTS**  (top 10 of 97 candidates with High/Medium relevance; † = degraded without injury feed, ‡ = blocked)
 
 | # | Feature | Class | Pri | Relevance | Score | Temporal |
 |---|---|---|---|---|---|---|
@@ -298,7 +359,7 @@ Scores below are **domain-informed hypotheses, not findings**. Score = `2 x pred
 | 9 | `MIN_START_FLAG_HIST` | CALCULATED | P0 | H | 9 | lagged_observed |
 | 10 | `MIN_START_RATE` | CALCULATED | P0 | H | 9 | lagged_observed |
 
-**REB**  (top 10 of 78 candidates with High/Medium relevance; ‡ = external or unverified source)
+**REB**  (top 10 of 79 candidates with High/Medium relevance; † = degraded without injury feed, ‡ = blocked)
 
 | # | Feature | Class | Pri | Relevance | Score | Temporal |
 |---|---|---|---|---|---|---|
@@ -313,7 +374,7 @@ Scores below are **domain-informed hypotheses, not findings**. Score = `2 x pred
 | 9 | `ENV_EXP_GAME_POSS` | ENGINEERED | P0 | H | 8 | projected |
 | 10 | `ENV_EXP_MISSED_SHOTS` | ENGINEERED | P0 | H | 8 | projected |
 
-**AST**  (top 10 of 83 candidates with High/Medium relevance; ‡ = external or unverified source)
+**AST**  (top 10 of 84 candidates with High/Medium relevance; † = degraded without injury feed, ‡ = blocked)
 
 | # | Feature | Class | Pri | Relevance | Score | Temporal |
 |---|---|---|---|---|---|---|
@@ -328,7 +389,7 @@ Scores below are **domain-informed hypotheses, not findings**. Score = `2 x pred
 | 9 | `MIN_START_RATE` | CALCULATED | P0 | H | 9 | lagged_observed |
 | 10 | `AST_CONVERSION_SHRUNK` | ENGINEERED | P1 | H | 8 | lagged_observed |
 
-**3PM**  (top 10 of 80 candidates with High/Medium relevance; ‡ = external or unverified source)
+**3PM**  (top 10 of 82 candidates with High/Medium relevance; † = degraded without injury feed, ‡ = blocked)
 
 | # | Feature | Class | Pri | Relevance | Score | Temporal |
 |---|---|---|---|---|---|---|
@@ -343,7 +404,7 @@ Scores below are **domain-informed hypotheses, not findings**. Score = `2 x pred
 | 9 | `BOX_FG3A` | RAW | P0 | H | 8 | lagged_observed |
 | 10 | `BOX_FG3M` | RAW | P0 | H | 8 | lagged_observed |
 
-**STL**  (top 10 of 37 candidates with High/Medium relevance; ‡ = external or unverified source)
+**STL**  (top 10 of 37 candidates with High/Medium relevance; † = degraded without injury feed, ‡ = blocked)
 
 | # | Feature | Class | Pri | Relevance | Score | Temporal |
 |---|---|---|---|---|---|---|
@@ -352,13 +413,13 @@ Scores below are **domain-informed hypotheses, not findings**. Score = `2 x pred
 | 3 | `MIN_ROLL` | CALCULATED | P0 | H | 10 | lagged_observed |
 | 4 | `BLO_SPREAD_HISTORICAL` ‡ | EXTERNAL | P1 | H | 9 | external_pregame |
 | 5 | `ENV_EXP_GAME_POSS` | ENGINEERED | P0 | H | 8 | projected |
-| 6 | `EXP_ONCOURT_POSS` | ENGINEERED | P0 | H | 8 | projected |
+| 6 | `EXP_ONCOURT_POSS` † | ENGINEERED | P0 | H | 8 | projected |
 | 7 | `EXT_PROP_LINES` ‡ | EXTERNAL | P0 | H | 8 | external_pregame |
 | 8 | `FRM_EWMA_RATE` | CALCULATED | P0 | H | 8 | lagged_observed |
 | 9 | `FRM_PRIOR_SEASON_RATE` | CALCULATED | P0 | H | 8 | lagged_observed |
 | 10 | `FRM_SHRUNK_RATE` | ENGINEERED | P0 | H | 8 | lagged_observed |
 
-**BLK**  (top 10 of 41 candidates with High/Medium relevance; ‡ = external or unverified source)
+**BLK**  (top 10 of 41 candidates with High/Medium relevance; † = degraded without injury feed, ‡ = blocked)
 
 | # | Feature | Class | Pri | Relevance | Score | Temporal |
 |---|---|---|---|---|---|---|
@@ -367,13 +428,13 @@ Scores below are **domain-informed hypotheses, not findings**. Score = `2 x pred
 | 3 | `MIN_ROLL` | CALCULATED | P0 | H | 10 | lagged_observed |
 | 4 | `BLO_SPREAD_HISTORICAL` ‡ | EXTERNAL | P1 | H | 9 | external_pregame |
 | 5 | `ENV_EXP_GAME_POSS` | ENGINEERED | P0 | H | 8 | projected |
-| 6 | `EXP_ONCOURT_POSS` | ENGINEERED | P0 | H | 8 | projected |
+| 6 | `EXP_ONCOURT_POSS` † | ENGINEERED | P0 | H | 8 | projected |
 | 7 | `EXT_PROP_LINES` ‡ | EXTERNAL | P0 | H | 8 | external_pregame |
 | 8 | `FRM_EWMA_RATE` | CALCULATED | P0 | H | 8 | lagged_observed |
 | 9 | `FRM_PRIOR_SEASON_RATE` | CALCULATED | P0 | H | 8 | lagged_observed |
 | 10 | `FRM_SHRUNK_RATE` | ENGINEERED | P0 | H | 8 | lagged_observed |
 
-**TOV**  (top 10 of 52 candidates with High/Medium relevance; ‡ = external or unverified source)
+**TOV**  (top 10 of 53 candidates with High/Medium relevance; † = degraded without injury feed, ‡ = blocked)
 
 | # | Feature | Class | Pri | Relevance | Score | Temporal |
 |---|---|---|---|---|---|---|
@@ -388,7 +449,7 @@ Scores below are **domain-informed hypotheses, not findings**. Score = `2 x pred
 | 9 | `MIN_START_RATE` | CALCULATED | P0 | H | 9 | lagged_observed |
 | 10 | `ENV_EXP_GAME_POSS` | ENGINEERED | P0 | H | 8 | projected |
 
-**COMBO**  (top 10 of 91 candidates with High/Medium relevance; ‡ = external or unverified source)
+**COMBO**  (top 10 of 96 candidates with High/Medium relevance; † = degraded without injury feed, ‡ = blocked)
 
 | # | Feature | Class | Pri | Relevance | Score | Temporal |
 |---|---|---|---|---|---|---|
@@ -398,7 +459,7 @@ Scores below are **domain-informed hypotheses, not findings**. Score = `2 x pred
 | 4 | `MIN_START_FLAG_HIST` | CALCULATED | P0 | H | 9 | lagged_observed |
 | 5 | `MIN_START_RATE` | CALCULATED | P0 | H | 9 | lagged_observed |
 | 6 | `ENV_EXP_GAME_POSS` | ENGINEERED | P0 | H | 8 | projected |
-| 7 | `EXP_ONCOURT_POSS` | ENGINEERED | P0 | H | 8 | projected |
+| 7 | `EXP_ONCOURT_POSS` † | ENGINEERED | P0 | H | 8 | projected |
 | 8 | `EXT_PROP_LINES` ‡ | EXTERNAL | P0 | H | 8 | external_pregame |
 | 9 | `FRM_EWMA_RATE` | CALCULATED | P0 | H | 8 | lagged_observed |
 | 10 | `FRM_PRIOR_SEASON_RATE` | CALCULATED | P0 | H | 8 | lagged_observed |
@@ -414,16 +475,16 @@ Declared correlation clusters (features that measure largely the same thing, so 
 
 | Cluster | Size | Members |
 |---|---|---|
+| variance | 16 | `VAR_DISP_PTS`, `VAR_DISP_REB`, `VAR_DISP_AST`, `VAR_DISP_3PM`, `VAR_DISP_STL`, `VAR_DISP_BLK`, `VAR_DISP_TOV`, `VAR_DISP_FGA`, `VAR_DISP_FG3A`, `VAR_ROLL_STD`, `VAR_QUANTILES_EMP`, `VAR_ZERO_INFLATION`, `VAR_STAT_CORR`, `VAR_MIN_VOLATILITY`, `VAR_STREAK_AUTOCORR`, `EXP_COMBO_JOINT` |
 | box_volume | 11 | `BOX_FGM`, `BOX_FGA`, `BOX_FG3M`, `BOX_FG3A`, `BOX_FTM`, `BOX_FTA`, `BOX_OREB`, `BOX_DREB`, `BOX_PF`, `BOX_PFD`, `BOX_BLKA` |
 | shot_mix | 9 | `BOX_PCT_FGA_3PT`, `BOX_PCT_AST_FGM`, `BOX_PCT_PTS_PAINT`, `BOX_PCT_PTS_FB`, `BOX_PCT_UAST_3PM`, `USG_ASSISTED_SHARE`, `SHT_ZONE_FREQ`, `SHT_CATCH_SHOOT_SHARE`, `SHT_OPEN_SHOT_RATE` |
 | availability | 9 | `AVL_PLAYED_FLAG_HIST`, `AVL_INACTIVE_LIST_HIST`, `AVL_DNP_REASON_HIST`, `AVL_GAMES_MISSED_STREAK`, `AVL_TEAMMATE_OUT_USAGE`, `AVL_OPP_KEY_PLAYER_OUT`, `AVL_LOAD_MANAGEMENT_RISK`, `EXT_INJURY_REPORT`, `EXT_NEWS_TRANSACTIONS` |
 | usage_shares | 8 | `BOX_PCT_FGA`, `BOX_PCT_FG3A`, `BOX_PCT_AST`, `BOX_PCT_REB`, `BOX_PCT_TOV`, `BOX_PCT_STL`, `BOX_PCT_BLK`, `BOX_PCT_PTS` |
 | blowout | 8 | `MIN_Q4_SHARE`, `BLO_SPREAD_LIVE`, `BLO_SPREAD_HISTORICAL`, `BLO_RATING_SPREAD_PROXY`, `BLO_PROB_BLOWOUT`, `BLO_HIST_BLOWOUT_MIN_LOSS`, `BLO_TEAM_CLOSE_RATE`, `BLO_GARBAGE_TIME_FLAG` |
 | form | 8 | `ADJ_PLAYER_ADJ_RATE`, `ADJ_SCHEDULE_STRENGTH_L10`, `ADJ_OPPORTUNITY_VS_RESULT_GAP`, `FRM_ROLL_RATE`, `FRM_EWMA_RATE`, `FRM_SHRUNK_RATE`, `FRM_PRIOR_SEASON_RATE`, `FRM_TREND_SLOPE` |
+| pace | 7 | `POS_TEAM_POSS_OBSERVED`, `POS_TEAM_POSS_ROLL`, `POS_TEAM_PACE_ROLL`, `POS_MATCHUP_PACE_EXP`, `POS_ONCOURT_FACTOR`, `POS_PLAYTYPE_TRANSITION_FREQ`, `ENV_EXP_GAME_POSS` |
 | role | 7 | `ROLE_CUSUM_MINUTES`, `ROLE_USAGE_SHIFT`, `ROLE_START_STATUS_CHANGE`, `ROLE_TEAM_CHANGE`, `ROLE_TEAMMATE_CHURN`, `ROLE_CHANGE_FLAG`, `ROLE_COACH_CHANGE` |
-| variance | 7 | `VAR_NB_DISPERSION`, `VAR_ROLL_STD`, `VAR_QUANTILES_EMP`, `VAR_ZERO_INFLATION`, `VAR_STAT_CORR`, `VAR_MIN_VOLATILITY`, `VAR_STREAK_AUTOCORR` |
 | usage | 6 | `USG_ROLL`, `USG_USG_FORMULA`, `USG_FGA_PER_MIN`, `USG_FGA_PER_100POSS`, `USG_FTA_RATE`, `USG_COMPETITION_ONCOURT` |
-| pace | 6 | `POS_TEAM_POSS_OBSERVED`, `POS_TEAM_PACE_ROLL`, `POS_MATCHUP_PACE_EXP`, `POS_ONCOURT_FACTOR`, `POS_PLAYTYPE_TRANSITION_FREQ`, `ENV_EXP_GAME_POSS` |
 | archetype | 6 | `ARC_POSITION`, `ARC_SIZE`, `ARC_CLUSTER_ID`, `ARC_PLAYTYPE_PROFILE`, `ARC_MATCHUP_PLAYTYPE_FIT`, `ARC_SIZE_MISMATCH` |
 | context | 5 | `BOX_GAME_TYPE`, `CTX_HOME`, `CTX_HOME_AWAY_SPLIT`, `CTX_STANDINGS_MOTIVATION`, `CTX_GAME_META` |
 | rest | 5 | `MIN_BACK_TO_BACK_DELTA`, `CTX_DAYS_REST`, `CTX_B2B`, `CTX_REST_DIFF`, `CTX_TRAVEL_GEO` |
@@ -493,6 +554,7 @@ All ablation groups (the `ablation_group` field) and their members:
 
 | Group | Size | Typical priority | Members |
 |---|---|---|---|
+| variance | 16 | P0 | `VAR_DISP_PTS`, `VAR_DISP_REB`, `VAR_DISP_AST`, `VAR_DISP_3PM`, `VAR_DISP_STL`, `VAR_DISP_BLK`, `VAR_DISP_TOV`, `VAR_DISP_FGA`, `VAR_DISP_FG3A`, `VAR_ROLL_STD`, `VAR_QUANTILES_EMP`, `VAR_ZERO_INFLATION`, `VAR_STAT_CORR`, `VAR_MIN_VOLATILITY`, `VAR_STREAK_AUTOCORR`, `EXP_COMBO_JOINT` |
 | api_advanced | 13 | P0 | `BOX_USG_PCT`, `BOX_TS_PCT`, `BOX_EFG_PCT`, `BOX_AST_PCT`, `BOX_REB_PCT`, `BOX_OREB_PCT`, `BOX_DREB_PCT`, `BOX_TM_TOV_PCT`, `BOX_PACE`, `BOX_POSS`, `BOX_PIE`, `BOX_OFF_RATING`, `BOX_DEF_RATING` |
 | box_core | 13 | P0 | `BOX_FGM`, `BOX_FGA`, `BOX_FG3M`, `BOX_FG3A`, `BOX_FTM`, `BOX_FTA`, `BOX_OREB`, `BOX_DREB`, `BOX_PF`, `BOX_PFD`, `BOX_BLKA`, `BOX_PLUS_MINUS`, `BOX_WL` |
 | opp_defense | 11 | P1 | `TPT_OPP_3PA_ALLOWED`, `TPT_OPP_3P_PCT_ALLOWED`, `AST_OPP_ASSISTS_ALLOWED`, `STL_OPP_TOV_RATE`, `BLK_OPP_RIM_ATTEMPT_RATE`, `BLK_OPP_2PA_ALLOWED`, `TOV_OPP_PRESSURE`, `POS_OPP_SHOT_PROFILE_ALLOWED`, `ADJ_OPP_ALLOWED_RATE`, `DVP_OPP_RIM_PROTECTION`, `AVL_OPP_KEY_PLAYER_OUT` |
@@ -501,12 +563,11 @@ All ablation groups (the `ablation_group` field) and their members:
 | usage_shares | 8 | P1 | `BOX_PCT_FGA`, `BOX_PCT_FG3A`, `BOX_PCT_AST`, `BOX_PCT_REB`, `BOX_PCT_TOV`, `BOX_PCT_STL`, `BOX_PCT_BLK`, `BOX_PCT_PTS` |
 | minutes_core | 7 | P0 | `MIN_ROLL`, `MIN_EWMA`, `MIN_START_FLAG_HIST`, `MIN_START_RATE`, `MIN_START_PROB_TODAY`, `MIN_EXP`, `EXT_CONFIRMED_STARTERS` |
 | role_change | 7 | P1 | `ROLE_CUSUM_MINUTES`, `ROLE_USAGE_SHIFT`, `ROLE_START_STATUS_CHANGE`, `ROLE_TEAM_CHANGE`, `ROLE_TEAMMATE_CHURN`, `ROLE_CHANGE_FLAG`, `ROLE_COACH_CHANGE` |
-| variance | 7 | P1 | `VAR_NB_DISPERSION`, `VAR_ROLL_STD`, `VAR_QUANTILES_EMP`, `VAR_ZERO_INFLATION`, `VAR_STAT_CORR`, `VAR_MIN_VOLATILITY`, `VAR_STREAK_AUTOCORR` |
+| pace | 6 | P0 | `POS_TEAM_POSS_OBSERVED`, `POS_TEAM_POSS_ROLL`, `POS_TEAM_PACE_ROLL`, `POS_MATCHUP_PACE_EXP`, `POS_ONCOURT_FACTOR`, `ENV_EXP_GAME_POSS` |
 | scoring_mix | 6 | P2 | `BOX_PCT_FGA_3PT`, `BOX_PCT_AST_FGM`, `BOX_PCT_PTS_PAINT`, `BOX_PCT_PTS_FB`, `BOX_PCT_UAST_3PM`, `USG_ASSISTED_SHARE` |
 | usage_redistribution | 6 | P2 | `USG_COMPETITION_ONCOURT`, `AST_BALLHANDLER_COMPETITION`, `REB_FRONTCOURT_COMPETITION`, `USGR_WITH_WITHOUT`, `USGR_POOLED_ELASTICITY`, `LIN_EXPECTED_ROTATION_QUALITY` |
 | blowout | 5 | P1 | `BLO_SPREAD_LIVE`, `BLO_SPREAD_HISTORICAL`, `BLO_RATING_SPREAD_PROXY`, `BLO_PROB_BLOWOUT`, `BLO_TEAM_CLOSE_RATE` |
 | form_core | 5 | P0 | `FRM_ROLL_RATE`, `FRM_EWMA_RATE`, `FRM_SHRUNK_RATE`, `FRM_PRIOR_SEASON_RATE`, `FRM_TREND_SLOPE` |
-| pace | 5 | P0 | `POS_TEAM_POSS_OBSERVED`, `POS_TEAM_PACE_ROLL`, `POS_MATCHUP_PACE_EXP`, `POS_ONCOURT_FACTOR`, `ENV_EXP_GAME_POSS` |
 | three_efficiency | 5 | P0 | `TPT_3P_PCT_SHRUNK`, `TPT_CORNER_SHARE`, `TPT_WIDE_OPEN_RATE`, `EXP_3P_PCT`, `EXP_3PM_DIST` |
 | tracking_touch | 5 | P2 | `USG_TOUCHES_PER_MIN`, `USG_TIME_OF_POSS`, `SHT_DRIVE_RATE`, `AST_PASSES_PER_MIN`, `TOV_DRIVE_TOV_RATE` |
 | archetype | 4 | P0 | `ARC_POSITION`, `ARC_SIZE`, `ARC_CLUSTER_ID`, `ARC_SIZE_MISMATCH` |
@@ -559,15 +620,24 @@ All ablation groups (the `ablation_group` field) and their members:
 
 ## 8. Quality control
 
-### 8.1 Executable checks (`scripts/registry/checks.py`, run on every build)
+### 8.1 Two layers of leakage and correctness control (both are required)
 
-* Every source column of every feature is looked up in the columns actually observed in live responses of that endpoint (and measure-type variant). Result: **0 unmapped** across every feature in the registry.
-* All dependencies resolve; **no cycles**; optional dependencies are marked.
-* Temporal consistency: a `label` is never available pregame; any postgame quantity cannot be rated Low leakage; a `projected` or `pregame_known` feature cannot reach a `label` except through a `lagged_observed` node.
-* Every `formula_verified` claim must be backed by a threshold on `qc_results.json` (e.g. usage r >= 0.98).
-* UNVERIFIED features cannot be P0.
-* The validator was **mutation-tested**: injecting a fake column, a missing dependency, a projected->label path, an unbacked "verified" claim, a cycle, a pregame label and a postgame-Low rating were all caught.
-* Bugs the checks caught in this registry during construction: a reference to a non-existent redistribution feature, an inconsistent pregame flag, and several P0 features depending on lower-priority ones (resolved by promoting cheap verified inputs and marking the rest optional).
+**Metadata validation** (`scripts/registry/checks.py`, runs on every build) checks the *definitions*:
+
+* Every source column is looked up in the columns observed in live responses of that endpoint and variant (0 unmapped).
+* Dependencies resolve; no cycles; optional dependencies must declare a fallback.
+* **Path-state-aware label reachability**: a projected/pregame/external feature may reach a `label` only through a `lagged_observed` node. The traversal never expands lagged nodes, so a label reachable by an invalid path is flagged even when the same label is also reachable legitimately. (The first version used one shared visited set and **missed** exactly that case; see 8.6.)
+* A `lagged_observed` feature may not depend on a `projected` or external input (an observation must not embed a forecast).
+* Verification claims must match recorded evidence: `identity_verified` requires an exact verdict in `formula_checks.json`; evidence about a *different* quantity is never counted.
+* A P0 feature may be blocked only if it is itself an external source.
+
+**Execution-time prevention** (`nba_props`, covered by `tests/unit`) protects the *computation*; metadata cannot do this:
+
+* Every history row must satisfy `available_at(history) <= prediction_cutoff(target)`; the target game is also excluded by id. Each feature row records `max_source_available_at` and re-checks it against its own cutoff.
+* Season-aggregate endpoints are refused without a `date_to` cutoff, and snapshot-only endpoints are refused for historical features (`api/guards.py`).
+* Chronological-split guard rejects training labels not yet available at the earliest test cutoff (`validation/timesplit.py`).
+* **Time-travel test**: features for a historical day are built from a database containing data only up to that day, then again with all later data present; they must be identical. A control proves the comparison detects a past-data change.
+* Adversarial tests: poisoned target game, future-dated rows, future roster information, unknown completion times (uses *less* history, never more), retrospective inferences never read by pregame code, rolling windows excluding the target game, back-to-back availability at 24 h vs 1 h.
 
 ### 8.2 Leakage register (highest risks)
 
@@ -601,11 +671,15 @@ Every feature has `temporal_status`. Observed: `label`, `lagged_observed`, `preg
 * Redistribution elasticities, shrinkage strengths, EWMA half-lives, blowout threshold, change-point thresholds: all tuned, none known.
 * "Historical availability" statements cover **tested seasons only**; intermediate and unsampled seasons are untested.
 
-### 8.5 Still needs testing (see also `NBA_DATA_GAPS.md` section 6)
+### 8.5 Still needs testing (see also `NBA_DATA_GAPS.md` section 7)
 
-Depth of single-day tracking windows; V3 summary (inactives/officials) in earlier seasons; whether inactives and officials appear pregame (and when); `PlayerGameLogs`/`TeamGameLogs` history depth; `SynergyPlayTypes` date filters; `LeagueDashLineups` cap; sustained-throughput limits; why `DefenseHub`, `GameRotation`, `TeamDashPtShots`, `WinProbabilityPBP` fail; the 24 regular-season games missing from the 2026-27 schedule listing (1,206 of the 1,230 expected `002` ids were returned).
+Depth of single-day tracking windows beyond 2025-26 (pilot code exists, live run pending API availability); `InactivePlayers` coverage across 2023-24 → 2025-26 (currently shows strong recency dependence); whether inactives/officials appear pregame and when; `PlayerGameLogs`/`TeamGameLogs` history before 2023-24; `SynergyPlayTypes` date filters; `LeagueDashLineups` row cap; sustained-throughput limits (the API throttled the collector); why `DefenseHub`, `GameRotation`, `TeamDashPtShots`, `WinProbabilityPBP` fail; the 24 regular-season ids missing from the 2026-27 schedule listing.
 
----
+### 8.6 What the first version got wrong
+
+* It reported the validator as airtight after a seven-case mutation test; the shared-visited-set false negative shows mutation tests only prove the mutations tried. The adversarial suite now includes order-dependence and shared-node cases.
+* It treated r > 0.95 as formula verification. Rebound%, assist% and usage match the API only approximately (errors of 0.5-2 percentage points with consistent positive bias); API pace is not reproducible from POSS within its rounding bound.
+* It counted P0 features by direct classification. Readiness is now transitive; **14 P0 features are degraded without the injury feed**, only `EXT_INJURY_REPORT` and `EXT_PROP_LINES` are blocked.
 
 ## 9. Final recommendation (summary)
 
@@ -617,17 +691,17 @@ Depth of single-day tracking windows; V3 summary (inactives/officials) in earlie
 
 <!-- BEGIN:mvp -->
 
-P0 = 91 features: 15 labels, 17 raw-ingest columns, **56 modelled features using nba_api data only**, and 3 blocked by external data.
+P0 = 99 features: 15 labels, 17 raw-ingest columns, and 67 modelled/context features, of which **51 are fully executable from nba_api alone**, **14 execute only in a declared degraded mode** (no injury information) and **2 are blocked by external data**. Features implemented and tested in `nba_props` so far: 13.
 
-| Domain | P0 features (‡ = needs external data) |
+| Domain | P0 features († = degraded without injury feed, ‡ = blocked by external data) |
 |---|---|
 | Blowout risk and game competitiveness | `BLO_RATING_SPREAD_PROXY`, `BLO_PROB_BLOWOUT`, `BLO_HIST_BLOWOUT_MIN_LOSS` |
-| Expected opportunities (projected) | `EXP_ONCOURT_POSS`, `EXP_FGA`, `EXP_FTA`, `EXP_3PA`, `EXP_3P_PCT`, `EXP_3PM_DIST`, `EXP_PTS_DIST`, `EXP_STL_DIST`, `EXP_BLK_DIST`, `EXP_TOV_DIST`, `EXP_REB_BASELINE`, `EXP_AST_BASELINE` |
+| Expected opportunities (projected) | `EXP_ONCOURT_POSS` †, `EXP_FGA` †, `EXP_FTA` †, `EXP_3PA` †, `EXP_3P_PCT`, `EXP_3PM_DIST` †, `EXP_PTS_DIST` †, `EXP_STL_DIST` †, `EXP_BLK_DIST` †, `EXP_TOV_DIST` †, `EXP_REB_BASELINE` †, `EXP_AST_BASELINE` † |
 | External data | `EXT_INJURY_REPORT` ‡, `EXT_PROP_LINES` ‡ |
 | Game environment | `ENV_EXP_GAME_POSS`, `ENV_EXP_MISSED_SHOTS` |
-| Game-level statistical variance | `VAR_NB_DISPERSION` |
+| Game-level statistical variance | `VAR_DISP_PTS`, `VAR_DISP_REB`, `VAR_DISP_AST`, `VAR_DISP_3PM`, `VAR_DISP_STL`, `VAR_DISP_BLK`, `VAR_DISP_TOV`, `VAR_DISP_FGA`, `VAR_DISP_FG3A` |
 | Home/away and rest | `CTX_HOME`, `CTX_DAYS_REST` |
-| Minutes and rotation | `MIN_ROLL`, `MIN_EWMA`, `MIN_START_FLAG_HIST`, `MIN_START_RATE`, `MIN_EXP` |
+| Minutes and rotation | `MIN_ROLL`, `MIN_EWMA`, `MIN_START_FLAG_HIST`, `MIN_START_RATE`, `MIN_EXP` † |
 | Opponent-adjusted statistics | `ADJ_OPP_ALLOWED_RATE` |
 | Player archetype matchups | `ARC_POSITION` |
 | Potential assists and playmaking | `AST_PCT_ROLL`, `AST_PER_100POSS` |
@@ -636,10 +710,10 @@ P0 = 91 features: 15 labels, 17 raw-ingest columns, **56 modelled features using
 | Shooting volume and efficiency | `SHT_FG_PCT_SHRUNK`, `SHT_FT_PCT_SHRUNK` |
 | Steals, blocks and turnovers | `STL_RATE`, `BLK_RATE`, `TOV_RATE` |
 | Team efficiency, possessions and pace | `POS_TEAM_PACE_ROLL`, `POS_MATCHUP_PACE_EXP`, `POS_ONCOURT_FACTOR`, `POS_TEAM_OFF_RTG_ROLL`, `POS_TEAM_DEF_RTG_ROLL` |
-| Teammate injuries and availability | `AVL_PLAYED_FLAG_HIST`, `AVL_INACTIVE_LIST_HIST`, `AVL_TEAMMATE_OUT_USAGE` ‡ |
+| Teammate injuries and availability | `AVL_PLAYED_FLAG_HIST`, `AVL_INACTIVE_LIST_HIST`, `AVL_TEAMMATE_OUT_USAGE` † |
 | Three-point shooting | `TPT_3PA_PER_MIN`, `TPT_3PA_RATE`, `TPT_3P_PCT_SHRUNK`, `TPT_OPP_3PA_ALLOWED` |
 | Usage and offensive opportunities | `USG_ROLL`, `USG_FGA_PER_MIN`, `USG_FGA_PER_100POSS`, `USG_FTA_RATE` |
-| Usage redistribution | `USGR_MINUTES_VACANCY` |
+| Usage redistribution | `USGR_MINUTES_VACANCY` † |
 
 <!-- END:mvp -->
 6. **Build first:** (1) ingest + as-of feature store with the season-type/ID/leakage rules; (2) minutes model with the quantile loss; (3) possession and game-environment layer; (4) rate-based baseline per market with NB/binomial distributions; (5) add tracking-opportunity layer via single-day windows; (6) ablation harness; (7) externals. Detail is in the chat summary that accompanied this deliverable.

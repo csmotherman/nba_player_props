@@ -1,31 +1,33 @@
 {
- "features": 229,
+ "features": 239,
  "by_class": {
   "RAW": 55,
-  "CALCULATED": 104,
-  "ENGINEERED": 54,
+  "CALCULATED": 105,
+  "ENGINEERED": 63,
   "UNVERIFIED": 8,
   "EXTERNAL": 8
  },
  "by_priority": {
-  "P0": 91,
+  "P0": 99,
   "P2": 39,
   "P3": 37,
-  "P1": 62
+  "P1": 64
  },
  "by_temporal": {
   "label": 15,
-  "lagged_observed": 153,
+  "lagged_observed": 162,
   "pregame_known": 9,
-  "projected": 36,
+  "projected": 37,
   "unverified": 8,
   "external_pregame": 8
  },
  "by_validation": {
-  "source_verified": 129,
-  "formula_verified": 16,
+  "source_verified": 119,
+  "identity_verified": 4,
+  "identity_approximate": 10,
+  "implemented_pit_verified": 13,
   "source_verified_untested_logic": 25,
-  "hypothesis": 43,
+  "hypothesis": 52,
   "unverified_source": 8,
   "external_unobtained": 8
  },
@@ -74,7 +76,7 @@
   "block": 2,
   "opp_block": 2,
   "turnover": 3,
-  "pace": 6,
+  "pace": 7,
   "team_rating": 3,
   "opp_defense": 3,
   "form": 8,
@@ -91,11 +93,17 @@
   "availability": 9,
   "role": 7,
   "hop": 3,
-  "variance": 7
+  "variance": 16
  },
- "p0_blocked": [
-  "AVL_TEAMMATE_OUT_USAGE",
-  "EXT_INJURY_REPORT",
-  "EXT_PROP_LINES"
- ]
+ "readiness": {
+  "EXECUTABLE_NBA_ONLY": 196,
+  "EXECUTABLE_DEGRADED": 30,
+  "BLOCKED_UNVERIFIED": 8,
+  "BLOCKED_EXTERNAL": 5
+ },
+ "implementation": {
+  "specified_only": 226,
+  "implemented": 11,
+  "implemented_partial": 2
+ }
 }

@@ -1,0 +1,158 @@
+{
+ "cutoff_hours": 6.0,
+ "independent": {
+  "2024-25": {
+   "first_mismatches": [],
+   "mismatches": 0,
+   "rows_checked": 1500
+  },
+  "2025-26": {
+   "first_mismatches": [],
+   "mismatches": 0,
+   "rows_checked": 1500
+  },
+  "2026-27": {
+   "first_mismatches": [],
+   "mismatches": 0,
+   "rows_checked": 1481
+  }
+ },
+ "poison": [
+  {
+   "game_date": "2025-01-17",
+   "mismatching_columns": [],
+   "rows": 202,
+   "season": "2024-25"
+  },
+  {
+   "game_date": "2026-01-15",
+   "mismatching_columns": [],
+   "rows": 201,
+   "season": "2025-26"
+  }
+ ],
+ "roster": {
+  "2024-25": {
+   "actual_participants": 26302,
+   "eligible_and_played": 25460,
+   "eligible_pregame": 37226,
+   "hours": 6.0,
+   "of_which_never_seen_for_team_before": 652,
+   "participants_missing_from_pregame_roster": 842,
+   "precision": 0.6839305861494654,
+   "recall": 0.9679872253060604
+  },
+  "2025-26": {
+   "actual_participants": 26648,
+   "eligible_and_played": 25799,
+   "eligible_pregame": 36978,
+   "hours": 6.0,
+   "of_which_never_seen_for_team_before": 661,
+   "participants_missing_from_pregame_roster": 849,
+   "precision": 0.6976851100654443,
+   "recall": 0.9681401981386971
+  },
+  "2026-27": {
+   "actual_participants": 1531,
+   "eligible_and_played": 1106,
+   "eligible_pregame": 1356,
+   "hours": 6.0,
+   "of_which_never_seen_for_team_before": 425,
+   "participants_missing_from_pregame_roster": 425,
+   "precision": 0.8156342182890856,
+   "recall": 0.7224036577400392
+  }
+ },
+ "scan": {
+  "2024-25": {
+   "available_at_cutoff_violations": 0,
+   "duplicate_keys": 0,
+   "history_game_not_before_target": 0,
+   "max_source_available_at": "2025-04-12 06:30:00",
+   "rows": 78918,
+   "team_available_at_cutoff_violations": 0,
+   "tip_unknown_rows": 0
+  },
+  "2025-26": {
+   "available_at_cutoff_violations": 0,
+   "duplicate_keys": 0,
+   "history_game_not_before_target": 0,
+   "max_source_available_at": "2026-04-11 06:30:00",
+   "rows": 79953,
+   "team_available_at_cutoff_violations": 0,
+   "tip_unknown_rows": 0
+  },
+  "2026-27": {
+   "available_at_cutoff_violations": 0,
+   "duplicate_keys": 0,
+   "history_game_not_before_target": 0,
+   "max_source_available_at": "2026-10-28 07:00:00",
+   "rows": 4593,
+   "team_available_at_cutoff_violations": 0,
+   "tip_unknown_rows": 0
+  }
+ },
+ "seasons": [
+  "2024-25",
+  "2025-26",
+  "2026-27"
+ ],
+ "time_travel": [
+  {
+   "game_date": "2024-12-05",
+   "mismatching_columns": [],
+   "n_rows": 173,
+   "season": "2024-25"
+  },
+  {
+   "game_date": "2025-01-17",
+   "mismatching_columns": [],
+   "n_rows": 202,
+   "season": "2024-25"
+  },
+  {
+   "game_date": "2025-03-03",
+   "mismatching_columns": [],
+   "n_rows": 157,
+   "season": "2024-25"
+  },
+  {
+   "game_date": "2025-04-06",
+   "mismatching_columns": [],
+   "n_rows": 229,
+   "season": "2024-25"
+  },
+  {
+   "game_date": "2025-12-04",
+   "mismatching_columns": [],
+   "n_rows": 110,
+   "season": "2025-26"
+  },
+  {
+   "game_date": "2026-01-15",
+   "mismatching_columns": [],
+   "n_rows": 201,
+   "season": "2025-26"
+  },
+  {
+   "game_date": "2026-03-02",
+   "mismatching_columns": [],
+   "n_rows": 87,
+   "season": "2025-26"
+  },
+  {
+   "game_date": "2026-04-05",
+   "mismatching_columns": [],
+   "n_rows": 234,
+   "season": "2025-26"
+  }
+ ],
+ "unknown_tip": {
+  "availability_violations": 0,
+  "history_games_known_tip": 260717.0,
+  "history_games_unknown_tip": 260579.0,
+  "rows": 26651,
+  "same_or_previous_day_history_rows": 0,
+  "season": "2025-26"
+ }
+}

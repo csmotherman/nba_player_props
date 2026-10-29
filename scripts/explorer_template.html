@@ -58,6 +58,7 @@ code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background
     <label>Feature type<select id="cls"></select></label>
     <label>Temporal status<select id="temp"></select></label>
     <label>Priority<select id="pri"></select></label>
+    <label>Readiness<select id="rdy"></select></label>
     <label>Domain<select id="dom"></select></label>
   </div>
   <div class="row2">
@@ -68,7 +69,7 @@ code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background
     <button id="theme">Toggle theme</button>
   </div>
   <div class="scroll"><table id="t"><thead><tr>
-    <th data-k="id">ID</th><th data-k="name">Name</th><th data-k="classification">Type</th><th data-k="priority">Pri</th>
+    <th data-k="id">ID</th><th data-k="name">Name</th><th data-k="classification">Type</th><th data-k="priority">Pri</th><th data-k="readiness">Readiness</th>
     <th class="hide-sm" data-k="temporal_status">Temporal</th><th class="hide-sm" data-k="domain">Domain</th><th>Markets</th></tr></thead><tbody id="tb"></tbody></table></div>
   <div class="empty" id="empty" hidden>No features match these filters.</div>
 </main>
@@ -85,6 +86,7 @@ fill($('src'), uniq(F.flatMap(f => f.source_endpoints.map(epOf))), 'Any source')
 fill($('cls'), uniq(F.map(f => f.classification)), 'Any type');
 fill($('temp'), uniq(F.map(f => f.temporal_status)), 'Any status');
 fill($('pri'), uniq(F.map(f => f.priority)), 'Any priority');
+fill($('rdy'), uniq(F.map(f => f.readiness)), 'Any readiness');
 fill($('dom'), uniq(F.map(f => f.domain)), 'Any domain');
 let sortK = null, sortDir = 1, open = new Set();
 const rank = {H: 3, M: 2, L: 1, N: 0};
@@ -96,6 +98,7 @@ function filtered() {
     if ($('cls').value && f.classification !== $('cls').value) return false;
     if ($('temp').value && f.temporal_status !== $('temp').value) return false;
     if ($('pri').value && f.priority !== $('pri').value) return false;
+    if ($('rdy').value && f.readiness !== $('rdy').value) return false;
     if ($('dom').value && f.domain !== $('dom').value) return false;
     if ($('apionly').checked && ['EXTERNAL', 'UNVERIFIED'].includes(f.classification)) return false;
     if (q && !(f.id + ' ' + f.name + ' ' + f.description + ' ' + f.formula + ' ' + f.source_columns.join(' ')).toLowerCase().includes(q)) return false;
@@ -110,7 +113,7 @@ function detail(f) {
     ['Optional dependencies', f.optional_dependencies.map(d => `<code>${d}</code>`).join(' ') || '—', 1],
     ['Aggregation level', f.aggregation_level], ['Historical availability', f.historical_availability], ['Pregame availability', f.pregame_availability],
     ['Leakage risk', `${f.leakage_risk}. ${f.leakage_notes}`], ['Missing data', f.missing_data_handling], ['Validation method', f.validation_method],
-    ['Validation status', f.validation_status], ['Hypothesis ranks', `predictive value ${f.hyp_predictive_value} · reliability ${f.hyp_reliability} · collection cost ${f.hyp_collection_cost} · stability ${f.hyp_stability} · overfit risk ${f.hyp_overfit_risk}`],
+    ['Validation status', f.validation_status], ['Readiness', f.readiness + (f.blocking_inputs.length ? ' — blocked by ' + f.blocking_inputs.join(', ') : '') + (f.fallbacks_used.length ? ' — fallbacks: ' + f.fallbacks_used.join(', ') : '')], ['Implementation', f.implementation_status + (f.implementation_note ? ' (' + f.implementation_note + ')' : '')], ['Verification matrix', Object.entries(f.verification).map(([k, v]) => k + ': ' + v).join(' | ')], ['Hypothesis ranks', `predictive value ${f.hyp_predictive_value} · reliability ${f.hyp_reliability} · collection cost ${f.hyp_collection_cost} · stability ${f.hyp_stability} · overfit risk ${f.hyp_overfit_risk}`],
     ['Correlation cluster', f.correlation_cluster], ['Ablation group', f.ablation_group], ['Notes', f.notes || '—']];
   return `<dl>${rows.map(([k, v, raw]) => `<dt>${k}</dt><dd>${raw ? v : esc(v)}</dd>`).join('')}</dl>`;
 }
@@ -120,14 +123,14 @@ function render() {
   $('n').textContent = list.length; $('empty').hidden = list.length > 0;
   $('tb').innerHTML = list.map(f => {
     const mk = '<span class="mk">' + M.map(m => `<i class="${f.market_relevance[m]}" title="${m}: ${f.market_relevance[m]}">${m}</i>`).join('') + '</span>';
-    const r = `<tr class="data" data-id="${f.id}"><td class="id">${f.id}</td><td>${esc(f.name)}</td><td><span class="tag ${f.classification}">${f.classification}</span></td><td>${f.priority}</td><td class="hide-sm">${f.temporal_status}</td><td class="hide-sm">${esc(f.domain)}</td><td>${mk}</td></tr>`;
-    return r + (open.has(f.id) ? `<tr class="detail"><td colspan="7">${detail(f)}</td></tr>` : '');
+    const r = `<tr class="data" data-id="${f.id}"><td class="id">${f.id}</td><td>${esc(f.name)}</td><td><span class="tag ${f.classification}">${f.classification}</span></td><td>${f.priority}</td><td>${f.readiness.replace('EXECUTABLE_','').replace('BLOCKED_','blocked ')}</td><td class="hide-sm">${f.temporal_status}</td><td class="hide-sm">${esc(f.domain)}</td><td>${mk}</td></tr>`;
+    return r + (open.has(f.id) ? `<tr class="detail"><td colspan="8">${detail(f)}</td></tr>` : '');
   }).join('');
 }
 $('tb').addEventListener('click', e => { const tr = e.target.closest('tr.data'); if (!tr) return; const id = tr.dataset.id; open.has(id) ? open.delete(id) : open.add(id); render(); });
 document.querySelectorAll('th[data-k]').forEach(th => th.addEventListener('click', () => { const k = th.dataset.k; sortDir = sortK === k ? -sortDir : 1; sortK = k; render(); }));
-['q', 'market', 'minrel', 'src', 'cls', 'temp', 'pri', 'dom', 'apionly'].forEach(id => $(id).addEventListener('input', render));
-$('reset').onclick = () => { ['q', 'market', 'src', 'cls', 'temp', 'pri', 'dom'].forEach(id => $(id).value = ''); $('minrel').value = 'L'; $('apionly').checked = false; render(); };
+['q', 'market', 'minrel', 'src', 'cls', 'temp', 'pri', 'rdy', 'dom', 'apionly'].forEach(id => $(id).addEventListener('input', render));
+$('reset').onclick = () => { ['q', 'market', 'src', 'cls', 'temp', 'pri', 'rdy', 'dom'].forEach(id => $(id).value = ''); $('minrel').value = 'L'; $('apionly').checked = false; render(); };
 $('theme').onclick = () => { const r = document.documentElement; const dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme:dark)').matches; r.dataset.theme = dark ? 'light' : 'dark'; };
 $('csv').onclick = () => {
   const cols = ['id', 'name', 'domain', 'classification', 'temporal_status', 'priority', 'validation_status', 'source_endpoints', 'formula'];

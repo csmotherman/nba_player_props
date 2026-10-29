@@ -1,5 +1,19 @@
 __pycache__/
 *.pyc
+.pytest_cache/
 .venv/
-data/discovery/frames/
+venv/
 .DS_Store
+.env
+*.env
+!.env.example
+# locally generated data: never commit databases or bulk API dumps (fixtures under tests/fixtures ARE committed, they are small)
+data/raw/
+data/warehouse/
+data/processed/*
+!data/processed/.gitkeep
+data/discovery/frames/
+*.duckdb
+*.duckdb.wal
+*.parquet
+!tests/fixtures/warehouse/*.parquet
