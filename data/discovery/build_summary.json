@@ -1,0 +1,101 @@
+{
+ "features": 229,
+ "by_class": {
+  "RAW": 55,
+  "CALCULATED": 104,
+  "ENGINEERED": 54,
+  "UNVERIFIED": 8,
+  "EXTERNAL": 8
+ },
+ "by_priority": {
+  "P0": 91,
+  "P2": 39,
+  "P3": 37,
+  "P1": 62
+ },
+ "by_temporal": {
+  "label": 15,
+  "lagged_observed": 153,
+  "pregame_known": 9,
+  "projected": 36,
+  "unverified": 8,
+  "external_pregame": 8
+ },
+ "by_validation": {
+  "source_verified": 129,
+  "formula_verified": 16,
+  "source_verified_untested_logic": 25,
+  "hypothesis": 43,
+  "unverified_source": 8,
+  "external_unobtained": 8
+ },
+ "inventory_rows": 237,
+ "harness_errors_excluded": [
+  "LeagueDashPlayerStats_Base_vsOpp"
+ ],
+ "inventory_status": {
+  "FAILED": 10,
+  "DEPRECATED_NO_DATA": 7,
+  "OK": 174,
+  "OK_EMPTY": 5,
+  "NOT_TESTED": 41
+ },
+ "library_endpoints": 142,
+ "tested_classes": 101,
+ "clusters": {
+  "aux_targets": 3,
+  "box_volume": 11,
+  "context": 5,
+  "EFF": 2,
+  "REB_RATE": 3,
+  "PACE": 2,
+  "rating": 2,
+  "usage_shares": 8,
+  "shot_mix": 9,
+  "minutes_history": 2,
+  "starter": 4,
+  "rest": 5,
+  "blowout": 8,
+  "usage": 6,
+  "tracking_touch": 4,
+  "efficiency": 5,
+  "three_volume": 3,
+  "three_efficiency": 3,
+  "opp_three": 2,
+  "assist_opportunity": 4,
+  "assist_conversion": 3,
+  "team_style": 2,
+  "assist_rate": 2,
+  "reb_opportunity": 5,
+  "reb_conversion": 2,
+  "reb_supply": 3,
+  "steal": 2,
+  "opp_turnover": 2,
+  "block": 2,
+  "opp_block": 2,
+  "turnover": 3,
+  "pace": 6,
+  "team_rating": 3,
+  "opp_defense": 3,
+  "form": 8,
+  "dvp": 4,
+  "archetype": 6,
+  "tracking_other": 3,
+  "game_env": 2,
+  "scoring_pipeline": 3,
+  "three_pipeline": 3,
+  "assist_pipeline": 3,
+  "reb_pipeline": 3,
+  "usage_redistribution": 3,
+  "on_off": 4,
+  "availability": 9,
+  "role": 7,
+  "hop": 3,
+  "variance": 7
+ },
+ "p0_blocked": [
+  "AVL_TEAMMATE_OUT_USAGE",
+  "EXT_INJURY_REPORT",
+  "EXT_PROP_LINES"
+ ]
+}

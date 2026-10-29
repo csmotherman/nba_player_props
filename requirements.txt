@@ -1,0 +1,4 @@
+# discovery + QC scripts (the registry build itself needs only the standard library)
+nba_api==1.12.0
+pandas>=2.2
+numpy>=1.26

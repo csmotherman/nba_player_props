@@ -1,0 +1,103 @@
+{
+ "playergamelogs_game_id_prefix_counts": {
+  "002": 26651,
+  "001": 2021,
+  "004": 1921,
+  "005": 126,
+  "003": 63,
+  "006": 18
+ },
+ "leaguegamelog_game_id_prefix_counts": {
+  "002": 26651
+ },
+ "leaguegamelog_rows_min_zero": 83,
+ "rows_per_team_game_mean": 10.833739837398374,
+ "team_min_col_regulation_value": 48.0,
+ "team_poss_simple_vs_api": {
+  "mae": 2.2737073170731708,
+  "corr": 0.9196415189644388
+ },
+ "team_poss_oliver_vs_api": {
+  "mae": 1.375239940312935,
+  "corr": 0.965429358937403
+ },
+ "team_pace_48poss_over_min_vs_api_pace_using_api_poss": 0.40325928434699043,
+ "team_poss_is_integer_share": 1.0,
+ "usg_formula_vs_api_USG_PCT_fraction_scale": {
+  "mae": 0.008931415557931697,
+  "corr": 0.9905773337641095,
+  "n": 22630
+ },
+ "ast_pct_formula_vs_api": {
+  "mae": 0.018823752577599114,
+  "corr": 0.9657518911070844,
+  "n": 22630
+ },
+ "reb_pct_formula_vs_api": {
+  "mae": 0.013787530354452831,
+  "corr": 0.9819661251863103,
+  "n": 22630
+ },
+ "oreb_pct_formula_vs_api": {
+  "mae": 0.008627466179632308,
+  "corr": 0.9785507635625897,
+  "n": 22630
+ },
+ "dreb_pct_formula_vs_api": {
+  "mae": 0.022508601379340555,
+  "corr": 0.9650360836024824,
+  "n": 22630
+ },
+ "ts_pct_formula_vs_api": {
+  "mae": 0.0002113802524090097,
+  "corr": 0.9999993397969336,
+  "n": 22630
+ },
+ "tm_tov_pct_vs_TOV_over_FGA_FTA_TOV_x100": {
+  "mae": 2.391765595653907,
+  "corr": 0.9558508840539655,
+  "n": 22630
+ },
+ "tm_tov_pct_vs_TOV_over_FGA_FTA_AST_TOV_x100": {
+  "mae": 0.1261669392352912,
+  "corr": 0.9994315461895138,
+  "n": 22630
+ },
+ "player_poss_vs_onCourtPace_x_MIN_over_48": {
+  "mae": 0.5480593522763539,
+  "corr": 0.9990651105067232,
+  "n": 22630
+ },
+ "min_vs_min_sec_max_abs_diff": 0.008333333333339965,
+ "rebound_identity": {
+  "mean_total_rebounds": 87.53821138211381,
+  "mean_fg_misses_both_teams": 94.25447154471544,
+  "ratio_reb_to_fg_misses": 0.9293551543017725,
+  "corr_reb_vs_fgmiss": 0.8965810313282916,
+  "ols_reb_on_fgmiss_and_fta_coefs": [
+   0.8733573695665484,
+   0.07502352523954807,
+   1.6968301365878853
+  ]
+ },
+ "schedule_2026_27_game_id_prefix_counts": {
+  "002": 1206,
+  "001": 67,
+  "006": 1
+ },
+ "schedule_2026_27_status_counts": {
+  "1": 1139,
+  "3": 135
+ },
+ "single_day_passing_window": {
+  "date": "2026-01-15",
+  "players": 201,
+  "gp_max": 1,
+  "ast_match_rate_vs_gamelog": 1.0,
+  "potential_ast_sum": 858
+ },
+ "starter_flag_position_nonnull_equals_5_per_team": {
+  "games_tested": 20,
+  "games_exact_5_per_team": 20
+ }
+}

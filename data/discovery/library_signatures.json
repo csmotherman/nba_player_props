@@ -1,0 +1,3515 @@
+{
+ "AllTimeLeadersGrids": {
+  "module": "nba_api.alltimeleadersgrids",
+  "endpoint": "alltimeleadersgrids",
+  "params": {
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season_type": "'Regular Season'",
+   "topx": "10"
+  },
+  "expected": [
+   "ASTLeaders",
+   "BLKLeaders",
+   "DREBLeaders",
+   "FG3ALeaders",
+   "FG3MLeaders",
+   "FG3_PCTLeaders",
+   "FGALeaders",
+   "FGMLeaders",
+   "FG_PCTLeaders",
+   "FTALeaders",
+   "FTMLeaders",
+   "FT_PCTLeaders",
+   "GPLeaders",
+   "OREBLeaders",
+   "PFLeaders",
+   "PTSLeaders",
+   "REBLeaders",
+   "STLLeaders",
+   "TOVLeaders"
+  ]
+ },
+ "AssistLeaders": {
+  "module": "nba_api.assistleaders",
+  "endpoint": "assistleaders",
+  "params": {
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "player_or_team": "'Team'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'"
+  },
+  "expected": [
+   "AssistLeaders"
+  ]
+ },
+ "AssistTracker": {
+  "module": "nba_api.assisttracker",
+  "endpoint": "assisttracker",
+  "params": {
+   "college_nullable": "''",
+   "conference_nullable": "''",
+   "country_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "draft_pick_nullable": "''",
+   "draft_year_nullable": "''",
+   "game_scope_simple_nullable": "''",
+   "height_nullable": "''",
+   "last_n_games_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "month_nullable": "''",
+   "opponent_team_id_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "per_mode_simple_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_abbreviation_nullable": "''",
+   "season_nullable": "''",
+   "season_segment_nullable": "''",
+   "season_type_all_star_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "weight_nullable": "''"
+  },
+  "expected": [
+   "AssistTracker"
+  ]
+ },
+ "BoxScoreAdvancedV2": {
+  "module": "nba_api.boxscoreadvancedv2",
+  "endpoint": "boxscoreadvancedv2",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "PlayerStats",
+   "TeamStats"
+  ]
+ },
+ "BoxScoreAdvancedV3": {
+  "module": "nba_api.boxscoreadvancedv3",
+  "endpoint": "boxscoreadvancedv3",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "PlayerStats",
+   "TeamStats"
+  ]
+ },
+ "BoxScoreDefensiveV2": {
+  "module": "nba_api.boxscoredefensivev2",
+  "endpoint": "boxscoredefensivev2",
+  "params": {
+   "game_id": null
+  },
+  "expected": [
+   "PlayerStats",
+   "TeamStats"
+  ]
+ },
+ "BoxScoreFourFactorsV2": {
+  "module": "nba_api.boxscorefourfactorsv2",
+  "endpoint": "boxscorefourfactorsv2",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "sqlPlayersFourFactors",
+   "sqlTeamsFourFactors"
+  ]
+ },
+ "BoxScoreFourFactorsV3": {
+  "module": "nba_api.boxscorefourfactorsv3",
+  "endpoint": "boxscorefourfactorsv3",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "PlayerStats",
+   "TeamStats"
+  ]
+ },
+ "BoxScoreHustleV2": {
+  "module": "nba_api.boxscorehustlev2",
+  "endpoint": "boxscorehustlev2",
+  "params": {
+   "game_id": null
+  },
+  "expected": [
+   "PlayerStats",
+   "TeamStats"
+  ]
+ },
+ "BoxScoreMatchupsV3": {
+  "module": "nba_api.boxscorematchupsv3",
+  "endpoint": "boxscorematchupsv3",
+  "params": {
+   "game_id": null
+  },
+  "expected": [
+   "PlayerStats"
+  ]
+ },
+ "BoxScoreMiscV2": {
+  "module": "nba_api.boxscoremiscv2",
+  "endpoint": "boxscoremiscv2",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "sqlPlayersMisc",
+   "sqlTeamsMisc"
+  ]
+ },
+ "BoxScoreMiscV3": {
+  "module": "nba_api.boxscoremiscv3",
+  "endpoint": "boxscoremiscv3",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "PlayerStats",
+   "TeamStats"
+  ]
+ },
+ "BoxScorePlayerTrackV3": {
+  "module": "nba_api.boxscoreplayertrackv3",
+  "endpoint": "boxscoreplayertrackv3",
+  "params": {
+   "game_id": null
+  },
+  "expected": [
+   "PlayerStats",
+   "TeamStats"
+  ]
+ },
+ "BoxScoreScoringV2": {
+  "module": "nba_api.boxscorescoringv2",
+  "endpoint": "boxscorescoringv2",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "sqlPlayersScoring",
+   "sqlTeamsScoring"
+  ]
+ },
+ "BoxScoreScoringV3": {
+  "module": "nba_api.boxscorescoringv3",
+  "endpoint": "boxscorescoringv3",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "PlayerStats",
+   "TeamStats"
+  ]
+ },
+ "BoxScoreSummaryV2": {
+  "module": "nba_api.boxscoresummaryv2",
+  "endpoint": "boxscoresummaryv2",
+  "params": {
+   "game_id": null
+  },
+  "expected": [
+   "AvailableVideo",
+   "GameInfo",
+   "GameSummary",
+   "InactivePlayers",
+   "LastMeeting",
+   "LineScore",
+   "Officials",
+   "OtherStats",
+   "SeasonSeries"
+  ]
+ },
+ "BoxScoreSummaryV3": {
+  "module": "nba_api.boxscoresummaryv3",
+  "endpoint": "boxscoresummaryv3",
+  "params": {
+   "game_id": null
+  },
+  "expected": [
+   "GameSummary",
+   "GameInfo",
+   "ArenaInfo",
+   "Officials",
+   "LineScore",
+   "InactivePlayers",
+   "LastFiveMeetings",
+   "OtherStats",
+   "AvailableVideo"
+  ]
+ },
+ "BoxScoreTraditionalV2": {
+  "module": "nba_api.boxscoretraditionalv2",
+  "endpoint": "boxscoretraditionalv2",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "PlayerStats",
+   "TeamStarterBenchStats",
+   "TeamStats"
+  ]
+ },
+ "BoxScoreTraditionalV3": {
+  "module": "nba_api.boxscoretraditionalv3",
+  "endpoint": "boxscoretraditionalv3",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "PlayerStats",
+   "TeamStarterBenchStats",
+   "TeamStats"
+  ]
+ },
+ "BoxScoreUsageV2": {
+  "module": "nba_api.boxscoreusagev2",
+  "endpoint": "boxscoreusagev2",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "sqlPlayersUsage",
+   "sqlTeamsUsage"
+  ]
+ },
+ "BoxScoreUsageV3": {
+  "module": "nba_api.boxscoreusagev3",
+  "endpoint": "boxscoreusagev3",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "end_range": "'0'",
+   "range_type": "'0'",
+   "start_period": "'0'",
+   "start_range": "'0'"
+  },
+  "expected": [
+   "PlayerStats",
+   "TeamStats"
+  ]
+ },
+ "CommonAllPlayers": {
+  "module": "nba_api.commonallplayers",
+  "endpoint": "commonallplayers",
+  "params": {
+   "is_only_current_season": "0",
+   "league_id": "'00'",
+   "season": "'2026-27'"
+  },
+  "expected": [
+   "CommonAllPlayers"
+  ]
+ },
+ "CommonPlayerInfo": {
+  "module": "nba_api.commonplayerinfo",
+  "endpoint": "commonplayerinfo",
+  "params": {
+   "player_id": null,
+   "league_id_nullable": "'00'"
+  },
+  "expected": [
+   "AvailableSeasons",
+   "CommonPlayerInfo",
+   "PlayerHeadlineStats"
+  ]
+ },
+ "CommonPlayoffSeries": {
+  "module": "nba_api.commonplayoffseries",
+  "endpoint": "commonplayoffseries",
+  "params": {
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "series_id_nullable": "''"
+  },
+  "expected": [
+   "PlayoffSeries"
+  ]
+ },
+ "CommonTeamRoster": {
+  "module": "nba_api.commonteamroster",
+  "endpoint": "commonteamroster",
+  "params": {
+   "team_id": null,
+   "season": "'2026-27'",
+   "league_id_nullable": "'00'"
+  },
+  "expected": [
+   "Coaches",
+   "CommonTeamRoster"
+  ]
+ },
+ "CommonTeamYears": {
+  "module": "nba_api.commonteamyears",
+  "endpoint": "commonteamyears",
+  "params": {
+   "league_id": "'00'"
+  },
+  "expected": [
+   "TeamYears"
+  ]
+ },
+ "CumeStatsPlayer": {
+  "module": "nba_api.cumestatsplayer",
+  "endpoint": "cumestatsplayer",
+  "params": {
+   "player_id": null,
+   "game_ids": null,
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'"
+  },
+  "expected": [
+   "GameByGameStats",
+   "TotalPlayerStats"
+  ]
+ },
+ "CumeStatsPlayerGames": {
+  "module": "nba_api.cumestatsplayergames",
+  "endpoint": "cumestatsplayergames",
+  "params": {
+   "player_id": null,
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "vs_team_id_nullable": "''"
+  },
+  "expected": [
+   "CumeStatsPlayerGames"
+  ]
+ },
+ "CumeStatsTeam": {
+  "module": "nba_api.cumestatsteam",
+  "endpoint": "cumestatsteam",
+  "params": {
+   "team_id": null,
+   "game_ids": null,
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'"
+  },
+  "expected": [
+   "GameByGameStats",
+   "TotalTeamStats"
+  ]
+ },
+ "CumeStatsTeamGames": {
+  "module": "nba_api.cumestatsteamgames",
+  "endpoint": "cumestatsteamgames",
+  "params": {
+   "team_id": null,
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "vs_team_id_nullable": "''"
+  },
+  "expected": [
+   "CumeStatsTeamGames"
+  ]
+ },
+ "DefenseHub": {
+  "module": "nba_api.defensehub",
+  "endpoint": "defensehub",
+  "params": {
+   "game_scope_detailed": "'Season'",
+   "league_id": "'00'",
+   "player_or_team": "'Team'",
+   "player_scope": "'All Players'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'"
+  },
+  "expected": [
+   "DefenseHubStat1",
+   "DefenseHubStat10",
+   "DefenseHubStat2",
+   "DefenseHubStat3",
+   "DefenseHubStat4",
+   "DefenseHubStat5",
+   "DefenseHubStat6",
+   "DefenseHubStat7",
+   "DefenseHubStat8",
+   "DefenseHubStat9"
+  ]
+ },
+ "DraftBoard": {
+  "module": "nba_api.draftboard",
+  "endpoint": "draftboard",
+  "params": {
+   "league_id": "'00'",
+   "season_year": "2026",
+   "college_nullable": "''",
+   "overall_pick_nullable": "''",
+   "round_num_nullable": "''",
+   "round_pick_nullable": "''",
+   "team_id_nullable": "''",
+   "topx_nullable": "''"
+  },
+  "expected": [
+   "DraftBoard"
+  ]
+ },
+ "DraftCombineDrillResults": {
+  "module": "nba_api.draftcombinedrillresults",
+  "endpoint": "draftcombinedrillresults",
+  "params": {
+   "league_id": "'00'",
+   "season_year": "2026"
+  },
+  "expected": [
+   "Results"
+  ]
+ },
+ "DraftCombineNonStationaryShooting": {
+  "module": "nba_api.draftcombinenonstationaryshooting",
+  "endpoint": "draftcombinenonstationaryshooting",
+  "params": {
+   "league_id": "'00'",
+   "season_year": "2026"
+  },
+  "expected": [
+   "Results"
+  ]
+ },
+ "DraftCombinePlayerAnthro": {
+  "module": "nba_api.draftcombineplayeranthro",
+  "endpoint": "draftcombineplayeranthro",
+  "params": {
+   "league_id": "'00'",
+   "season_year": "2026"
+  },
+  "expected": [
+   "Results"
+  ]
+ },
+ "DraftCombineSpotShooting": {
+  "module": "nba_api.draftcombinespotshooting",
+  "endpoint": "draftcombinespotshooting",
+  "params": {
+   "league_id": "'00'",
+   "season_year": "2026"
+  },
+  "expected": [
+   "Results"
+  ]
+ },
+ "DraftCombineStats": {
+  "module": "nba_api.draftcombinestats",
+  "endpoint": "draftcombinestats",
+  "params": {
+   "league_id": "'00'",
+   "season_all_time": "'2026-27'"
+  },
+  "expected": [
+   "DraftCombineStats"
+  ]
+ },
+ "DraftHistory": {
+  "module": "nba_api.drafthistory",
+  "endpoint": "drafthistory",
+  "params": {
+   "league_id": "'00'",
+   "college_nullable": "''",
+   "overall_pick_nullable": "''",
+   "round_num_nullable": "''",
+   "round_pick_nullable": "''",
+   "season_year_nullable": "''",
+   "team_id_nullable": "''",
+   "topx_nullable": "''"
+  },
+  "expected": [
+   "DraftHistory"
+  ]
+ },
+ "DunkScoreLeaders": {
+  "module": "nba_api.dunkscoreleaders",
+  "endpoint": "dunkscoreleaders",
+  "params": {
+   "league_id_nullable": "'00'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "player_id_nullable": "None",
+   "team_id_nullable": "None",
+   "game_id_nullable": "''"
+  },
+  "expected": [
+   "dunks"
+  ]
+ },
+ "FantasyWidget": {
+  "module": "nba_api.fantasywidget",
+  "endpoint": "fantasywidget",
+  "params": {
+   "active_players": "'N'",
+   "last_n_games": "'0'",
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "todays_opponent": "0",
+   "todays_players": "'N'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "location_nullable": "''",
+   "month_nullable": "''",
+   "opponent_team_id_nullable": "''",
+   "po_round_nullable": "''",
+   "player_id_nullable": "''",
+   "position_nullable": "''",
+   "season_segment_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "FantasyWidgetResult"
+  ]
+ },
+ "FranchiseHistory": {
+  "module": "nba_api.franchisehistory",
+  "endpoint": "franchisehistory",
+  "params": {
+   "league_id": "'00'"
+  },
+  "expected": [
+   "DefunctTeams",
+   "FranchiseHistory"
+  ]
+ },
+ "FranchiseLeaders": {
+  "module": "nba_api.franchiseleaders",
+  "endpoint": "franchiseleaders",
+  "params": {
+   "team_id": null,
+   "league_id_nullable": "'00'"
+  },
+  "expected": [
+   "FranchiseLeaders"
+  ]
+ },
+ "FranchisePlayers": {
+  "module": "nba_api.franchiseplayers",
+  "endpoint": "franchiseplayers",
+  "params": {
+   "team_id": null,
+   "league_id": "'00'",
+   "per_mode_detailed": "'Totals'",
+   "season_type_all_star": "'Regular Season'"
+  },
+  "expected": [
+   "FranchisePlayers"
+  ]
+ },
+ "GameRotation": {
+  "module": "nba_api.gamerotation",
+  "endpoint": "gamerotation",
+  "params": {
+   "game_id": null,
+   "league_id": "'00'"
+  },
+  "expected": [
+   "AwayTeam",
+   "HomeTeam"
+  ]
+ },
+ "GLAlumBoxScoreSimilarityScore": {
+  "module": "nba_api.glalumboxscoresimilarityscore",
+  "endpoint": "glalumboxscoresimilarityscore",
+  "params": {
+   "person2_id": null,
+   "person1_id": null,
+   "person1_league_id": "'00'",
+   "person1_season_year": "2026",
+   "person1_season_type": "'Regular Season'",
+   "person2_league_id": "'00'",
+   "person2_season_year": "2026",
+   "person2_season_type": "'Regular Season'"
+  },
+  "expected": [
+   "GLeagueAlumBoxScoreSimilarityScores"
+  ]
+ },
+ "GravityLeaders": {
+  "module": "nba_api.gravityleaders",
+  "endpoint": "gravityleaders",
+  "params": {
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'"
+  },
+  "expected": [
+   "leaders"
+  ]
+ },
+ "HomePageLeaders": {
+  "module": "nba_api.homepageleaders",
+  "endpoint": "homepageleaders",
+  "params": {
+   "game_scope_detailed": "'Season'",
+   "league_id": "'00'",
+   "player_or_team": "'Team'",
+   "player_scope": "'All Players'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "stat_category": "'Points'"
+  },
+  "expected": [
+   "HomePageLeaders",
+   "LeagueAverage",
+   "LeagueMax"
+  ]
+ },
+ "HomePageV2": {
+  "module": "nba_api.homepagev2",
+  "endpoint": "homepagev2",
+  "params": {
+   "game_scope_detailed": "'Season'",
+   "league_id": "'00'",
+   "player_or_team": "'Team'",
+   "player_scope": "'All Players'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "stat_type": "'Traditional'"
+  },
+  "expected": [
+   "HomePageStat1",
+   "HomePageStat2",
+   "HomePageStat3",
+   "HomePageStat4",
+   "HomePageStat5",
+   "HomePageStat6",
+   "HomePageStat7",
+   "HomePageStat8"
+  ]
+ },
+ "HustleStatsBoxScore": {
+  "module": "nba_api.hustlestatsboxscore",
+  "endpoint": "hustlestatsboxscore",
+  "params": {
+   "game_id": null
+  },
+  "expected": [
+   "HustleStatsAvailable",
+   "PlayerStats",
+   "TeamStats"
+  ]
+ },
+ "InfographicFanDuelPlayer": {
+  "module": "nba_api.infographicfanduelplayer",
+  "endpoint": "infographicfanduelplayer",
+  "params": {
+   "game_id": null
+  },
+  "expected": [
+   "FanDuelPlayer"
+  ]
+ },
+ "ISTStandings": {
+  "module": "nba_api.iststandings",
+  "endpoint": "iststandings",
+  "params": {
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "section": "'group'"
+  },
+  "expected": [
+   "Standings"
+  ]
+ },
+ "LeadersTiles": {
+  "module": "nba_api.leaderstiles",
+  "endpoint": "leaderstiles",
+  "params": {
+   "game_scope_detailed": "'Season'",
+   "league_id": "'00'",
+   "player_or_team": "'Team'",
+   "player_scope": "'All Players'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "stat": "'PTS'"
+  },
+  "expected": [
+   "AllTimeSeasonHigh",
+   "LastSeasonHigh",
+   "LeadersTiles",
+   "LowSeasonHigh"
+  ]
+ },
+ "LeagueDashLineups": {
+  "module": "nba_api.leaguedashlineups",
+  "endpoint": "leaguedashlineups",
+  "params": {
+   "group_quantity": "'5'",
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "Lineups"
+  ]
+ },
+ "LeagueDashOppPtShot": {
+  "module": "nba_api.leaguedashoppptshot",
+  "endpoint": "leaguedashoppptshot",
+  "params": {
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "close_def_dist_range_nullable": "''",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_nullable": "''",
+   "dribble_range_nullable": "''",
+   "game_segment_nullable": "''",
+   "general_range_nullable": "''",
+   "last_n_games_nullable": "''",
+   "location_nullable": "''",
+   "month_nullable": "''",
+   "opponent_team_id_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "period_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "shot_dist_range_nullable": "''",
+   "team_id_nullable": "''",
+   "touch_time_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "LeagueDashPTShots"
+  ]
+ },
+ "LeagueDashPlayerBioStats": {
+  "module": "nba_api.leaguedashplayerbiostats",
+  "endpoint": "leaguedashplayerbiostats",
+  "params": {
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "college_nullable": "''",
+   "conference_nullable": "''",
+   "country_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "draft_pick_nullable": "''",
+   "draft_year_nullable": "''",
+   "game_scope_simple_nullable": "''",
+   "game_segment_nullable": "''",
+   "height_nullable": "''",
+   "last_n_games_nullable": "''",
+   "location_nullable": "''",
+   "month_nullable": "''",
+   "opponent_team_id_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "period_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_abbreviation_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "weight_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "LeagueDashPlayerBioStats"
+  ]
+ },
+ "LeagueDashPlayerClutch": {
+  "module": "nba_api.leaguedashplayerclutch",
+  "endpoint": "leaguedashplayerclutch",
+  "params": {
+   "ahead_behind": "'Ahead or Behind'",
+   "clutch_time": "'Last 5 Minutes'",
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "point_diff": "'5'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "college_nullable": "''",
+   "conference_nullable": "''",
+   "country_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "draft_pick_nullable": "''",
+   "draft_year_nullable": "''",
+   "game_scope_simple_nullable": "''",
+   "game_segment_nullable": "''",
+   "height_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_abbreviation_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "weight_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "LeagueDashPlayerClutch"
+  ]
+ },
+ "LeagueDashPlayerPtShot": {
+  "module": "nba_api.leaguedashplayerptshot",
+  "endpoint": "leaguedashplayerptshot",
+  "params": {
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "close_def_dist_range_nullable": "''",
+   "college_nullable": "''",
+   "conference_nullable": "''",
+   "country_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_nullable": "''",
+   "draft_pick_nullable": "''",
+   "draft_year_nullable": "''",
+   "dribble_range_nullable": "''",
+   "game_segment_nullable": "''",
+   "general_range_nullable": "''",
+   "height_nullable": "''",
+   "last_n_games_nullable": "''",
+   "location_nullable": "''",
+   "month_nullable": "''",
+   "opponent_team_id_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "period_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "shot_dist_range_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "touch_time_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "weight_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "LeagueDashPTShots"
+  ]
+ },
+ "LeagueDashPlayerShotLocations": {
+  "module": "nba_api.leaguedashplayershotlocations",
+  "endpoint": "leaguedashplayershotlocations",
+  "params": {
+   "distance_range": "'By Zone'",
+   "last_n_games": "'0'",
+   "measure_type_simple": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "college_nullable": "''",
+   "conference_nullable": "''",
+   "country_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "draft_pick_nullable": "''",
+   "draft_year_nullable": "''",
+   "game_scope_simple_nullable": "''",
+   "game_segment_nullable": "''",
+   "height_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_abbreviation_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "weight_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "ShotLocations"
+  ]
+ },
+ "LeagueDashPlayerStats": {
+  "module": "nba_api.leaguedashplayerstats",
+  "endpoint": "leaguedashplayerstats",
+  "params": {
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "college_nullable": "''",
+   "conference_nullable": "''",
+   "country_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "draft_pick_nullable": "''",
+   "draft_year_nullable": "''",
+   "game_scope_simple_nullable": "''",
+   "game_segment_nullable": "''",
+   "height_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_abbreviation_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "two_way_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "weight_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "LeagueDashPlayerStats"
+  ]
+ },
+ "LeagueDashPtDefend": {
+  "module": "nba_api.leaguedashptdefend",
+  "endpoint": "leaguedashptdefend",
+  "params": {
+   "defense_category": "'Overall'",
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "college_nullable": "''",
+   "conference_nullable": "''",
+   "country_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_nullable": "''",
+   "draft_pick_nullable": "''",
+   "draft_year_nullable": "''",
+   "game_segment_nullable": "''",
+   "height_nullable": "''",
+   "last_n_games_nullable": "''",
+   "location_nullable": "''",
+   "month_nullable": "''",
+   "opponent_team_id_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "period_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_id_nullable": "''",
+   "player_position_nullable": "''",
+   "season_segment_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "weight_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "LeagueDashPTDefend"
+  ]
+ },
+ "LeagueDashPtStats": {
+  "module": "nba_api.leaguedashptstats",
+  "endpoint": "leaguedashptstats",
+  "params": {
+   "last_n_games": "'0'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "per_mode_simple": "'Totals'",
+   "player_or_team": "'Team'",
+   "pt_measure_type": "'SpeedDistance'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "college_nullable": "''",
+   "conference_nullable": "''",
+   "country_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "draft_pick_nullable": "''",
+   "draft_year_nullable": "''",
+   "game_scope_simple_nullable": "''",
+   "height_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_abbreviation_nullable": "''",
+   "season_segment_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "weight_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "LeagueDashPtStats"
+  ]
+ },
+ "LeagueDashPtTeamDefend": {
+  "module": "nba_api.leaguedashptteamdefend",
+  "endpoint": "leaguedashptteamdefend",
+  "params": {
+   "defense_category": "'Overall'",
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_nullable": "''",
+   "game_segment_nullable": "''",
+   "last_n_games_nullable": "''",
+   "location_nullable": "''",
+   "month_nullable": "''",
+   "opponent_team_id_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "period_nullable": "''",
+   "season_segment_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "LeagueDashPtTeamDefend"
+  ]
+ },
+ "LeagueDashTeamClutch": {
+  "module": "nba_api.leaguedashteamclutch",
+  "endpoint": "leaguedashteamclutch",
+  "params": {
+   "ahead_behind": "'Ahead or Behind'",
+   "clutch_time": "'Last 5 Minutes'",
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "point_diff": "'5'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "game_scope_simple_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_abbreviation_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "LeagueDashTeamClutch"
+  ]
+ },
+ "LeagueDashTeamPtShot": {
+  "module": "nba_api.leaguedashteamptshot",
+  "endpoint": "leaguedashteamptshot",
+  "params": {
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "close_def_dist_range_nullable": "''",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_nullable": "''",
+   "dribble_range_nullable": "''",
+   "game_segment_nullable": "''",
+   "general_range_nullable": "''",
+   "last_n_games_nullable": "''",
+   "location_nullable": "''",
+   "month_nullable": "''",
+   "opponent_team_id_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "period_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "shot_dist_range_nullable": "''",
+   "team_id_nullable": "''",
+   "touch_time_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "LeagueDashPTShots"
+  ]
+ },
+ "LeagueDashTeamShotLocations": {
+  "module": "nba_api.leaguedashteamshotlocations",
+  "endpoint": "leaguedashteamshotlocations",
+  "params": {
+   "distance_range": "'By Zone'",
+   "last_n_games": "'0'",
+   "measure_type_simple": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "game_scope_simple_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_abbreviation_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "ShotLocations"
+  ]
+ },
+ "LeagueDashTeamStats": {
+  "module": "nba_api.leaguedashteamstats",
+  "endpoint": "leaguedashteamstats",
+  "params": {
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "game_scope_simple_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_abbreviation_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "two_way_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "LeagueDashTeamStats"
+  ]
+ },
+ "LeagueGameFinder": {
+  "module": "nba_api.leaguegamefinder",
+  "endpoint": "leaguegamefinder",
+  "params": {
+   "player_or_team_abbreviation": "'T'",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "draft_number_nullable": "''",
+   "draft_round_nullable": "''",
+   "draft_team_id_nullable": "''",
+   "draft_year_nullable": "''",
+   "eq_ast_nullable": "''",
+   "eq_blk_nullable": "''",
+   "eq_dd_nullable": "''",
+   "eq_dreb_nullable": "''",
+   "eq_fg3a_nullable": "''",
+   "eq_fg3m_nullable": "''",
+   "eq_fg3_pct_nullable": "''",
+   "eq_fga_nullable": "''",
+   "eq_fgm_nullable": "''",
+   "eq_fg_pct_nullable": "''",
+   "eq_fta_nullable": "''",
+   "eq_ftm_nullable": "''",
+   "eq_ft_pct_nullable": "''",
+   "eq_minutes_nullable": "''",
+   "eq_oreb_nullable": "''",
+   "eq_pf_nullable": "''",
+   "eq_pts_nullable": "''",
+   "eq_reb_nullable": "''",
+   "eq_stl_nullable": "''",
+   "eq_td_nullable": "''",
+   "eq_tov_nullable": "''",
+   "game_id_nullable": "''",
+   "gt_ast_nullable": "''",
+   "gt_blk_nullable": "''",
+   "gt_dd_nullable": "''",
+   "gt_dreb_nullable": "''",
+   "gt_fg3a_nullable": "''",
+   "gt_fg3m_nullable": "''",
+   "gt_fg3_pct_nullable": "''",
+   "gt_fga_nullable": "''",
+   "gt_fgm_nullable": "''",
+   "gt_fg_pct_nullable": "''",
+   "gt_fta_nullable": "''",
+   "gt_ftm_nullable": "''",
+   "gt_ft_pct_nullable": "''",
+   "gt_minutes_nullable": "''",
+   "gt_oreb_nullable": "''",
+   "gt_pf_nullable": "''",
+   "gt_pts_nullable": "''",
+   "gt_reb_nullable": "''",
+   "gt_stl_nullable": "''",
+   "gt_td_nullable": "''",
+   "gt_tov_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "lt_ast_nullable": "''",
+   "lt_blk_nullable": "''",
+   "lt_dd_nullable": "''",
+   "lt_dreb_nullable": "''",
+   "lt_fg3a_nullable": "''",
+   "lt_fg3m_nullable": "''",
+   "lt_fg3_pct_nullable": "''",
+   "lt_fga_nullable": "''",
+   "lt_fgm_nullable": "''",
+   "lt_fg_pct_nullable": "''",
+   "lt_fta_nullable": "''",
+   "lt_ftm_nullable": "''",
+   "lt_ft_pct_nullable": "''",
+   "lt_minutes_nullable": "''",
+   "lt_oreb_nullable": "''",
+   "lt_pf_nullable": "''",
+   "lt_pts_nullable": "''",
+   "lt_reb_nullable": "''",
+   "lt_stl_nullable": "''",
+   "lt_td_nullable": "''",
+   "lt_tov_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "player_id_nullable": "''",
+   "rookie_year_nullable": "''",
+   "season_nullable": "''",
+   "season_segment_nullable": "''",
+   "season_type_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "vs_team_id_nullable": "''",
+   "years_experience_nullable": "''"
+  },
+  "expected": [
+   "LeagueGameFinderResults"
+  ]
+ },
+ "LeagueGameLog": {
+  "module": "nba_api.leaguegamelog",
+  "endpoint": "leaguegamelog",
+  "params": {
+   "counter": "0",
+   "direction": "'ASC'",
+   "league_id": "'00'",
+   "player_or_team_abbreviation": "'T'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "sorter": "'DATE'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''"
+  },
+  "expected": [
+   "LeagueGameLog"
+  ]
+ },
+ "LeagueHustleStatsPlayer": {
+  "module": "nba_api.leaguehustlestatsplayer",
+  "endpoint": "leaguehustlestatsplayer",
+  "params": {
+   "per_mode_time": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "college_nullable": "''",
+   "conference_nullable": "''",
+   "country_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "draft_pick_nullable": "''",
+   "draft_year_nullable": "''",
+   "height_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "month_nullable": "''",
+   "opponent_team_id_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_nullable": "''",
+   "season_segment_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "weight_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "HustleStatsPlayer"
+  ]
+ },
+ "LeagueHustleStatsTeam": {
+  "module": "nba_api.leaguehustlestatsteam",
+  "endpoint": "leaguehustlestatsteam",
+  "params": {
+   "per_mode_time": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "college_nullable": "''",
+   "conference_nullable": "''",
+   "country_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "draft_pick_nullable": "''",
+   "draft_year_nullable": "''",
+   "height_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "month_nullable": "''",
+   "opponent_team_id_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "player_experience_nullable": "''",
+   "player_position_nullable": "''",
+   "season_segment_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "weight_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "HustleStatsTeam"
+  ]
+ },
+ "LeagueLeaders": {
+  "module": "nba_api.leagueleaders",
+  "endpoint": "leagueleaders",
+  "params": {
+   "league_id": "'00'",
+   "per_mode48": "'Totals'",
+   "scope": "'S'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "stat_category_abbreviation": "'PTS'",
+   "active_flag_nullable": "''"
+  },
+  "expected": [
+   "LeagueLeaders"
+  ]
+ },
+ "LeagueLineupViz": {
+  "module": "nba_api.leaguelineupviz",
+  "endpoint": "leaguelineupviz",
+  "params": {
+   "minutes_min": null,
+   "group_quantity": "'5'",
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "LeagueLineupViz"
+  ]
+ },
+ "LeaguePlayerOnDetails": {
+  "module": "nba_api.leagueplayerondetails",
+  "endpoint": "leagueplayerondetails",
+  "params": {
+   "team_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "PlayersOnCourtLeaguePlayerDetails"
+  ]
+ },
+ "LeagueSeasonMatchups": {
+  "module": "nba_api.leagueseasonmatchups",
+  "endpoint": "leagueseasonmatchups",
+  "params": {
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "def_player_id_nullable": "''",
+   "def_team_id_nullable": "None",
+   "off_player_id_nullable": "''",
+   "off_team_id_nullable": "None"
+  },
+  "expected": [
+   "SeasonMatchups"
+  ]
+ },
+ "LeagueStandings": {
+  "module": "nba_api.leaguestandings",
+  "endpoint": "leaguestandings",
+  "params": {
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "season_type": "'Regular Season'",
+   "season_nullable": "''"
+  },
+  "expected": [
+   "Standings"
+  ]
+ },
+ "LeagueStandingsV3": {
+  "module": "nba_api.leaguestandingsv3",
+  "endpoint": "leaguestandingsv3",
+  "params": {
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "season_type": "'Regular Season'",
+   "season_nullable": "''"
+  },
+  "expected": [
+   "Standings"
+  ]
+ },
+ "MatchupsRollup": {
+  "module": "nba_api.matchupsrollup",
+  "endpoint": "matchupsrollup",
+  "params": {
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "def_player_id_nullable": "''",
+   "def_team_id_nullable": "None",
+   "off_player_id_nullable": "''",
+   "off_team_id_nullable": "None"
+  },
+  "expected": [
+   "MatchupsRollup"
+  ]
+ },
+ "PlayByPlay": {
+  "module": "live.playbyplay",
+  "endpoint": null,
+  "params": {
+   "game_id": null
+  },
+  "expected": [
+   "meta",
+   "game"
+  ]
+ },
+ "PlayByPlayV2": {
+  "module": "nba_api.playbyplayv2",
+  "endpoint": "playbyplayv2",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "start_period": "'0'"
+  },
+  "expected": [
+   "AvailableVideo",
+   "PlayByPlay"
+  ]
+ },
+ "PlayByPlayV3": {
+  "module": "nba_api.playbyplayv3",
+  "endpoint": "playbyplayv3",
+  "params": {
+   "game_id": null,
+   "end_period": "'0'",
+   "start_period": "'0'"
+  },
+  "expected": [
+   "AvailableVideo",
+   "PlayByPlay"
+  ]
+ },
+ "PlayerAwards": {
+  "module": "nba_api.playerawards",
+  "endpoint": "playerawards",
+  "params": {
+   "player_id": null
+  },
+  "expected": [
+   "PlayerAwards"
+  ]
+ },
+ "PlayerCareerByCollege": {
+  "module": "nba_api.playercareerbycollege",
+  "endpoint": "playercareerbycollege",
+  "params": {
+   "college": null,
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season_type_all_star": "'Regular Season'",
+   "season_nullable": "''"
+  },
+  "expected": [
+   "PlayerCareerByCollege"
+  ]
+ },
+ "PlayerCareerByCollegeRollup": {
+  "module": "nba_api.playercareerbycollegerollup",
+  "endpoint": "playercareerbycollegerollup",
+  "params": {
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season_type_all_star": "'Regular Season'",
+   "season_nullable": "''"
+  },
+  "expected": [
+   "East",
+   "Midwest",
+   "South",
+   "West"
+  ]
+ },
+ "PlayerCareerStats": {
+  "module": "nba_api.playercareerstats",
+  "endpoint": "playercareerstats",
+  "params": {
+   "player_id": null,
+   "per_mode36": "'Totals'",
+   "league_id_nullable": "'00'"
+  },
+  "expected": [
+   "CareerTotalsAllStarSeason",
+   "CareerTotalsCollegeSeason",
+   "CareerTotalsPostSeason",
+   "CareerTotalsRegularSeason",
+   "SeasonRankingsPostSeason",
+   "SeasonRankingsRegularSeason",
+   "SeasonTotalsAllStarSeason",
+   "SeasonTotalsCollegeSeason",
+   "SeasonTotalsPostSeason",
+   "SeasonTotalsRegularSeason"
+  ]
+ },
+ "PlayerCompare": {
+  "module": "nba_api.playercompare",
+  "endpoint": "playercompare",
+  "params": {
+   "vs_player_id_list": null,
+   "player_id_list": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "Individual",
+   "OverallCompare"
+  ]
+ },
+ "PlayerDashboardByClutch": {
+  "module": "nba_api.playerdashboardbyclutch",
+  "endpoint": "playerdashboardbyclutch",
+  "params": {
+   "player_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "Last10Sec3Point2PlayerDashboard",
+   "Last10Sec3PointPlayerDashboard",
+   "Last1Min5PointPlayerDashboard",
+   "Last1MinPlusMinus5PointPlayerDashboard",
+   "Last30Sec3Point2PlayerDashboard",
+   "Last30Sec3PointPlayerDashboard",
+   "Last3Min5PointPlayerDashboard",
+   "Last3MinPlusMinus5PointPlayerDashboard",
+   "Last5Min5PointPlayerDashboard",
+   "Last5MinPlusMinus5PointPlayerDashboard",
+   "OverallPlayerDashboard"
+  ]
+ },
+ "PlayerDashboardByGameSplits": {
+  "module": "nba_api.playerdashboardbygamesplits",
+  "endpoint": "playerdashboardbygamesplits",
+  "params": {
+   "player_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "ByActualMarginPlayerDashboard",
+   "ByHalfPlayerDashboard",
+   "ByPeriodPlayerDashboard",
+   "ByScoreMarginPlayerDashboard",
+   "OverallPlayerDashboard"
+  ]
+ },
+ "PlayerDashboardByGeneralSplits": {
+  "module": "nba_api.playerdashboardbygeneralsplits",
+  "endpoint": "playerdashboardbygeneralsplits",
+  "params": {
+   "player_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "DaysRestPlayerDashboard",
+   "LocationPlayerDashboard",
+   "MonthPlayerDashboard",
+   "OverallPlayerDashboard",
+   "PrePostAllStarPlayerDashboard",
+   "StartingPosition",
+   "WinsLossesPlayerDashboard"
+  ]
+ },
+ "PlayerDashboardByLastNGames": {
+  "module": "nba_api.playerdashboardbylastngames",
+  "endpoint": "playerdashboardbylastngames",
+  "params": {
+   "player_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "GameNumberPlayerDashboard",
+   "Last10PlayerDashboard",
+   "Last15PlayerDashboard",
+   "Last20PlayerDashboard",
+   "Last5PlayerDashboard",
+   "OverallPlayerDashboard"
+  ]
+ },
+ "PlayerDashboardByShootingSplits": {
+  "module": "nba_api.playerdashboardbyshootingsplits",
+  "endpoint": "playerdashboardbyshootingsplits",
+  "params": {
+   "player_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "AssistedBy",
+   "AssitedShotPlayerDashboard",
+   "OverallPlayerDashboard",
+   "Shot5FTPlayerDashboard",
+   "Shot8FTPlayerDashboard",
+   "ShotAreaPlayerDashboard",
+   "ShotTypePlayerDashboard",
+   "ShotTypeSummaryPlayerDashboard"
+  ]
+ },
+ "PlayerDashboardByTeamPerformance": {
+  "module": "nba_api.playerdashboardbyteamperformance",
+  "endpoint": "playerdashboardbyteamperformance",
+  "params": {
+   "player_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "OverallPlayerDashboard",
+   "PointsScoredPlayerDashboard",
+   "PontsAgainstPlayerDashboard",
+   "ScoreDifferentialPlayerDashboard"
+  ]
+ },
+ "PlayerDashboardByYearOverYear": {
+  "module": "nba_api.playerdashboardbyyearoveryear",
+  "endpoint": "playerdashboardbyyearoveryear",
+  "params": {
+   "player_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "ByYearPlayerDashboard",
+   "OverallPlayerDashboard"
+  ]
+ },
+ "PlayerDashPtPass": {
+  "module": "nba_api.playerdashptpass",
+  "endpoint": "playerdashptpass",
+  "params": {
+   "team_id": null,
+   "player_id": null,
+   "last_n_games": "'0'",
+   "league_id": "'00'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "per_mode_simple": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "PassesMade",
+   "PassesReceived"
+  ]
+ },
+ "PlayerDashPtReb": {
+  "module": "nba_api.playerdashptreb",
+  "endpoint": "playerdashptreb",
+  "params": {
+   "team_id": null,
+   "player_id": null,
+   "last_n_games": "'0'",
+   "league_id": "'00'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "per_mode_simple": "'Totals'",
+   "period": "'0'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "NumContestedRebounding",
+   "OverallRebounding",
+   "RebDistanceRebounding",
+   "ShotDistanceRebounding",
+   "ShotTypeRebounding"
+  ]
+ },
+ "PlayerDashPtShotDefend": {
+  "module": "nba_api.playerdashptshotdefend",
+  "endpoint": "playerdashptshotdefend",
+  "params": {
+   "team_id": null,
+   "player_id": null,
+   "last_n_games": "'0'",
+   "league_id": "'00'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "per_mode_simple": "'Totals'",
+   "period": "'0'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "DefendingShots"
+  ]
+ },
+ "PlayerDashPtShots": {
+  "module": "nba_api.playerdashptshots",
+  "endpoint": "playerdashptshots",
+  "params": {
+   "team_id": null,
+   "player_id": null,
+   "last_n_games": "'0'",
+   "league_id": "'00'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "per_mode_simple": "'Totals'",
+   "period": "'0'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "ClosestDefender10ftPlusShooting",
+   "ClosestDefenderShooting",
+   "DribbleShooting",
+   "GeneralShooting",
+   "Overall",
+   "ShotClockShooting",
+   "TouchTimeShooting"
+  ]
+ },
+ "PlayerEstimatedMetrics": {
+  "module": "nba_api.playerestimatedmetrics",
+  "endpoint": "playerestimatedmetrics",
+  "params": {
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "season_type": "'Regular Season'"
+  },
+  "expected": [
+   "PlayerEstimatedMetrics"
+  ]
+ },
+ "PlayerFantasyProfileBarGraph": {
+  "module": "nba_api.playerfantasyprofilebargraph",
+  "endpoint": "playerfantasyprofilebargraph",
+  "params": {
+   "player_id": null,
+   "season": "'2026-27'",
+   "league_id_nullable": "'00'",
+   "season_type_all_star_nullable": "''"
+  },
+  "expected": [
+   "LastFiveGamesAvg",
+   "SeasonAvg"
+  ]
+ },
+ "PlayerGameLog": {
+  "module": "nba_api.playergamelog",
+  "endpoint": "playergamelog",
+  "params": {
+   "player_id": null,
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "league_id_nullable": "'00'"
+  },
+  "expected": [
+   "PlayerGameLog"
+  ]
+ },
+ "PlayerGameLogs": {
+  "module": "nba_api.playergamelogs",
+  "endpoint": "playergamelogs",
+  "params": {
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "last_n_games_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "measure_type_player_game_logs_nullable": "None",
+   "month_nullable": "''",
+   "opp_team_id_nullable": "None",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "per_mode_simple_nullable": "''",
+   "period_nullable": "''",
+   "player_id_nullable": "''",
+   "season_nullable": "'2026-27'",
+   "season_segment_nullable": "''",
+   "season_type_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "PlayerGameLogs"
+  ]
+ },
+ "PlayerGameStreakFinder": {
+  "module": "nba_api.playergamestreakfinder",
+  "endpoint": "playergamestreakfinder",
+  "params": {
+   "active_streaks_only_nullable": "''",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "draft_number_nullable": "''",
+   "draft_round_nullable": "''",
+   "draft_team_id_nullable": "''",
+   "draft_year_nullable": "''",
+   "eq_ast_nullable": "''",
+   "eq_blk_nullable": "''",
+   "eq_dd_nullable": "''",
+   "eq_dreb_nullable": "''",
+   "eq_fg3a_nullable": "''",
+   "eq_fg3m_nullable": "''",
+   "eq_fg3_pct_nullable": "''",
+   "eq_fga_nullable": "''",
+   "eq_fgm_nullable": "''",
+   "eq_fg_pct_nullable": "''",
+   "eq_fta_nullable": "''",
+   "eq_ftm_nullable": "''",
+   "eq_ft_pct_nullable": "''",
+   "eq_minutes_nullable": "''",
+   "eq_oreb_nullable": "''",
+   "eq_pf_nullable": "''",
+   "eq_pts_nullable": "''",
+   "eq_reb_nullable": "''",
+   "eq_stl_nullable": "''",
+   "eq_td_nullable": "''",
+   "eq_tov_nullable": "''",
+   "game_id_nullable": "''",
+   "gt_ast_nullable": "''",
+   "gt_blk_nullable": "''",
+   "gt_dd_nullable": "''",
+   "gt_dreb_nullable": "''",
+   "gt_fg3a_nullable": "''",
+   "gt_fg3m_nullable": "''",
+   "gt_fg3_pct_nullable": "''",
+   "gt_fga_nullable": "''",
+   "gt_fgm_nullable": "''",
+   "gt_fg_pct_nullable": "''",
+   "gt_fta_nullable": "''",
+   "gt_ftm_nullable": "''",
+   "gt_ft_pct_nullable": "''",
+   "gt_minutes_nullable": "''",
+   "gt_oreb_nullable": "''",
+   "gt_pf_nullable": "''",
+   "gt_pts_nullable": "''",
+   "gt_reb_nullable": "''",
+   "gt_stl_nullable": "''",
+   "gt_td_nullable": "''",
+   "gt_tov_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "lt_ast_nullable": "''",
+   "lt_blk_nullable": "''",
+   "lt_dd_nullable": "''",
+   "lt_dreb_nullable": "''",
+   "lt_fg3a_nullable": "''",
+   "lt_fg3m_nullable": "''",
+   "lt_fg3_pct_nullable": "''",
+   "lt_fga_nullable": "''",
+   "lt_fgm_nullable": "''",
+   "lt_fg_pct_nullable": "''",
+   "lt_fta_nullable": "''",
+   "lt_ftm_nullable": "''",
+   "lt_ft_pct_nullable": "''",
+   "lt_minutes_nullable": "''",
+   "lt_oreb_nullable": "''",
+   "lt_pf_nullable": "''",
+   "lt_pts_nullable": "''",
+   "lt_reb_nullable": "''",
+   "lt_stl_nullable": "''",
+   "lt_td_nullable": "''",
+   "lt_tov_nullable": "''",
+   "min_games_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "player_id_nullable": "''",
+   "rookie_year_nullable": "''",
+   "season_nullable": "''",
+   "season_segment_nullable": "''",
+   "season_type_nullable": "''",
+   "starter_bench_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "vs_team_id_nullable": "''",
+   "years_experience_nullable": "''"
+  },
+  "expected": [
+   "PlayerGameStreakFinderResults"
+  ]
+ },
+ "PlayerIndex": {
+  "module": "nba_api.playerindex",
+  "endpoint": "playerindex",
+  "params": {
+   "active_nullable": "''",
+   "allstar_nullable": "''",
+   "college_nullable": "''",
+   "country_nullable": "''",
+   "draft_pick_nullable": "''",
+   "draft_year_nullable": "''",
+   "height_nullable": "''",
+   "player_position_abbreviation_nullable": "''",
+   "historical_nullable": "''",
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "team_id_nullable": "''",
+   "weight_nullable": "''"
+  },
+  "expected": [
+   "PlayerIndex"
+  ]
+ },
+ "PlayerNextNGames": {
+  "module": "nba_api.playernextngames",
+  "endpoint": "playernextngames",
+  "params": {
+   "player_id": null,
+   "number_of_games": "'2147483647'",
+   "season_all": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "league_id_nullable": "'00'"
+  },
+  "expected": [
+   "NextNGames"
+  ]
+ },
+ "PlayerProfileV2": {
+  "module": "nba_api.playerprofilev2",
+  "endpoint": "playerprofilev2",
+  "params": {
+   "player_id": null,
+   "per_mode36": "'Totals'",
+   "league_id_nullable": "'00'"
+  },
+  "expected": [
+   "CareerHighs",
+   "CareerTotalsAllStarSeason",
+   "CareerTotalsCollegeSeason",
+   "CareerTotalsPostSeason",
+   "CareerTotalsPreseason",
+   "CareerTotalsRegularSeason",
+   "NextGame",
+   "SeasonHighs",
+   "SeasonRankingsPostSeason",
+   "SeasonRankingsRegularSeason",
+   "SeasonTotalsAllStarSeason",
+   "SeasonTotalsCollegeSeason",
+   "SeasonTotalsPostSeason",
+   "SeasonTotalsPreseason",
+   "SeasonTotalsRegularSeason"
+  ]
+ },
+ "PlayerVsPlayer": {
+  "module": "nba_api.playervsplayer",
+  "endpoint": "playervsplayer",
+  "params": {
+   "vs_player_id": null,
+   "player_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "OnOffCourt",
+   "Overall",
+   "PlayerInfo",
+   "ShotAreaOffCourt",
+   "ShotAreaOnCourt",
+   "ShotAreaOverall",
+   "ShotDistanceOffCourt",
+   "ShotDistanceOnCourt",
+   "ShotDistanceOverall",
+   "VsPlayerInfo"
+  ]
+ },
+ "PlayoffPicture": {
+  "module": "nba_api.playoffpicture",
+  "endpoint": "playoffpicture",
+  "params": {
+   "league_id": "'00'",
+   "season_id": "'22026'"
+  },
+  "expected": [
+   "EastConfPlayoffPicture",
+   "EastConfRemainingGames",
+   "EastConfStandings",
+   "WestConfPlayoffPicture",
+   "WestConfRemainingGames",
+   "WestConfStandings"
+  ]
+ },
+ "ScheduleLeagueV2": {
+  "module": "nba_api.scheduleleaguev2",
+  "endpoint": "scheduleleaguev2",
+  "params": {
+   "league_id": "'00'",
+   "season": "'2026-27'"
+  },
+  "expected": [
+   "SeasonGames",
+   "SeasonWeeks"
+  ]
+ },
+ "ScheduleLeagueV2Int": {
+  "module": "nba_api.scheduleleaguev2int",
+  "endpoint": "scheduleleaguev2int",
+  "params": {
+   "league_id": "'00'",
+   "season": "'2026-27'"
+  },
+  "expected": [
+   "SeasonGames",
+   "SeasonWeeks",
+   "BroadcasterList"
+  ]
+ },
+ "ScoreboardV2": {
+  "module": "nba_api.scoreboardv2",
+  "endpoint": "scoreboardv2",
+  "params": {
+   "day_offset": "'0'",
+   "game_date": "'2026-10-29'",
+   "league_id": "'00'"
+  },
+  "expected": [
+   "Available",
+   "EastConfStandingsByDay",
+   "GameHeader",
+   "LastMeeting",
+   "LineScore",
+   "SeriesStandings",
+   "TeamLeaders",
+   "TicketLinks",
+   "WestConfStandingsByDay",
+   "WinProbability"
+  ]
+ },
+ "ScoreboardV3": {
+  "module": "nba_api.scoreboardv3",
+  "endpoint": "scoreboardv3",
+  "params": {
+   "game_date": null,
+   "league_id": "'00'"
+  },
+  "expected": [
+   "ScoreboardInfo",
+   "GameHeader",
+   "LineScore",
+   "GameLeaders",
+   "TeamLeaders",
+   "Broadcasters"
+  ]
+ },
+ "ShotChartDetail": {
+  "module": "nba_api.shotchartdetail",
+  "endpoint": "shotchartdetail",
+  "params": {
+   "team_id": null,
+   "player_id": null,
+   "context_measure_simple": "'PTS'",
+   "last_n_games": "'0'",
+   "league_id": "'00'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "period": "'0'",
+   "season_type_all_star": "'Regular Season'",
+   "ahead_behind_nullable": "''",
+   "clutch_time_nullable": "''",
+   "context_filter_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "end_period_nullable": "''",
+   "end_range_nullable": "''",
+   "game_id_nullable": "''",
+   "game_segment_nullable": "''",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "player_position_nullable": "''",
+   "point_diff_nullable": "''",
+   "position_nullable": "''",
+   "range_type_nullable": "''",
+   "rookie_year_nullable": "''",
+   "season_nullable": "''",
+   "season_segment_nullable": "''",
+   "start_period_nullable": "''",
+   "start_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "LeagueAverages",
+   "Shot_Chart_Detail"
+  ]
+ },
+ "ShotChartLeagueWide": {
+  "module": "nba_api.shotchartleaguewide",
+  "endpoint": "shotchartleaguewide",
+  "params": {
+   "league_id": "'00'",
+   "season": "'2026-27'"
+  },
+  "expected": [
+   "League_Wide"
+  ]
+ },
+ "ShotChartLineupDetail": {
+  "module": "nba_api.shotchartlineupdetail",
+  "endpoint": "shotchartlineupdetail",
+  "params": {
+   "context_measure_detailed": "'PTS'",
+   "group_id": "0",
+   "league_id": "'00'",
+   "period": "'0'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "context_filter_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_id_nullable": "''",
+   "game_segment_nullable": "''",
+   "last_n_games_nullable": "''",
+   "location_nullable": "''",
+   "month_nullable": "''",
+   "opponent_team_id_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "ShotChartLineupDetail",
+   "ShotChartLineupLeagueAverage"
+  ]
+ },
+ "SynergyPlayTypes": {
+  "module": "nba_api.synergyplaytypes",
+  "endpoint": "synergyplaytypes",
+  "params": {
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "player_or_team_abbreviation": "'T'",
+   "season_type_all_star": "'Regular Season'",
+   "season": "'2026-27'",
+   "play_type_nullable": "''",
+   "type_grouping_nullable": "''"
+  },
+  "expected": [
+   "SynergyPlayType"
+  ]
+ },
+ "TeamAndPlayersVsPlayers": {
+  "module": "nba_api.teamandplayersvsplayers",
+  "endpoint": "teamandplayersvsplayers",
+  "params": {
+   "vs_team_id": null,
+   "vs_player_id5": null,
+   "vs_player_id4": null,
+   "vs_player_id3": null,
+   "vs_player_id2": null,
+   "vs_player_id1": null,
+   "team_id": null,
+   "player_id5": null,
+   "player_id4": null,
+   "player_id3": null,
+   "player_id2": null,
+   "player_id1": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "PlayersVsPlayers",
+   "TeamPlayersVsPlayersOff",
+   "TeamPlayersVsPlayersOn",
+   "TeamVsPlayers",
+   "TeamVsPlayersOff"
+  ]
+ },
+ "TeamDashboardByGeneralSplits": {
+  "module": "nba_api.teamdashboardbygeneralsplits",
+  "endpoint": "teamdashboardbygeneralsplits",
+  "params": {
+   "team_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "DaysRestTeamDashboard",
+   "LocationTeamDashboard",
+   "MonthTeamDashboard",
+   "OverallTeamDashboard",
+   "PrePostAllStarTeamDashboard",
+   "WinsLossesTeamDashboard"
+  ]
+ },
+ "TeamDashboardByShootingSplits": {
+  "module": "nba_api.teamdashboardbyshootingsplits",
+  "endpoint": "teamdashboardbyshootingsplits",
+  "params": {
+   "team_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "AssistedBy",
+   "AssitedShotTeamDashboard",
+   "OverallTeamDashboard",
+   "Shot5FTTeamDashboard",
+   "Shot8FTTeamDashboard",
+   "ShotAreaTeamDashboard",
+   "ShotTypeTeamDashboard"
+  ]
+ },
+ "TeamDashLineups": {
+  "module": "nba_api.teamdashlineups",
+  "endpoint": "teamdashlineups",
+  "params": {
+   "team_id": null,
+   "group_quantity": "'5'",
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_id_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "Lineups",
+   "Overall"
+  ]
+ },
+ "TeamDashPtPass": {
+  "module": "nba_api.teamdashptpass",
+  "endpoint": "teamdashptpass",
+  "params": {
+   "team_id": null,
+   "last_n_games": "'0'",
+   "league_id": "'00'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "per_mode_simple": "'Totals'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "PassesMade",
+   "PassesReceived"
+  ]
+ },
+ "TeamDashPtReb": {
+  "module": "nba_api.teamdashptreb",
+  "endpoint": "teamdashptreb",
+  "params": {
+   "team_id": null,
+   "last_n_games": "'0'",
+   "league_id": "'00'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "per_mode_simple": "'Totals'",
+   "period": "'0'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "NumContestedRebounding",
+   "OverallRebounding",
+   "RebDistanceRebounding",
+   "ShotDistanceRebounding",
+   "ShotTypeRebounding"
+  ]
+ },
+ "TeamDashPtShots": {
+  "module": "nba_api.teamdashptshots",
+  "endpoint": "teamdashptshots",
+  "params": {
+   "team_id": null,
+   "last_n_games": "'0'",
+   "league_id": "'00'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "per_mode_simple": "'Totals'",
+   "period": "'0'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "ClosestDefender10ftPlusShooting",
+   "ClosestDefenderShooting",
+   "DribbleShooting",
+   "GeneralShooting",
+   "ShotClockShooting",
+   "TouchTimeShooting"
+  ]
+ },
+ "TeamDetails": {
+  "module": "nba_api.teamdetails",
+  "endpoint": "teamdetails",
+  "params": {
+   "team_id": null
+  },
+  "expected": [
+   "TeamAwardsChampionships",
+   "TeamAwardsConf",
+   "TeamAwardsDiv",
+   "TeamBackground",
+   "TeamHistory",
+   "TeamHof",
+   "TeamRetired",
+   "TeamSocialSites"
+  ]
+ },
+ "TeamEstimatedMetrics": {
+  "module": "nba_api.teamestimatedmetrics",
+  "endpoint": "teamestimatedmetrics",
+  "params": {
+   "league_id": "'00'",
+   "season": "'2026-27'",
+   "season_type": "'Regular Season'"
+  },
+  "expected": [
+   "TeamEstimatedMetrics"
+  ]
+ },
+ "TeamGameLog": {
+  "module": "nba_api.teamgamelog",
+  "endpoint": "teamgamelog",
+  "params": {
+   "team_id": null,
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "league_id_nullable": "'00'"
+  },
+  "expected": [
+   "TeamGameLog"
+  ]
+ },
+ "TeamGameLogs": {
+  "module": "nba_api.teamgamelogs",
+  "endpoint": "teamgamelogs",
+  "params": {
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "last_n_games_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "measure_type_player_game_logs_nullable": "None",
+   "month_nullable": "''",
+   "opp_team_id_nullable": "None",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "per_mode_simple_nullable": "''",
+   "period_nullable": "''",
+   "player_id_nullable": "''",
+   "season_nullable": "'2026-27'",
+   "season_segment_nullable": "''",
+   "season_type_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "TeamGameLogs"
+  ]
+ },
+ "TeamGameStreakFinder": {
+  "module": "nba_api.teamgamestreakfinder",
+  "endpoint": "teamgamestreakfinder",
+  "params": {
+   "active_streaks_only_nullable": "''",
+   "active_teams_only_nullable": "''",
+   "btr_opp_ast_nullable": "''",
+   "btr_opp_blk_nullable": "''",
+   "btr_opp_dreb_nullable": "''",
+   "btr_opp_fg3a_nullable": "''",
+   "btr_opp_fg3m_nullable": "''",
+   "btr_opp_fg3_pct_nullable": "''",
+   "btr_opp_fga_nullable": "''",
+   "btr_opp_fgm_nullable": "''",
+   "btr_opp_fg_pct_nullable": "''",
+   "btr_opp_fta_nullable": "''",
+   "btr_opp_ftm_nullable": "''",
+   "btr_opp_ft_pct_nullable": "''",
+   "btr_opp_oreb_nullable": "''",
+   "btr_opp_pf_nullable": "''",
+   "btr_opp_pts_nullable": "''",
+   "btr_opp_pts2nd_chance_nullable": "''",
+   "btr_opp_pts_fb_nullable": "''",
+   "btr_opp_pts_off_tov_nullable": "''",
+   "btr_opp_pts_paint_nullable": "''",
+   "btr_opp_reb_nullable": "''",
+   "btr_opp_stl_nullable": "''",
+   "btr_opp_tov_nullable": "''",
+   "conference_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "division_simple_nullable": "''",
+   "eq_ast_nullable": "''",
+   "eq_blk_nullable": "''",
+   "eq_dd_nullable": "''",
+   "eq_dreb_nullable": "''",
+   "eq_fg3a_nullable": "''",
+   "eq_fg3m_nullable": "''",
+   "eq_fg3_pct_nullable": "''",
+   "eq_fga_nullable": "''",
+   "eq_fgm_nullable": "''",
+   "eq_fg_pct_nullable": "''",
+   "eq_fta_nullable": "''",
+   "eq_ftm_nullable": "''",
+   "eq_ft_pct_nullable": "''",
+   "eq_minutes_nullable": "''",
+   "eq_opp_pts2nd_chance_nullable": "''",
+   "eq_opp_pts_fb_nullable": "''",
+   "eq_opp_pts_off_tov_nullable": "''",
+   "eq_opp_pts_paint_nullable": "''",
+   "eq_oreb_nullable": "''",
+   "eq_pf_nullable": "''",
+   "eq_pts_nullable": "''",
+   "eq_pts2nd_chance_nullable": "''",
+   "eq_pts_fb_nullable": "''",
+   "eq_pts_off_tov_nullable": "''",
+   "eq_pts_paint_nullable": "''",
+   "eq_reb_nullable": "''",
+   "eq_stl_nullable": "''",
+   "eq_td_nullable": "''",
+   "eq_tov_nullable": "''",
+   "game_id_nullable": "''",
+   "gt_ast_nullable": "''",
+   "gt_blk_nullable": "''",
+   "gt_dd_nullable": "''",
+   "gt_dreb_nullable": "''",
+   "gt_fg3a_nullable": "''",
+   "gt_fg3m_nullable": "''",
+   "gt_fg3_pct_nullable": "''",
+   "gt_fga_nullable": "''",
+   "gt_fgm_nullable": "''",
+   "gt_fg_pct_nullable": "''",
+   "gt_fta_nullable": "''",
+   "gt_ftm_nullable": "''",
+   "gt_ft_pct_nullable": "''",
+   "gt_minutes_nullable": "''",
+   "gt_opp_ast_nullable": "''",
+   "gt_opp_blk_nullable": "''",
+   "gt_opp_dreb_nullable": "''",
+   "gt_opp_fg3a_nullable": "''",
+   "gt_opp_fg3m_nullable": "''",
+   "gt_opp_fg3_pct_nullable": "''",
+   "gt_opp_fga_nullable": "''",
+   "gt_opp_fgm_nullable": "''",
+   "gt_opp_fg_pct_nullable": "''",
+   "gt_opp_fta_nullable": "''",
+   "gt_opp_ftm_nullable": "''",
+   "gt_opp_ft_pct_nullable": "''",
+   "gt_opp_oreb_nullable": "''",
+   "gt_opp_pf_nullable": "''",
+   "gt_opp_pts_nullable": "''",
+   "gt_opp_pts2nd_chance_nullable": "''",
+   "gt_opp_pts_fb_nullable": "''",
+   "gt_opp_pts_off_tov_nullable": "''",
+   "gt_opp_pts_paint_nullable": "''",
+   "gt_opp_reb_nullable": "''",
+   "gt_opp_stl_nullable": "''",
+   "gt_opp_tov_nullable": "''",
+   "gt_oreb_nullable": "''",
+   "gt_pf_nullable": "''",
+   "gt_pts_nullable": "''",
+   "gt_pts2nd_chance_nullable": "''",
+   "gt_pts_fb_nullable": "''",
+   "gt_pts_off_tov_nullable": "''",
+   "gt_pts_paint_nullable": "''",
+   "gt_reb_nullable": "''",
+   "gt_stl_nullable": "''",
+   "gt_td_nullable": "''",
+   "gt_tov_nullable": "''",
+   "lstreak_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "lt_ast_nullable": "''",
+   "lt_blk_nullable": "''",
+   "lt_dd_nullable": "''",
+   "lt_dreb_nullable": "''",
+   "lt_fg3a_nullable": "''",
+   "lt_fg3m_nullable": "''",
+   "lt_fg3_pct_nullable": "''",
+   "lt_fga_nullable": "''",
+   "lt_fgm_nullable": "''",
+   "lt_fg_pct_nullable": "''",
+   "lt_fta_nullable": "''",
+   "lt_ftm_nullable": "''",
+   "lt_ft_pct_nullable": "''",
+   "lt_minutes_nullable": "''",
+   "lt_opp_ast_nullable": "''",
+   "lt_opp_blk_nullable": "''",
+   "lt_opp_dreb_nullable": "''",
+   "lt_opp_fg3a_nullable": "''",
+   "lt_opp_fg3m_nullable": "''",
+   "lt_opp_fg3_pct_nullable": "''",
+   "lt_opp_fga_nullable": "''",
+   "lt_opp_fgm_nullable": "''",
+   "lt_opp_fg_pct_nullable": "''",
+   "lt_opp_fta_nullable": "''",
+   "lt_opp_ftm_nullable": "''",
+   "lt_opp_ft_pct_nullable": "''",
+   "lt_opp_oreb_nullable": "''",
+   "lt_opp_pf_nullable": "''",
+   "lt_opp_pts_nullable": "''",
+   "lt_opp_pts2nd_chance_nullable": "''",
+   "lt_opp_pts_fb_nullable": "''",
+   "lt_opp_pts_off_tov_nullable": "''",
+   "lt_opp_pts_paint_nullable": "''",
+   "lt_opp_reb_nullable": "''",
+   "lt_opp_stl_nullable": "''",
+   "lt_opp_tov_nullable": "''",
+   "lt_oreb_nullable": "''",
+   "lt_pf_nullable": "''",
+   "lt_pts_nullable": "''",
+   "lt_pts2nd_chance_nullable": "''",
+   "lt_pts_fb_nullable": "''",
+   "lt_pts_off_tov_nullable": "''",
+   "lt_pts_paint_nullable": "''",
+   "lt_reb_nullable": "''",
+   "lt_stl_nullable": "''",
+   "lt_td_nullable": "''",
+   "lt_tov_nullable": "''",
+   "min_games_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_nullable": "''",
+   "season_segment_nullable": "''",
+   "season_type_nullable": "''",
+   "team_id_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "vs_team_id_nullable": "''",
+   "wstreak_nullable": "''",
+   "wrs_opp_ast_nullable": "''",
+   "wrs_opp_blk_nullable": "''",
+   "wrs_opp_dreb_nullable": "''",
+   "wrs_opp_fg3a_nullable": "''",
+   "wrs_opp_fg3m_nullable": "''",
+   "wrs_opp_fg3_pct_nullable": "''",
+   "wrs_opp_fga_nullable": "''",
+   "wrs_opp_fgm_nullable": "''",
+   "wrs_opp_fg_pct_nullable": "''",
+   "wrs_opp_fta_nullable": "''",
+   "wrs_opp_ftm_nullable": "''",
+   "wrs_opp_ft_pct_nullable": "''",
+   "wrs_opp_oreb_nullable": "''",
+   "wrs_opp_pf_nullable": "''",
+   "wrs_opp_pts_nullable": "''",
+   "wrs_opp_pts2nd_chance_nullable": "''",
+   "wrs_opp_pts_fb_nullable": "''",
+   "wrs_opp_pts_off_tov_nullable": "''",
+   "wrs_opp_pts_paint_nullable": "''",
+   "wrs_opp_reb_nullable": "''",
+   "wrs_opp_stl_nullable": "''",
+   "wrs_opp_tov_nullable": "''"
+  },
+  "expected": [
+   "TeamGameStreakFinderParametersResults"
+  ]
+ },
+ "TeamHistoricalLeaders": {
+  "module": "nba_api.teamhistoricalleaders",
+  "endpoint": "teamhistoricalleaders",
+  "params": {
+   "team_id": null,
+   "league_id": "'00'",
+   "season_id": "'22026'"
+  },
+  "expected": [
+   "CareerLeadersByTeam"
+  ]
+ },
+ "TeamInfoCommon": {
+  "module": "nba_api.teaminfocommon",
+  "endpoint": "teaminfocommon",
+  "params": {
+   "team_id": null,
+   "league_id": "'00'",
+   "season_nullable": "''",
+   "season_type_nullable": "''"
+  },
+  "expected": [
+   "AvailableSeasons",
+   "TeamInfoCommon",
+   "TeamSeasonRanks"
+  ]
+ },
+ "TeamPlayerDashboard": {
+  "module": "nba_api.teamplayerdashboard",
+  "endpoint": "teamplayerdashboard",
+  "params": {
+   "team_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "po_round_nullable": "''",
+   "season_segment_nullable": "''",
+   "shot_clock_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "PlayersSeasonTotals",
+   "TeamOverall"
+  ]
+ },
+ "TeamPlayerOnOffDetails": {
+  "module": "nba_api.teamplayeronoffdetails",
+  "endpoint": "teamplayeronoffdetails",
+  "params": {
+   "team_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "OverallTeamPlayerOnOffDetails",
+   "PlayersOffCourtTeamPlayerOnOffDetails",
+   "PlayersOnCourtTeamPlayerOnOffDetails"
+  ]
+ },
+ "TeamPlayerOnOffSummary": {
+  "module": "nba_api.teamplayeronoffsummary",
+  "endpoint": "teamplayeronoffsummary",
+  "params": {
+   "team_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": [
+   "OverallTeamPlayerOnOffSummary",
+   "PlayersOffCourtTeamPlayerOnOffSummary",
+   "PlayersOnCourtTeamPlayerOnOffSummary"
+  ]
+ },
+ "TeamVsPlayer": {
+  "module": "nba_api.teamvsplayer",
+  "endpoint": "teamvsplayer",
+  "params": {
+   "vs_player_id": null,
+   "team_id": null,
+   "last_n_games": "'0'",
+   "measure_type_detailed_defense": "'Base'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "pace_adjust": "'N'",
+   "per_mode_detailed": "'Totals'",
+   "period": "'0'",
+   "plus_minus": "'N'",
+   "rank": "'N'",
+   "season": "'2026-27'",
+   "season_type_playoffs": "'Regular Season'",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "player_id_nullable": "''",
+   "season_segment_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": [
+   "OnOffCourt",
+   "Overall",
+   "ShotAreaOffCourt",
+   "ShotAreaOnCourt",
+   "ShotAreaOverall",
+   "ShotDistanceOffCourt",
+   "ShotDistanceOnCourt",
+   "ShotDistanceOverall",
+   "vsPlayerOverall"
+  ]
+ },
+ "TeamYearByYearStats": {
+  "module": "nba_api.teamyearbyyearstats",
+  "endpoint": "teamyearbyyearstats",
+  "params": {
+   "team_id": null,
+   "league_id": "'00'",
+   "per_mode_simple": "'Totals'",
+   "season_type_all_star": "'Regular Season'"
+  },
+  "expected": [
+   "TeamStats"
+  ]
+ },
+ "VideoDetails": {
+  "module": "nba_api.videodetails",
+  "endpoint": "videodetails",
+  "params": {
+   "team_id": null,
+   "player_id": null,
+   "context_measure_detailed": "'PTS'",
+   "last_n_games": "'0'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "period": "'0'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "ahead_behind_nullable": "''",
+   "clutch_time_nullable": "''",
+   "context_filter_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "end_period_nullable": "''",
+   "end_range_nullable": "''",
+   "game_id_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "point_diff_nullable": "''",
+   "position_nullable": "''",
+   "range_type_nullable": "''",
+   "rookie_year_nullable": "''",
+   "season_segment_nullable": "''",
+   "start_period_nullable": "''",
+   "start_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''"
+  },
+  "expected": []
+ },
+ "VideoDetailsAsset": {
+  "module": "nba_api.videodetailsasset",
+  "endpoint": "videodetailsasset",
+  "params": {
+   "team_id": null,
+   "player_id": null,
+   "context_measure_detailed": "'PTS'",
+   "last_n_games": "'0'",
+   "month": "'0'",
+   "opponent_team_id": "0",
+   "period": "'0'",
+   "season": "'2026-27'",
+   "season_type_all_star": "'Regular Season'",
+   "ahead_behind_nullable": "''",
+   "clutch_time_nullable": "''",
+   "context_filter_nullable": "''",
+   "date_from_nullable": "''",
+   "date_to_nullable": "''",
+   "end_period_nullable": "''",
+   "end_range_nullable": "''",
+   "game_id_nullable": "''",
+   "game_segment_nullable": "''",
+   "league_id_nullable": "'00'",
+   "location_nullable": "''",
+   "outcome_nullable": "''",
+   "point_diff_nullable": "''",
+   "position_nullable": "''",
+   "range_type_nullable": "''",
+   "rookie_year_nullable": "''",
+   "season_segment_nullable": "''",
+   "start_period_nullable": "''",
+   "start_range_nullable": "''",
+   "vs_conference_nullable": "''",
+   "vs_division_nullable": "''",
+   "ist_round_nullable": "None"
+  },
+  "expected": []
+ },
+ "VideoEvents": {
+  "module": "nba_api.videoevents",
+  "endpoint": "videoevents",
+  "params": {
+   "game_id": null,
+   "game_event_id": "0"
+  },
+  "expected": []
+ },
+ "VideoEventsAsset": {
+  "module": "nba_api.videoeventsasset",
+  "endpoint": "videoeventsasset",
+  "params": {
+   "game_id": null,
+   "game_event_id": "0"
+  },
+  "expected": []
+ },
+ "VideoStatus": {
+  "module": "nba_api.videostatus",
+  "endpoint": "videostatus",
+  "params": {
+   "game_date": "'2026-10-29'",
+   "league_id": "'00'"
+  },
+  "expected": [
+   "VideoStatus"
+  ]
+ },
+ "WinProbabilityPBP": {
+  "module": "nba_api.winprobabilitypbp",
+  "endpoint": "winprobabilitypbp",
+  "params": {
+   "game_id": null,
+   "run_type": "'each second'"
+  },
+  "expected": [
+   "GameInfo",
+   "WinProbPBP"
+  ]
+ },
+ "BoxScore": {
+  "module": "live.boxscore",
+  "endpoint": null,
+  "params": {
+   "game_id": null
+  },
+  "expected": [
+   "meta",
+   "game"
+  ]
+ },
+ "Odds": {
+  "module": "live.odds",
+  "endpoint": null,
+  "params": {},
+  "expected": [
+   "games"
+  ]
+ },
+ "ScoreBoard": {
+  "module": "live.scoreboard",
+  "endpoint": null,
+  "params": {},
+  "expected": [
+   "meta",
+   "scoreboard"
+  ]
+ }
+}

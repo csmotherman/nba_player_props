@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NBA Feature Explorer</title>
+<style>
+:root{--bg:#f6f7f9;--panel:#fff;--ink:#14181f;--mute:#5b6572;--line:#dde1e7;--accent:#1f5fbf;--accent-ink:#fff;
+--raw:#2f7d4f;--calc:#1f5fbf;--eng:#8a4fbf;--ext:#b8631a;--unv:#a63a3a;--h:#1f5fbf;--m:#6d9bd8;--l:#c4d6ef;--chip:#eef1f5}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1318;--panel:#171c23;--ink:#e6e9ee;--mute:#98a2b1;--line:#2a323d;--accent:#6aa3ff;--accent-ink:#0b1220;
+--raw:#5fcf8c;--calc:#6aa3ff;--eng:#c39bff;--ext:#ffb066;--unv:#ff8a8a;--h:#6aa3ff;--m:#3e6aa8;--l:#27405f;--chip:#212934}}
+:root[data-theme="dark"]{--bg:#0f1318;--panel:#171c23;--ink:#e6e9ee;--mute:#98a2b1;--line:#2a323d;--accent:#6aa3ff;--accent-ink:#0b1220;
+--raw:#5fcf8c;--calc:#6aa3ff;--eng:#c39bff;--ext:#ffb066;--unv:#ff8a8a;--h:#6aa3ff;--m:#3e6aa8;--l:#27405f;--chip:#212934}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+header{padding:16px;border-bottom:1px solid var(--line);background:var(--panel)}
+h1{margin:0 0 2px;font-size:18px}
+.sub{color:var(--mute);font-size:12px}
+main{padding:16px;max-width:1280px;margin:0 auto}
+.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:10px}
+.filters label{display:flex;flex-direction:column;font-size:11px;color:var(--mute);gap:3px}
+input,select{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);min-width:0}
+.row2{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:10px;font-size:12px;color:var(--mute)}
+button{font:inherit;padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--accent)}
+.count{font-weight:600;color:var(--ink)}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+th,td{padding:7px 9px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.03em;cursor:pointer;white-space:nowrap;position:sticky;top:0;background:var(--panel)}
+tr.data{cursor:pointer}
+tr.data:hover{background:var(--chip)}
+.id{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+.tag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:600;border:1px solid currentColor}
+.RAW{color:var(--raw)}.CALCULATED{color:var(--calc)}.ENGINEERED{color:var(--eng)}.EXTERNAL{color:var(--ext)}.UNVERIFIED{color:var(--unv)}
+.mk{display:inline-flex;gap:2px}
+.mk i{font-style:normal;font-size:10px;width:26px;text-align:center;border-radius:3px;padding:1px 0;background:var(--chip);color:var(--mute)}
+.mk i.H{background:var(--h);color:var(--accent-ink)}.mk i.M{background:var(--m);color:#fff}.mk i.L{background:var(--l);color:var(--ink)}
+tr.detail td{background:var(--bg);padding:12px 16px}
+dl{display:grid;grid-template-columns:170px 1fr;gap:4px 12px;margin:0}
+dt{color:var(--mute);font-size:12px}dd{margin:0;word-break:break-word}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;background:var(--chip);padding:1px 4px;border-radius:3px}
+.scroll{overflow-x:auto}
+.empty{padding:24px;text-align:center;color:var(--mute)}
+@media (max-width:640px){main{padding:10px}dl{grid-template-columns:1fr}.hide-sm{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1>NBA Player Prop Feature Explorer</h1>
+  <div class="sub" id="meta"></div>
+</header>
+<main>
+  <div class="filters">
+    <label>Search<input id="q" type="search" placeholder="id, name, column, formula..."></label>
+    <label>Prop market<select id="market"></select></label>
+    <label>Min relevance (hypothesis)<select id="minrel"><option value="L">Low or higher</option><option value="M">Medium or higher</option><option value="H">High only</option></select></label>
+    <label>Data source (endpoint)<select id="src"></select></label>
+    <label>Feature type<select id="cls"></select></label>
+    <label>Temporal status<select id="temp"></select></label>
+    <label>Priority<select id="pri"></select></label>
+    <label>Domain<select id="dom"></select></label>
+  </div>
+  <div class="row2">
+    <span><span class="count" id="n">0</span> features shown</span>
+    <label><input type="checkbox" id="apionly"> nba_api-only (hide EXTERNAL / UNVERIFIED)</label>
+    <button id="reset">Reset filters</button>
+    <button id="csv">Download filtered CSV</button>
+    <button id="theme">Toggle theme</button>
+  </div>
+  <div class="scroll"><table id="t"><thead><tr>
+    <th data-k="id">ID</th><th data-k="name">Name</th><th data-k="classification">Type</th><th data-k="priority">Pri</th>
+    <th class="hide-sm" data-k="temporal_status">Temporal</th><th class="hide-sm" data-k="domain">Domain</th><th>Markets</th></tr></thead><tbody id="tb"></tbody></table></div>
+  <div class="empty" id="empty" hidden>No features match these filters.</div>
+</main>
+<script id="data" type="application/json">/*DATA*/</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const F = DATA.features, M = DATA.markets, $ = id => document.getElementById(id);
+const epOf = s => s.replace(/\[.*\]/, '').trim();
+const uniq = a => [...new Set(a)].sort();
+$('meta').textContent = `${F.length} features · nba_api ${DATA.meta.nba_api_version} · discovery ${DATA.meta.discovery_date} · rankings are hypotheses, not findings`;
+function fill(sel, vals, all) { sel.innerHTML = `<option value="">${all}</option>` + vals.map(v => `<option>${v}</option>`).join(''); }
+fill($('market'), M, 'Any market');
+fill($('src'), uniq(F.flatMap(f => f.source_endpoints.map(epOf))), 'Any source');
+fill($('cls'), uniq(F.map(f => f.classification)), 'Any type');
+fill($('temp'), uniq(F.map(f => f.temporal_status)), 'Any status');
+fill($('pri'), uniq(F.map(f => f.priority)), 'Any priority');
+fill($('dom'), uniq(F.map(f => f.domain)), 'Any domain');
+let sortK = null, sortDir = 1, open = new Set();
+const rank = {H: 3, M: 2, L: 1, N: 0};
+function filtered() {
+  const q = $('q').value.toLowerCase(), mk = $('market').value, mr = rank[$('minrel').value];
+  return F.filter(f => {
+    if (mk && !(rank[f.market_relevance[mk]] >= mr && rank[f.market_relevance[mk]] > 0)) return false;
+    if ($('src').value && !f.source_endpoints.map(epOf).includes($('src').value)) return false;
+    if ($('cls').value && f.classification !== $('cls').value) return false;
+    if ($('temp').value && f.temporal_status !== $('temp').value) return false;
+    if ($('pri').value && f.priority !== $('pri').value) return false;
+    if ($('dom').value && f.domain !== $('dom').value) return false;
+    if ($('apionly').checked && ['EXTERNAL', 'UNVERIFIED'].includes(f.classification)) return false;
+    if (q && !(f.id + ' ' + f.name + ' ' + f.description + ' ' + f.formula + ' ' + f.source_columns.join(' ')).toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+function detail(f) {
+  const rows = [['Description', f.description], ['Classification', f.classification], ['Temporal status', f.temporal_status],
+    ['Source endpoints', f.source_endpoints.join(', ') || '—'], ['Source columns', f.source_columns.map(c => `<code>${esc(c)}</code>`).join(' ') || '—', 1],
+    ['Formula / procedure', f.formula], ['Dependencies', f.dependencies.map(d => `<code>${d}</code>`).join(' ') || '—', 1],
+    ['Optional dependencies', f.optional_dependencies.map(d => `<code>${d}</code>`).join(' ') || '—', 1],
+    ['Aggregation level', f.aggregation_level], ['Historical availability', f.historical_availability], ['Pregame availability', f.pregame_availability],
+    ['Leakage risk', `${f.leakage_risk}. ${f.leakage_notes}`], ['Missing data', f.missing_data_handling], ['Validation method', f.validation_method],
+    ['Validation status', f.validation_status], ['Hypothesis ranks', `predictive value ${f.hyp_predictive_value} · reliability ${f.hyp_reliability} · collection cost ${f.hyp_collection_cost} · stability ${f.hyp_stability} · overfit risk ${f.hyp_overfit_risk}`],
+    ['Correlation cluster', f.correlation_cluster], ['Ablation group', f.ablation_group], ['Notes', f.notes || '—']];
+  return `<dl>${rows.map(([k, v, raw]) => `<dt>${k}</dt><dd>${raw ? v : esc(v)}</dd>`).join('')}</dl>`;
+}
+function render() {
+  let list = filtered();
+  if (sortK) list = [...list].sort((a, b) => (a[sortK] > b[sortK] ? 1 : a[sortK] < b[sortK] ? -1 : 0) * sortDir);
+  $('n').textContent = list.length; $('empty').hidden = list.length > 0;
+  $('tb').innerHTML = list.map(f => {
+    const mk = '<span class="mk">' + M.map(m => `<i class="${f.market_relevance[m]}" title="${m}: ${f.market_relevance[m]}">${m}</i>`).join('') + '</span>';
+    const r = `<tr class="data" data-id="${f.id}"><td class="id">${f.id}</td><td>${esc(f.name)}</td><td><span class="tag ${f.classification}">${f.classification}</span></td><td>${f.priority}</td><td class="hide-sm">${f.temporal_status}</td><td class="hide-sm">${esc(f.domain)}</td><td>${mk}</td></tr>`;
+    return r + (open.has(f.id) ? `<tr class="detail"><td colspan="7">${detail(f)}</td></tr>` : '');
+  }).join('');
+}
+$('tb').addEventListener('click', e => { const tr = e.target.closest('tr.data'); if (!tr) return; const id = tr.dataset.id; open.has(id) ? open.delete(id) : open.add(id); render(); });
+document.querySelectorAll('th[data-k]').forEach(th => th.addEventListener('click', () => { const k = th.dataset.k; sortDir = sortK === k ? -sortDir : 1; sortK = k; render(); }));
+['q', 'market', 'minrel', 'src', 'cls', 'temp', 'pri', 'dom', 'apionly'].forEach(id => $(id).addEventListener('input', render));
+$('reset').onclick = () => { ['q', 'market', 'src', 'cls', 'temp', 'pri', 'dom'].forEach(id => $(id).value = ''); $('minrel').value = 'L'; $('apionly').checked = false; render(); };
+$('theme').onclick = () => { const r = document.documentElement; const dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme:dark)').matches; r.dataset.theme = dark ? 'light' : 'dark'; };
+$('csv').onclick = () => {
+  const cols = ['id', 'name', 'domain', 'classification', 'temporal_status', 'priority', 'validation_status', 'source_endpoints', 'formula'];
+  const q = v => '"' + String(Array.isArray(v) ? v.join('; ') : v).replace(/"/g, '""') + '"';
+  const blob = new Blob([cols.join(',') + '\n' + filtered().map(f => cols.map(c => q(f[c])).join(',')).join('\n')], {type: 'text/csv'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'filtered_features.csv'; a.click();
+};
+render();
+</script>
+</body>
+</html>
