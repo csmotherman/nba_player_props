@@ -167,6 +167,8 @@ L4 stat distributions  count models per market + joint simulation (shared minute
 L5 evaluation        walk-forward backtest, calibration, proper scoring, ablation harness, leakage tests
 ```
 
+**Implemented so far (Phase 1):** L0 (rate-limited client with circuit breaker, content-addressed append-only raw store, `source_requests`/`ingestion_runs`), L1 (DuckDB tables for games, teams, players, player/team game and advanced, stints, appearances, starters, inactives, quality results) and the L2 slice (rolling minutes and per-minute rates, prior-season inputs, team pace/possessions/ratings, rest, back-to-backs, team-change context, a strictly pregame roster) for cutoffs of 24 h, 6 h and 1 h. No L3-L5 component exists. Raw data live in `data/raw/` and the database in `data/warehouse/` (both gitignored); everything else is committed.
+
 **Rules that make the store trustworthy**
 
 1. **As-of everything.** A training row for game *g* on date *d* uses only information with timestamp < tip-off(*g*) minus the intended prediction lead. For nba_api this means either computing from L1 game rows with `date < d`, or passing `date_to_nullable = d - 1 day` to season endpoints (verified honored). Un-bounded `LeagueDash*` calls return data through *today* and leak.
@@ -218,7 +220,7 @@ Details per endpoint are in `NBA_API_ENDPOINT_INVENTORY.csv`. Coverage statement
 
 ### 4.2 Important discoveries
 
-1. **Per-game potential assists and rebound chances are recoverable.** `BoxScorePlayerTrackV3` has no potential-assist column, but `LeagueDashPtStats` with `date_from = date_to = d` returns that day's per-player values. Verified on 2026-01-15: 201 players, `AST` equal to the game log for 100%, `POTENTIAL_AST` total 858. Depth of this trick beyond 2025-26 is untested.
+1. **Per-game potential assists and rebound chances are recoverable.** `BoxScorePlayerTrackV3` has no potential-assist column, but `LeagueDashPtStats` with `date_from = date_to = d` returns that day's per-player values. Verified on 2026-01-15: 201 players, `AST` equal to the game log for 100%, `POTENTIAL_AST` total 858. Depth of this trick beyond 2025-26 is untested. **Phase 1 pilot (74 live requests, 0 failures): single-day windows of Passing, Rebounding and Possessions matched same-window box scores EXACTLY (AST, REB, PTS) for every matched player at 2 dates in each of 2013-14, 2016-17, 2019-20, 2022-23, 2024-25, 2025-26 (36/36 comparisons); windows are additive (the two-day window equals the sum of the two single days for 325/325 players); GP never exceeds 1 per day; no duplicate rows.** Caveats: `POTENTIAL_AST` is not a superset of `AST` (AST > POTENTIAL_AST for 4-7% of player-days, up to 4 more; POTENTIAL_AST = 0 with AST > 0 on 1-7 players per day), players with zero rebound chances have no row in Rebounding windows, and `AST_ADJ = AST + FT_AST + SECONDARY_AST` holds only from 2024-25. Interior seasons (2014-15, 2015-16, 2017-18, 2018-19, 2020-21, 2021-22, 2023-24) are untested. A full backfill is estimated at ~5,940 requests (≈2.5 h at 1.5 s pacing, ≈70 MB gzipped raw).
 2. **Starter flag is derivable historically.** `BoxScoreTraditionalV3.position` is non-empty for exactly the five starters (20 of 20 sampled games). It is not available pregame from nba_api.
 3. **Game logs contain almost no DNP rows** (10.83 player rows per team-game; 83 zero-minute rows league-wide in 2025-26). Availability must be inferred from schedule x appearances, or taken from `InactivePlayers`.
 4. **Defense versus position is constructible** with `LeagueDashPlayerStats(opponent_team_id, player_position_abbreviation_nullable, date_to_nullable)` (all three filters honored; positions are the NBA's three coarse buckets).
@@ -262,7 +264,7 @@ Details per endpoint are in `NBA_API_ENDPOINT_INVENTORY.csv`. Coverage statement
 
 1. **Decompose every counting stat into opportunity x conversion**, and model each separately: `stat = minutes x possessions/minute x opportunities/possession x conversion`. Opportunities (minutes, attempts, potential assists, rebound chances) are more persistent and less opponent-dependent than results (FG%, 3P%, assist conversion).
 2. **Shrink.** Every rate gets an empirical-Bayes or hierarchical estimate (`(n*obs + k*prior)/(n+k)`), with `k` fitted from data (beta-binomial MLE or cross-validation). Priors: prior season, then archetype, then league mean.
-3. **Predict distributions.** Counts are overdispersed; points and combos are compounds. Use negative-binomial/binomial thinning and joint simulation with shared minutes and pace. Do not multiply expectations.
+3. **Predict distributions.** Counts are overdispersed; points and combos are compounds. Use negative-binomial counts (binomial only where successes provably cannot exceed trials, e.g. makes given attempts) and joint simulation with shared minutes and pace. Do not multiply expectations.
 4. **Make minutes the first model.** Every market scales with minutes; errors in minutes dominate.
 5. **Pace-normalise through possessions**, not through ad-hoc multipliers; use on-court possessions for player quantities.
 6. **Separate observation from projection** in the feature store; never train on projected values computed with future data.
@@ -308,11 +310,11 @@ Team possessions are a game quantity; on-court possessions are a player quantity
 
 **Expected shot attempts** `EXP_FGA = poss_i x r_i`, `log r_i = log(FGA per 100 on-court possessions)/100 + beta . [opp_FGA_allowed, teammate_out, starter_prob, rest]` with betas learned. Equivalent per-minute form exists; the per-possession form is pace-neutral. These two are strongly collinear: keep one parameterisation, test the other in ablation.
 
-**Expected rebound opportunities** `EXP_REB_CHANCES = ENV_EXP_MISSED_SHOTS x (E[MIN]/48) x share_i`, `share_i = rebound chances / (minutes-proportional available misses)`, then `EXP_REB = Binomial(chances, conversion)`. Because on-court misses are unknown without a rotation reconstruction (`GameRotation` is dead), the minutes-proportional approximation is an **unsupported assumption** to test. Expected misses come from both teams' miss-per-possession rates and the fitted rebound relation above.
+**Expected rebound opportunities** `EXP_REB_CHANCES = ENV_EXP_MISSED_SHOTS x (E[MIN]/48) x share_i`, `share_i = rebound chances / (minutes-proportional available misses)`, then `EXP_REB ~ NegBin(mean = chances x conversion)` (chances occasionally fall below rebounds, ~0-1% of player-days, so a strict binomial is not assumed). Because on-court misses are unknown without a rotation reconstruction (`GameRotation` is dead), the minutes-proportional approximation is an **unsupported assumption** to test. Expected misses come from both teams' miss-per-possession rates and the fitted rebound relation above.
 
 **MVP baselines for rebounds and assists (no tracking data).** The opportunity pipelines need tracking aggregates, so the first version uses the verified percentage identities rearranged: `E[REB] = REB%_hat x (E[MIN]/48) x TotalREB_exp` and `E[AST] = AST%_hat x ((E[MIN]/48) x TmFGM_exp - FGM_exp)` (`EXP_REB_BASELINE`, `EXP_AST_BASELINE`). These are the benchmarks the opportunity x conversion pipelines must beat in ablation. Steals, blocks and turnovers use a count model over expected on-court possessions with optional opponent terms.
 
-**Expected assist opportunities** `EXP_POT_AST = poss_i x potential assists per possession`, then `EXP_AST = Binomial(POT, c)` with `c` = shrunk conversion, optionally pass-destination-weighted by who is available (`PlayerDashPtPass` gives pass counts, assists, FGM/FGA per receiver). The cheaper team-level proxy (`AST_TEAM_ASSISTED_RATE`) should be tried first.
+**Expected assist opportunities** `EXP_POT_AST = poss_i x potential assists per possession`, then `EXP_AST ~ NegBin(mean = POT x c)` with `c` = shrunk conversion (assists can exceed potential assists in 4-7% of player-days, so a binomial is invalid), optionally pass-destination-weighted by who is available (`PlayerDashPtPass` gives pass counts, assists, FGM/FGA per receiver). The cheaper team-level proxy (`AST_TEAM_ASSISTED_RATE`) should be tried first.
 
 **Expected three-point attempts** `EXP_3PA = EXP_FGA x q_i`, `logit q_i = logit(3PA/FGA shrunk) + gamma . [opp_3PA_allowed, starter_prob, teammate_out]`; makes: `3PM | N ~ Binomial(N, p)`, `N ~ NegBin`, `p` = shrunk 3P% with at most a small opponent/shot-type adjustment. Expect opponent 3P% allowed to add very little (mostly shot luck); the ablation must decide.
 
@@ -687,7 +689,7 @@ Depth of single-day tracking windows beyond 2025-26 (pilot code exists, live run
 2. **Most valuable new features:** projected minutes; expected on-court possessions; potential assists per possession x conversion; rebound chances x conversion; shrunk attempt rates; teammate-absence minutes/usage redistribution; blowout-adjusted minutes.
 3. **Promising but hard:** true on-court missed-shot counts (needs rotation reconstruction); pass-destination teammate conversion; pregame lineup/usage redistribution under uncertain availability; defender-assignment-aware matchup features; archetype clustering that earns its keep.
 4. **Missing sources:** pregame injury/status feed, confirmed starters, historical and live prop lines and totals, pregame officials, minute-restriction news, travel/arena geodata.
-5. **Minimum viable set:** the P0 features listed below (single authority: `scripts/registry/priorities.py`): minutes layer, pace/possession layer, shrunk rates, opponent factors, availability history, variance, plus labels and raw ingest. The blocked externals (`EXT_INJURY_REPORT`, `AVL_TEAMMATE_OUT_USAGE`, `EXT_PROP_LINES`) are needed for serving and for betting backtests.
+5. **Minimum viable set:** the P0 features listed below (single authority: `scripts/registry/priorities.py`): minutes layer, pace/possession layer, shrunk rates, opponent factors, availability history, variance, plus labels and raw ingest. `EXT_INJURY_REPORT` and `EXT_PROP_LINES` are blocked by missing external data (needed for honest serving and betting backtests); `AVL_TEAMMATE_OUT_USAGE` and everything downstream of it runs only in a declared degraded mode without them.
 
 <!-- BEGIN:mvp -->
 
@@ -716,7 +718,7 @@ P0 = 99 features: 15 labels, 17 raw-ingest columns, and 67 modelled/context feat
 | Usage redistribution | `USGR_MINUTES_VACANCY` † |
 
 <!-- END:mvp -->
-6. **Build first:** (1) ingest + as-of feature store with the season-type/ID/leakage rules; (2) minutes model with the quantile loss; (3) possession and game-environment layer; (4) rate-based baseline per market with NB/binomial distributions; (5) add tracking-opportunity layer via single-day windows; (6) ablation harness; (7) externals. Detail is in the chat summary that accompanied this deliverable.
+6. **Build order (status after Phase 1):** (1) DONE: ingest + point-in-time feature store with the season-type/ID/cutoff rules (regular seasons 2023-24 → 2026-27, 13 features implemented and tested); (2) NEXT: a separately evaluated minutes-distribution model (pinball loss, calibration, walk-forward, with the roster-selection effect handled explicitly); (3) possession/pace layer; (4) opportunity rates per market; (5) individual prop distributions; (6) chronological backtests and the ablation harness; (7) the optional tracking layer (pilot exact; full backfill ≈ 6k requests) and external feeds (injury status first).
 
 ---
 

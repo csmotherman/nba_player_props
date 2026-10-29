@@ -69,15 +69,18 @@ def write(con, out=None):
     L += ['## 6. Starters, inactives and appearances', '']
     cov = q(con, """SELECT g.season, count(DISTINCT g.game_id) games, count(DISTINCT h.game_id) with_starters FROM games g LEFT JOIN historical_starters h USING(game_id) WHERE g.season_type='regular' AND g.in_gamelog GROUP BY 1 ORDER BY 1""")
     L += [md(['Season', 'Completed games', 'Games with V3 starters'], cov), '']
-    inact = q(con, """WITH s AS (SELECT json_extract_string(params_json,'$.game_id') gid FROM source_requests WHERE endpoint='BoxScoreSummaryV3' AND ok)
+    ic, rf = load('inactives_coverage.json'), load('inactives_refetch.json')
+    if ic:
+        L += ['**Official inactives (BoxScoreSummaryV3) — sampled coverage of completed seasons** (12 games evenly spaced per season, `scripts/inactives_coverage_pilot.py`):', '',
+              md(['Season', 'Games sampled', 'Requests ok', 'Games with inactives', 'Mean inactives per game'], [(s_, d['sampled'], d['ok'], d['with_inactives'], d['mean_inactives']) for s_, d in ic.items()]), '']
+    inact = q(con, """WITH s AS (SELECT DISTINCT json_extract_string(params_json,'$.game_id') gid FROM source_requests WHERE endpoint='BoxScoreSummaryV3' AND ok)
                       SELECT g.season, g.game_date, count(*) requested, count(*) FILTER (WHERE EXISTS (SELECT 1 FROM historical_inactives i WHERE i.game_id=g.game_id)) with_inactives
-                      FROM games g JOIN s ON s.gid=g.game_id GROUP BY ALL ORDER BY 1,2""")
+                      FROM games g JOIN s ON s.gid=g.game_id WHERE g.season='2026-27' GROUP BY ALL ORDER BY 1,2""")
     if inact:
-        tot_r, tot_i = sum(r[2] for r in inact), sum(r[3] for r in inact)
-        L += [f'**Official inactives (BoxScoreSummaryV3):** {tot_i} of {tot_r} requested games returned any inactive player. Coverage by game date:', '', md(['Season', 'Game date', 'Games requested', 'With inactives'], inact), '',
-              '**Finding:** inactive lists are populated for the most recent games but largely empty for older ones in the same season, so `historical_inactives` must NOT be treated as a complete historical record. A historical-coverage test across 2023-24 → 2025-26 is outstanding (the API was throttled during collection; see section 9).', '']
-    else:
-        L += ['**Official inactives:** no summaries ingested yet. UNVERIFIED.', '']
+        L += ['**In-progress season (2026-27), every completed game requested:**', '', md(['Season', 'Game date', 'Games requested', 'With inactives'], inact), '']
+    if rf:
+        L += [f"Re-fetch of the {rf['games_empty_at_first_fetch']} 2026-27 games that were empty at first fetch (about an hour later): **{rf['populated_on_refetch']} populated, {rf['still_empty']} still empty**.", '']
+    L += ['**Finding:** inactive lists are fully populated for the completed seasons sampled but are largely missing for games of the in-progress season that are more than about two days old, and do not fill in later. `historical_inactives` is therefore reliable for completed seasons only where it has been loaded, and for the live season the list must be captured at the time of the game. Only the sampled games and 2026-27 requests are loaded; a full backfill (≈1 request per game) has not been run.', '']
     ap = q(con, "SELECT status, knowledge_class, count(*) FROM player_appearances GROUP BY ALL ORDER BY 3 DESC")
     L += ['Appearance statuses (confirmed vs inferred):', '', md(['Status', 'Knowledge class', 'Rows'], ap), '',
           '`INFERRED_ABSENT` uses games on **both sides** of the target (retrospective) and is never read by any pregame feature (tested).', '']
@@ -127,7 +130,7 @@ def write(con, out=None):
         c = Counter((f['readiness'], f['implementation_status']) for f in reg)
         L += ['Registry readiness vs implementation:', '', md(['Readiness', 'Implementation', 'Features'], [(k[0], k[1], v) for k, v in sorted(c.items())]), '']
     # ---- tracking pilot
-    p = ROOT / 'data' / 'processed' / 'tracking_pilot.json'
+    p = DISC / 'tracking_pilot.json'
     L += ['## 11. Date-windowed tracking pilot (optional layer)', '']
     if p.exists():
         t = json.loads(p.read_text())

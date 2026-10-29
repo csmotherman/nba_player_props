@@ -18,14 +18,14 @@ PIPELINES = {
         ('3. Opportunity share', ['REB_CHANCES_PER_MIN', 'REB_OPP_SHARE_PER_MISS', 'REB_FRONTCOURT_COMPETITION', 'AVL_TEAMMATE_OUT_USAGE'], 'Share of the available misses the player is positioned to contest, given who else is on the floor.'),
         ('4. Rebound chances', ['EXP_REB_CHANCES'], 'Expected chances = misses during his minutes x share.'),
         ('5. Conversion', ['REB_CONVERSION', 'REB_CONVERSION_SHRUNK'], 'Rebounds per chance (shrunk).'),
-        ('6. Distribution', ['VAR_DISP_REB', 'EXP_REB_DIST'], 'Binomial thinning of overdispersed chances.')]),
+        ('6. Distribution', ['VAR_DISP_REB', 'EXP_REB_DIST'], 'Negative-binomial rebounds given overdispersed chances (conversion can marginally exceed 1).')]),
     'AST': dict(root='EXP_AST_DIST', target='LBL_AST', mvp_fallback='EXP_AST_BASELINE = AST%_hat x ((MIN/48) x team FGM expected - own FGM expected) (no tracking needed)', stages=[
         ('0. MVP baseline (no tracking)', ['AST_PCT_ROLL', 'EXP_AST_BASELINE'], 'Rate-based projection; the opportunity pipeline below must beat it in ablation.'),
         ('1. Minutes', ['MIN_EXP'], 'Projected minutes.'),
         ('2. Possessions', ['EXP_ONCOURT_POSS'], 'On-court possessions.'),
         ('3. Playmaking opportunities', ['AST_POT_PER_MIN', 'AST_POT_PER_100POSS', 'AST_TEAM_ASSISTED_RATE', 'AST_BALLHANDLER_COMPETITION', 'AST_OPP_ASSISTS_ALLOWED', 'EXP_POT_AST'], 'Potential assists = possessions x potential assists per possession, adjusted for competition and availability.'),
         ('4. Teammate conversion', ['AST_CONVERSION', 'AST_CONVERSION_SHRUNK', 'AST_TEAMMATE_CONVERSION_PROB'], 'Probability a creating pass is converted, given the receivers who are available.'),
-        ('5. Distribution', ['VAR_DISP_AST', 'EXP_AST_DIST'], 'Binomial thinning of overdispersed potential assists.')]),
+        ('5. Distribution', ['VAR_DISP_AST', 'EXP_AST_DIST'], 'Negative-binomial assists given overdispersed potential assists (NOT binomial: AST can exceed POTENTIAL_AST).')]),
     '3PM': dict(root='EXP_3PM_DIST', target='LBL_FG3M', mvp_fallback='TPT_3PA_PER_MIN x MIN_EXP x TPT_3P_PCT_SHRUNK', stages=[
         ('1. Minutes and possessions', ['MIN_EXP', 'EXP_ONCOURT_POSS'], ''),
         ('2. Shot attempts', ['EXP_FGA'], ''),

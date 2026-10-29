@@ -201,3 +201,12 @@ def explain(con, game_id, player_id, hours):
                            ORDER BY a.available_at DESC LIMIT 20""", [row[0], player_id, game_id, row[0]]).fetchall()
     return dict(cutoff_ts=row[0], max_source_available_at=row[1], max_source_game_date=row[2], inputs_available_at_cutoff=row[3], limitations=row[4],
                 last20_sources=[dict(game_id=u[0], game_date=u[1], available_at=u[2], ok=u[3]) for u in used])
+
+
+def player_team_as_of(con, player_id, as_of_ts):
+    """Team of a player AS OF a timestamp: the team on his most recent box-score row (including zero-minute rows, which prove roster membership)
+    whose game was already available at `as_of_ts`. Uses nothing later. Returns (team_id, last_game_date) or (None, None) when unknown."""
+    rows = con.execute(f"""SELECT p.team_id, p.game_date FROM player_game p JOIN games g USING (game_id)
+                           WHERE p.player_id = ? AND p.season_type = 'regular' AND {cutoffs.sql_available_at(tip='g.tip_utc', gd='p.game_date')} <= ?
+                           ORDER BY {cutoffs.sql_available_at(tip='g.tip_utc', gd='p.game_date')} DESC, p.game_id DESC LIMIT 1""", [str(player_id), as_of_ts]).fetchall()
+    return (rows[0][0], rows[0][1]) if rows else (None, None)

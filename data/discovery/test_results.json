@@ -27,7 +27,7 @@
   "tests/unit/test_synthetic_scenarios.py": {
    "ERROR": 0,
    "FAILED": 0,
-   "PASSED": 10,
+   "PASSED": 12,
    "SKIPPED": 0
   },
   "tests/unit/test_tracking_pilot.py": {
@@ -45,5 +45,5 @@
  },
  "command": "pytest ",
  "returncode": 0,
- "summary": "WARNING  nba_props.api:client.py:119 ScheduleLeagueV2 {'season': '2025-26'} attempt 2/2 failed: TimeoutError: schedule down"
+ "summary": ""
 }

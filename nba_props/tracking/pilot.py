@@ -126,7 +126,7 @@ def run(con, dates_per_season=2, out_path=None):
     summary = dict(requests_ok=len(ok), requests_failed=len(rows) - len(ok), exact=sum(1 for r in ok if r['verdict'] == 'exact'),
                    mismatch=sum(1 for r in ok if r['verdict'] == 'mismatch'), empty_but_games=sum(1 for r in ok if r['verdict'] == 'empty_tracking_but_games_exist'),
                    semantics=sem, cost_estimate=estimate_cost(p.lat), rows=rows)
-    out = Path(out_path or config.PROCESSED_DIR / 'tracking_pilot.json')
+    out = Path(out_path or config.ROOT / 'data' / 'discovery' / 'tracking_pilot.json')
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(summary, indent=1, default=str))
     return {k: v for k, v in summary.items() if k != 'rows'}

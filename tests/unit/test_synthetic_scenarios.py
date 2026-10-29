@@ -109,3 +109,29 @@ def test_rest_days_and_back_to_back_synthetic_schedule():
     asof.build(con, '2025-26', [6.0])
     r = con.execute("SELECT min(rest_days), max(rest_days), sum(missing_rest_days::int), count(*) FROM asof_team_features WHERE cutoff_hours=6").fetchall()[0]
     assert r[0] == 0 and r[1] == 0 and r[2] == 4 and r[3] == 48
+
+
+def test_team_membership_as_of_each_date_uses_only_available_games():
+    """SYNTHETIC trade: pX on team 1 until day 19, team 2 from day 20 (game tips at 23:00 UTC, available 03:00 UTC next day)."""
+    from nba_props.features.asof import player_team_as_of
+    con = build(moves={'pX': [(0, '1'), (20, '2')]}, days=40)
+    d = lambda day, h=0: dt.datetime(2025, 11, 1) + dt.timedelta(days=day, hours=h)
+    # day index 19 = Nov 20 (team 1, last game with team 1); its tip is 23:00 UTC so it becomes available at 03:00 UTC on Nov 21
+    assert player_team_as_of(con, 'pX', d(5))[0] == '1'
+    assert player_team_as_of(con, 'pX', d(20, 2)) == ('1', dt.date(2025, 11, 19))     # Nov 20 game not yet available at Nov 21 02:00
+    assert player_team_as_of(con, 'pX', d(20, 4)) == ('1', dt.date(2025, 11, 20))
+    assert player_team_as_of(con, 'pX', d(21, 2)) == ('1', dt.date(2025, 11, 20))     # first game for team 2 (Nov 21) not available until Nov 22 03:00
+    assert player_team_as_of(con, 'pX', d(21, 4)) == ('2', dt.date(2025, 11, 21))
+    assert player_team_as_of(con, 'pX', d(-3)) == (None, None)               # before any history: unknown, not guessed
+
+
+def test_failing_advanced_endpoints_leave_core_tables_intact_and_flagged(raw_fx, tmp_path):
+    from tests.test_ingest_pipeline_helpers import mk_ing
+    con, ing = mk_ing(raw_fx, tmp_path, fail_endpoints={'PlayerGameLogs', 'TeamGameLogs'})
+    ing.ingest_season('2025-26')
+    assert con.execute('SELECT count(*) FROM player_game').fetchall()[0][0] > 100 and con.execute('SELECT count(*) FROM team_game').fetchall()[0][0] == 12
+    assert con.execute('SELECT count(*) FROM player_advanced_game').fetchall()[0][0] == 0
+    assert con.execute("SELECT count(*) FROM player_game WHERE min_exact IS NULL").fetchall()[0][0] == 0, 'exact minutes fall back to integer MIN when MIN_SEC is unavailable'
+    from nba_props.validation import quality
+    r = {x['check_name']: x for x in quality.season_checks(con, '2025-26')}
+    assert not r['player_advanced_coverage']['passed'] and r['player_advanced_coverage']['severity'] == 'warning'

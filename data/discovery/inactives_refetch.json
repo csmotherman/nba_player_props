@@ -1,0 +1,259 @@
+{
+ "games": [
+  {
+   "first_fetch": "2026-10-29 20:26:10",
+   "game_id": "0022600001",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:05"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:11",
+   "game_id": "0022600002",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:07"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:11",
+   "game_id": "0022600003",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:08"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:12",
+   "game_id": "0022600004",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:10"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:13",
+   "game_id": "0022600005",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:11"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:20",
+   "game_id": "0022600006",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:13"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:21",
+   "game_id": "0022600008",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:14"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:13",
+   "game_id": "0022600085",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:16"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:14",
+   "game_id": "0022600086",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:17"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:15",
+   "game_id": "0022600087",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:19"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:15",
+   "game_id": "0022600088",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:20"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:16",
+   "game_id": "0022600089",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:22"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:17",
+   "game_id": "0022600090",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:23"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:17",
+   "game_id": "0022600091",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:25"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:19",
+   "game_id": "0022600093",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:26"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:23",
+   "game_id": "0022600095",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:28"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:24",
+   "game_id": "0022600096",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:29"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:24",
+   "game_id": "0022600097",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:31"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:25",
+   "game_id": "0022600098",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:32"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:26",
+   "game_id": "0022600099",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:34"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:27",
+   "game_id": "0022600100",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:35"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:27",
+   "game_id": "0022600101",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:37"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:28",
+   "game_id": "0022600102",
+   "inactives_now": 9,
+   "refetch": "2026-10-29 21:21:38"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:29",
+   "game_id": "0022600103",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:40"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:30",
+   "game_id": "0022600105",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:42"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:31",
+   "game_id": "0022600106",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:43"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:31",
+   "game_id": "0022600107",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:44"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:34",
+   "game_id": "0022600110",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:46"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:34",
+   "game_id": "0022600111",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:47"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:35",
+   "game_id": "0022600112",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:49"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:36",
+   "game_id": "0022600113",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:50"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:36",
+   "game_id": "0022600114",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:52"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:37",
+   "game_id": "0022600115",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:53"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:38",
+   "game_id": "0022600116",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:55"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:38",
+   "game_id": "0022600117",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:56"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:41",
+   "game_id": "0022600121",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:58"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:42",
+   "game_id": "0022600122",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:21:59"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:43",
+   "game_id": "0022600123",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:22:01"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:43",
+   "game_id": "0022600124",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:22:02"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:44",
+   "game_id": "0022600125",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:22:04"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:45",
+   "game_id": "0022600126",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:22:05"
+  },
+  {
+   "first_fetch": "2026-10-29 20:26:46",
+   "game_id": "0022600127",
+   "inactives_now": 0,
+   "refetch": "2026-10-29 21:22:07"
+  }
+ ],
+ "games_empty_at_first_fetch": 42,
+ "populated_on_refetch": 1,
+ "still_empty": 41
+}

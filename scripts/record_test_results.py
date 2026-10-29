@@ -7,7 +7,7 @@ p = subprocess.run([sys.executable, '-m', 'pytest', '-q', '-p', 'no:cacheprovide
 lines = p.stdout.splitlines()
 res = [l for l in lines if l.startswith(('PASSED ', 'FAILED ', 'ERROR ', 'SKIPPED ')) and 'tests/' in l]
 import re
-summary = next((l for l in reversed(lines) if re.search(r'\d+ (passed|failed|skipped|error)', l)), '')
+summary = next((l for l in reversed(lines) if re.match(r'^\d+ (passed|failed|skipped|error).* in [\d.]+s', l)), '')
 by_file = {}
 for l in res:
     status, rest = l.split(' ', 1)
